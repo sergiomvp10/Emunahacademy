@@ -234,7 +234,7 @@ export function Courses() {
           <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
             <div 
               className={`h-32 bg-gradient-to-br ${getCourseColor(index)} relative`}
-              onClick={() => navigate(`/courses/${course.id}`)}
+              onClick={() => navigate(`/app/courses/${course.id}`)}
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <BookOpen className="h-16 w-16 text-white/30" />
@@ -253,7 +253,7 @@ export function Courses() {
             <CardContent className="p-4">
               <h3 
                 className="font-semibold text-lg text-gray-800 mb-1 group-hover:text-teal-600 transition-colors cursor-pointer"
-                onClick={() => navigate(`/courses/${course.id}`)}
+                onClick={() => navigate(`/app/courses/${course.id}`)}
               >
                 {course.title}
               </h3>
@@ -282,7 +282,7 @@ export function Courses() {
                       size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/courses/${course.id}`);
+                        navigate(`/app/courses/${course.id}`);
                       }}
                     >
                       <Edit className="h-4 w-4 text-blue-500" />

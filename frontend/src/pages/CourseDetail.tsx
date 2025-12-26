@@ -327,7 +327,7 @@ export function CourseDetail() {
     return (
       <div className="text-center py-12">
         <p className="text-gray-500">Curso no encontrado</p>
-        <Button variant="link" onClick={() => navigate('/courses')}>
+        <Button variant="link" onClick={() => navigate('/app/courses')}>
           Volver a cursos
         </Button>
       </div>
@@ -338,7 +338,7 @@ export function CourseDetail() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" onClick={() => navigate('/courses')}>
+        <Button variant="ghost" onClick={() => navigate('/app/courses')}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Volver
         </Button>
