@@ -5,6 +5,7 @@ import {
 } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_AUTH = import.meta.env.VITE_API_AUTH || '';
 
 class ApiService {
   private token: string | null = null;
@@ -29,6 +30,7 @@ class ApiService {
     const url = `${API_URL}${endpoint}`;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
+      ...(API_AUTH ? { 'Authorization': `Basic ${btoa(API_AUTH)}` } : {}),
       ...options.headers,
     };
 
