@@ -1,5 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
     UserRoleEnum, LessonTypeEnum, EventTypeEnum
@@ -8,6 +9,29 @@ from app.db_config import engine, SessionLocal
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
+
+def run_migrations():
+    """Add new columns to existing tables if they don't exist"""
+    with engine.connect() as conn:
+        # Check and add grade_level column to users table
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns 
+            WHERE table_name = 'users' AND column_name = 'grade_level'
+        """))
+        if not result.fetchone():
+            conn.execute(text("ALTER TABLE users ADD COLUMN grade_level VARCHAR(10)"))
+            conn.commit()
+            print("Added grade_level column to users table")
+        
+        # Check and add grade_level column to courses table
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns 
+            WHERE table_name = 'courses' AND column_name = 'grade_level'
+        """))
+        if not result.fetchone():
+            conn.execute(text("ALTER TABLE courses ADD COLUMN grade_level VARCHAR(10)"))
+            conn.commit()
+            print("Added grade_level column to courses table")
 
 def seed_sample_data(db: Session):
     existing_user = db.query(User).filter(User.email == "admin@emunahacademy.com").first()
@@ -75,6 +99,7 @@ def seed_sample_data(db: Session):
 
 def init_database():
     create_tables()
+    run_migrations()  # Add new columns to existing tables
     db = SessionLocal()
     try:
         seed_sample_data(db)
