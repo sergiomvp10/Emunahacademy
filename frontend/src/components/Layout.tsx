@@ -25,28 +25,31 @@ export function Layout() {
       { id: 'messages', label: 'Mensajes', icon: MessageSquare },
     ];
 
-    if (user?.role === 'superuser') {
-      return [
-        ...baseItems,
-        { id: 'users', label: 'Usuarios', icon: Users },
-        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-        { id: 'progress', label: 'Progreso', icon: BarChart3 },
-      ];
-    }
+        if (user?.role === 'superuser') {
+          return [
+            ...baseItems,
+            { id: 'users', label: 'Usuarios', icon: Users },
+            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+            { id: 'progress', label: 'Progreso', icon: BarChart3 },
+          ];
+        }
 
-    if (user?.role === 'director') {
-      return [
-        ...baseItems,
-        { id: 'users', label: 'Usuarios', icon: Users },
-      ];
-    }
+        if (user?.role === 'director') {
+          return [
+            ...baseItems,
+            { id: 'users', label: 'Usuarios', icon: Users },
+            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+          ];
+        }
 
-    if (user?.role === 'teacher') {
-      return [
-        ...baseItems,
-        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-      ];
-    }
+        if (user?.role === 'teacher') {
+          return [
+            ...baseItems,
+            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+          ];
+        }
 
     if (user?.role === 'student') {
       return [

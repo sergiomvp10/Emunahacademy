@@ -7,6 +7,7 @@ import { Courses } from './pages/Courses';
 import { CourseDetail } from './pages/CourseDetail';
 import { Calendar } from './pages/Calendar';
 import { Users } from './pages/Users';
+import { Students } from './pages/Students';
 import { Evaluations } from './pages/Evaluations';
 import { ProgressPage } from './pages/Progress';
 import { Messages } from './pages/Messages';
@@ -70,8 +71,9 @@ function AppRoutes() {
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="calendar" element={<Calendar />} />
-        <Route path="users" element={<Users />} />
-        <Route path="evaluations" element={<Evaluations />} />
+                <Route path="users" element={<Users />} />
+                <Route path="students" element={<Students />} />
+                <Route path="evaluations" element={<Evaluations />} />
         <Route path="progress" element={<ProgressPage />} />
         <Route path="children" element={<ProgressPage />} />
         <Route path="messages" element={<Messages />} />
