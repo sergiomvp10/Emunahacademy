@@ -216,7 +216,7 @@ export function LandingPage() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white/10"
+                  className="border-white bg-transparent hover:bg-white/10 [&]:text-white"
                   onClick={() => scrollToSection('about')}
                 >
                   {content.hero.cta_secondary}
