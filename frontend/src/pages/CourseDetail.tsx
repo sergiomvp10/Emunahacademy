@@ -107,7 +107,7 @@ export function CourseDetail() {
     }
   };
 
-  const canManage = user?.role === 'director' || (user?.role === 'teacher' && course?.teacher_id === user?.id);
+  const canManage = user?.role === 'superuser' || user?.role === 'director' || (user?.role === 'teacher' && course?.teacher_id === user?.id);
 
   const getLessonIcon = (type: string) => {
     switch (type) {

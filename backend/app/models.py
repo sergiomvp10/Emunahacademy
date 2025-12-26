@@ -4,6 +4,7 @@ from datetime import datetime
 from enum import Enum
 
 class UserRole(str, Enum):
+    SUPERUSER = "superuser"  # Full system access - can manage everything
     DIRECTOR = "director"
     TEACHER = "teacher"
     STUDENT = "student"

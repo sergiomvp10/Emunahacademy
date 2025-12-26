@@ -92,7 +92,7 @@ export function Courses() {
     return colors[index % colors.length];
   };
 
-  const canManageCourses = user?.role === 'director' || user?.role === 'teacher';
+  const canManageCourses = user?.role === 'superuser' || user?.role === 'director' || user?.role === 'teacher';
 
   if (loading) {
     return (
@@ -197,7 +197,7 @@ export function Courses() {
                   <Users className="h-4 w-4" />
                   <span>{course.teacher_name}</span>
                 </div>
-                {canManageCourses && course.teacher_id === user?.id && (
+                {canManageCourses && (user?.role === 'superuser' || course.teacher_id === user?.id) && (
                   <div className="flex gap-1">
                     {!course.is_published && (
                       <Button 

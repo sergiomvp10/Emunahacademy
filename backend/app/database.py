@@ -87,6 +87,7 @@ def init_sample_data():
     
     # Create sample users
     sample_users = [
+        {"email": "admin@emunahacademy.com", "name": "Administrador", "role": UserRole.SUPERUSER, "password": "admin123"},
         {"email": "directora@emunahacademy.com", "name": "Maria Garcia", "role": UserRole.DIRECTOR, "password": "director123"},
         {"email": "profesor1@emunahacademy.com", "name": "Carlos Rodriguez", "role": UserRole.TEACHER, "password": "teacher123"},
         {"email": "profesor2@emunahacademy.com", "name": "Ana Martinez", "role": UserRole.TEACHER, "password": "teacher123"},
@@ -107,8 +108,8 @@ def init_sample_data():
             "is_active": True
         }
     
-    # Link parent to student
-    parent_student_links.append({"parent_id": 6, "student_id": 4})
+    # Link parent to student (parent_id=7 is Roberto Perez, student_id=5 is Juan Perez)
+    parent_student_links.append({"parent_id": 7, "student_id": 5})
     
     # Create sample courses
     sample_courses = [

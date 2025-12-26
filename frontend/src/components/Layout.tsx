@@ -25,6 +25,15 @@ export function Layout() {
       { id: 'messages', label: 'Mensajes', icon: MessageSquare },
     ];
 
+    if (user?.role === 'superuser') {
+      return [
+        ...baseItems,
+        { id: 'users', label: 'Usuarios', icon: Users },
+        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+        { id: 'progress', label: 'Progreso', icon: BarChart3 },
+      ];
+    }
+
     if (user?.role === 'director') {
       return [
         ...baseItems,
@@ -67,6 +76,7 @@ export function Layout() {
 
   const getRoleLabel = (role: string) => {
     const labels: Record<string, string> = {
+      superuser: 'Administrador',
       director: 'Directora',
       teacher: 'Profesor',
       student: 'Estudiante',
