@@ -1,8 +1,10 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from typing import List, Optional
 from datetime import datetime
 import json
+import os
 
 from app.models import (
     UserCreate, User, UserLogin, Token, UserRole,
@@ -23,10 +25,19 @@ from app.database import (
     get_next_quiz_result_id, get_next_enrollment_id, get_next_message_id
 )
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    if os.getenv("DATABASE_URL"):
+        from app.db_init import init_database
+        init_database()
+        print("PostgreSQL database initialized")
+    yield
+
 app = FastAPI(
     title="EmunahAcademy API",
     description="API para la plataforma educativa EmunahAcademy",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Disable CORS. Do not remove this for full-stack development.
