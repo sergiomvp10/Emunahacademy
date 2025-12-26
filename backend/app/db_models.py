@@ -24,6 +24,17 @@ class EventTypeEnum(str, enum.Enum):
     HOLIDAY = "holiday"
     OTHER = "other"
 
+class GradeLevelEnum(str, enum.Enum):
+    K = "K"
+    GRADE_1 = "1"
+    GRADE_2 = "2"
+    GRADE_3 = "3"
+    GRADE_4 = "4"
+    GRADE_5 = "5"
+    GRADE_6 = "6"
+    GRADE_7 = "7"
+    GRADE_8 = "8"
+
 class User(Base):
     __tablename__ = "users"
     
@@ -32,6 +43,7 @@ class User(Base):
     name = Column(String(255), nullable=False)
     role = Column(SQLEnum(UserRoleEnum), nullable=False)
     password = Column(String(255), nullable=False)
+    grade_level = Column(String(10), nullable=True)  # For students: K, 1, 2, 3, 4, 5, 6, 7, 8
     created_at = Column(DateTime, default=datetime.utcnow)
     is_active = Column(Boolean, default=True)
     
@@ -52,6 +64,7 @@ class Course(Base):
     title = Column(String(255), nullable=False)
     description = Column(Text)
     thumbnail_url = Column(String(500))
+    grade_level = Column(String(10), nullable=True)  # K, 1, 2, 3, 4, 5, 6, 7, 8
     teacher_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     is_published = Column(Boolean, default=False)

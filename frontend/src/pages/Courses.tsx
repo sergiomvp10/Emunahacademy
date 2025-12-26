@@ -2,18 +2,31 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api';
-import { Course } from '../types';
+import { Course, GradeLevel } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { 
   Plus, BookOpen, Users, 
-  Edit, Trash2, CheckCircle
+  Edit, Trash2, CheckCircle, GraduationCap
 } from 'lucide-react';
+
+const GRADE_LEVELS: { value: GradeLevel; label: string }[] = [
+  { value: 'K', label: 'Kindergarten' },
+  { value: '1', label: '1er Grado' },
+  { value: '2', label: '2do Grado' },
+  { value: '3', label: '3er Grado' },
+  { value: '4', label: '4to Grado' },
+  { value: '5', label: '5to Grado' },
+  { value: '6', label: '6to Grado' },
+  { value: '7', label: '7mo Grado' },
+  { value: '8', label: '8vo Grado' },
+];
 
 export function Courses() {
   const navigate = useNavigate();
@@ -21,8 +34,9 @@ export function Courses() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
-  const [newCourse, setNewCourse] = useState({ title: '', description: '', thumbnail_url: '' });
+  const [newCourse, setNewCourse] = useState({ title: '', description: '', thumbnail_url: '', grade_level: '' as GradeLevel | '' });
   const [creating, setCreating] = useState(false);
+  const [filterGrade, setFilterGrade] = useState<GradeLevel | 'all'>('all');
 
   useEffect(() => {
     loadCourses();
@@ -50,8 +64,14 @@ export function Courses() {
     if (!user || !newCourse.title) return;
     setCreating(true);
     try {
-      await api.createCourse(newCourse, user.id);
-      setNewCourse({ title: '', description: '', thumbnail_url: '' });
+      const courseData = {
+        title: newCourse.title,
+        description: newCourse.description,
+        thumbnail_url: newCourse.thumbnail_url || null,
+        grade_level: newCourse.grade_level || null
+      };
+      await api.createCourse(courseData, user.id);
+      setNewCourse({ title: '', description: '', thumbnail_url: '', grade_level: '' });
       setShowCreateDialog(false);
       loadCourses();
     } catch (error) {
@@ -60,6 +80,16 @@ export function Courses() {
       setCreating(false);
     }
   };
+
+  const getGradeLevelLabel = (grade: string | null | undefined) => {
+    if (!grade) return null;
+    const found = GRADE_LEVELS.find(g => g.value === grade);
+    return found ? found.label : `Grado ${grade}`;
+  };
+
+  const filteredCourses = filterGrade === 'all' 
+    ? courses 
+    : courses.filter(c => c.grade_level === filterGrade);
 
   const handlePublishCourse = async (courseId: number) => {
     try {
@@ -105,13 +135,27 @@ export function Courses() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Cursos</h1>
           <p className="text-gray-500">
             {canManageCourses ? 'Gestiona tus cursos' : 'Explora los cursos disponibles'}
           </p>
         </div>
+        <div className="flex items-center gap-3">
+          <Select value={filterGrade} onValueChange={(value) => setFilterGrade(value as GradeLevel | 'all')}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filtrar por grado" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos los grados</SelectItem>
+              {GRADE_LEVELS.map((grade) => (
+                <SelectItem key={grade.value} value={grade.value}>
+                  {grade.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         {canManageCourses && (
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>
@@ -144,6 +188,24 @@ export function Courses() {
                   />
                 </div>
                 <div className="space-y-2">
+                  <Label htmlFor="grade_level">Grado</Label>
+                  <Select
+                    value={newCourse.grade_level}
+                    onValueChange={(value) => setNewCourse({ ...newCourse, grade_level: value as GradeLevel })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecciona un grado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {GRADE_LEVELS.map((grade) => (
+                        <SelectItem key={grade.value} value={grade.value}>
+                          {grade.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="thumbnail">URL de Imagen (opcional)</Label>
                   <Input
                     id="thumbnail"
@@ -152,7 +214,7 @@ export function Courses() {
                     onChange={(e) => setNewCourse({ ...newCourse, thumbnail_url: e.target.value })}
                   />
                 </div>
-                <Button 
+                <Button
                   className="w-full bg-teal-500 hover:bg-teal-600" 
                   onClick={handleCreateCourse}
                   disabled={creating || !newCourse.title}
@@ -163,11 +225,12 @@ export function Courses() {
             </DialogContent>
           </Dialog>
         )}
+        </div>
       </div>
 
       {/* Courses Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {courses.map((course, index) => (
+        {filteredCourses.map((course, index) => (
           <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
             <div 
               className={`h-32 bg-gradient-to-br ${getCourseColor(index)} relative`}
@@ -176,7 +239,10 @@ export function Courses() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <BookOpen className="h-16 w-16 text-white/30" />
               </div>
-              <div className="absolute top-3 right-3">
+              <div className="absolute top-3 right-3 flex gap-1">
+                {course.grade_level && (
+                  <Badge className="bg-blue-500">{getGradeLevelLabel(course.grade_level)}</Badge>
+                )}
                 {course.is_published ? (
                   <Badge className="bg-green-500">Publicado</Badge>
                 ) : (
@@ -239,7 +305,7 @@ export function Courses() {
         ))}
       </div>
 
-      {courses.length === 0 && (
+      {filteredCourses.length === 0 && (
         <Card className="p-12 text-center">
           <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-600 mb-2">No hay cursos disponibles</h3>

@@ -189,7 +189,7 @@ async def create_course(course: CourseCreate, teacher_id: int):
         raise HTTPException(status_code=404, detail="Profesor no encontrado")
     
     teacher = users_db[teacher_id]
-    if teacher["role"] not in [UserRole.TEACHER, UserRole.DIRECTOR]:
+    if teacher["role"] not in [UserRole.TEACHER, UserRole.DIRECTOR, UserRole.SUPERUSER]:
         raise HTTPException(status_code=403, detail="Solo profesores pueden crear cursos")
     
     course_id = get_next_course_id()
@@ -198,6 +198,7 @@ async def create_course(course: CourseCreate, teacher_id: int):
         "title": course.title,
         "description": course.description,
         "thumbnail_url": course.thumbnail_url,
+        "grade_level": course.grade_level,
         "teacher_id": teacher_id,
         "teacher_name": teacher["name"],
         "created_at": datetime.now(),
@@ -213,7 +214,8 @@ async def update_course(course_id: int, course: CourseCreate):
     courses_db[course_id].update({
         "title": course.title,
         "description": course.description,
-        "thumbnail_url": course.thumbnail_url
+        "thumbnail_url": course.thumbnail_url,
+        "grade_level": course.grade_level
     })
     return Course(**courses_db[course_id])
 

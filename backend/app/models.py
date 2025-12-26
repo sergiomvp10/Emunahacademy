@@ -10,10 +10,22 @@ class UserRole(str, Enum):
     STUDENT = "student"
     PARENT = "parent"
 
+class GradeLevel(str, Enum):
+    K = "K"
+    GRADE_1 = "1"
+    GRADE_2 = "2"
+    GRADE_3 = "3"
+    GRADE_4 = "4"
+    GRADE_5 = "5"
+    GRADE_6 = "6"
+    GRADE_7 = "7"
+    GRADE_8 = "8"
+
 class UserBase(BaseModel):
     email: str
     name: str
     role: UserRole
+    grade_level: Optional[str] = None  # For students: K, 1, 2, 3, 4, 5, 6, 7, 8
 
 class UserCreate(UserBase):
     password: str
@@ -40,6 +52,7 @@ class CourseBase(BaseModel):
     title: str
     description: str
     thumbnail_url: Optional[str] = None
+    grade_level: Optional[str] = None  # K, 1, 2, 3, 4, 5, 6, 7, 8
 
 class CourseCreate(CourseBase):
     pass

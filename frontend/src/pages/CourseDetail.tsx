@@ -35,6 +35,13 @@ export function CourseDetail() {
   const [quizAnswers, setQuizAnswers] = useState<number[]>([]);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizScore, setQuizScore] = useState<number | null>(null);
+  
+  // Quiz builder state
+  const [quizQuestions, setQuizQuestions] = useState<Array<{
+    question: string;
+    options: string[];
+    correct_answer: number;
+  }>>([{ question: '', options: ['', ''], correct_answer: 0 }]);
 
   useEffect(() => {
     if (courseId) {
@@ -61,15 +68,32 @@ export function CourseDetail() {
 
   const handleAddLesson = async () => {
     if (!newLesson.title || !courseId) return;
+    
+    let content = newLesson.content;
+    
+    // If it's a quiz, convert the quiz builder state to JSON
+    if (newLesson.lesson_type === 'quiz') {
+      // Validate quiz questions
+      const validQuestions = quizQuestions.filter(q => 
+        q.question.trim() && q.options.filter(o => o.trim()).length >= 2
+      );
+      if (validQuestions.length === 0) {
+        alert('Agrega al menos una pregunta con 2 opciones');
+        return;
+      }
+      content = JSON.stringify(validQuestions);
+    }
+    
     try {
       await api.createLesson({
         course_id: parseInt(courseId),
         title: newLesson.title,
         lesson_type: newLesson.lesson_type,
-        content: newLesson.content,
+        content: content,
         order: lessons.length + 1
       });
       setNewLesson({ title: '', lesson_type: 'text', content: '', order: 1 });
+      setQuizQuestions([{ question: '', options: ['', ''], correct_answer: 0 }]);
       setShowAddLesson(false);
       loadCourse();
     } catch (error) {
@@ -123,6 +147,52 @@ export function CourseDetail() {
       case 'quiz': return 'Quiz';
       default: return 'Texto';
     }
+  };
+
+  // Quiz builder helper functions
+  const addQuestion = () => {
+    setQuizQuestions([...quizQuestions, { question: '', options: ['', ''], correct_answer: 0 }]);
+  };
+
+  const removeQuestion = (index: number) => {
+    if (quizQuestions.length > 1) {
+      setQuizQuestions(quizQuestions.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateQuestion = (index: number, question: string) => {
+    const updated = [...quizQuestions];
+    updated[index].question = question;
+    setQuizQuestions(updated);
+  };
+
+  const addOption = (questionIndex: number) => {
+    const updated = [...quizQuestions];
+    updated[questionIndex].options.push('');
+    setQuizQuestions(updated);
+  };
+
+  const removeOption = (questionIndex: number, optionIndex: number) => {
+    const updated = [...quizQuestions];
+    if (updated[questionIndex].options.length > 2) {
+      updated[questionIndex].options = updated[questionIndex].options.filter((_, i) => i !== optionIndex);
+      if (updated[questionIndex].correct_answer >= updated[questionIndex].options.length) {
+        updated[questionIndex].correct_answer = 0;
+      }
+      setQuizQuestions(updated);
+    }
+  };
+
+  const updateOption = (questionIndex: number, optionIndex: number, value: string) => {
+    const updated = [...quizQuestions];
+    updated[questionIndex].options[optionIndex] = value;
+    setQuizQuestions(updated);
+  };
+
+  const setCorrectAnswer = (questionIndex: number, optionIndex: number) => {
+    const updated = [...quizQuestions];
+    updated[questionIndex].correct_answer = optionIndex;
+    setQuizQuestions(updated);
   };
 
   const getYouTubeEmbedUrl = (url: string): string => {
@@ -340,24 +410,111 @@ export function CourseDetail() {
                             </SelectContent>
                           </Select>
                         </div>
-                        <div className="space-y-2">
-                          <Label>
-                            {newLesson.lesson_type === 'video' ? 'URL del Video' : 
-                             newLesson.lesson_type === 'quiz' ? 'Preguntas (JSON)' : 'Contenido (HTML)'}
-                          </Label>
-                          <Textarea
-                            value={newLesson.content}
-                            onChange={(e) => setNewLesson({ ...newLesson, content: e.target.value })}
-                            placeholder={
-                              newLesson.lesson_type === 'video' 
-                                ? 'https://youtube.com/embed/...' 
-                                : newLesson.lesson_type === 'quiz'
-                                ? '[{"question": "...", "options": ["a", "b"], "correct_answer": 0}]'
-                                : '<h1>Titulo</h1><p>Contenido...</p>'
-                            }
-                            rows={5}
-                          />
-                        </div>
+                        {/* Content field - different for each lesson type */}
+                        {newLesson.lesson_type === 'video' && (
+                          <div className="space-y-2">
+                            <Label>URL del Video (YouTube)</Label>
+                            <Input
+                              value={newLesson.content}
+                              onChange={(e) => setNewLesson({ ...newLesson, content: e.target.value })}
+                              placeholder="https://www.youtube.com/watch?v=..."
+                            />
+                            <p className="text-xs text-gray-500">Pega cualquier link de YouTube</p>
+                          </div>
+                        )}
+
+                        {newLesson.lesson_type === 'text' && (
+                          <div className="space-y-2">
+                            <Label>Contenido</Label>
+                            <Textarea
+                              value={newLesson.content}
+                              onChange={(e) => setNewLesson({ ...newLesson, content: e.target.value })}
+                              placeholder="Escribe el contenido de la leccion..."
+                              rows={5}
+                            />
+                          </div>
+                        )}
+
+                        {newLesson.lesson_type === 'quiz' && (
+                          <div className="space-y-4 max-h-[400px] overflow-y-auto">
+                            <Label>Preguntas del Quiz</Label>
+                            {quizQuestions.map((q, qIndex) => (
+                              <Card key={qIndex} className="p-4 bg-gray-50">
+                                <div className="space-y-3">
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-medium text-sm">Pregunta {qIndex + 1}</span>
+                                    {quizQuestions.length > 1 && (
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => removeQuestion(qIndex)}
+                                      >
+                                        <Trash2 className="h-3 w-3 text-red-500" />
+                                      </Button>
+                                    )}
+                                  </div>
+                                  <Input
+                                    value={q.question}
+                                    onChange={(e) => updateQuestion(qIndex, e.target.value)}
+                                    placeholder="Escribe la pregunta..."
+                                  />
+                                  <div className="space-y-2">
+                                    <span className="text-xs text-gray-500">Opciones (haz clic en la correcta)</span>
+                                    {q.options.map((option, oIndex) => (
+                                      <div key={oIndex} className="flex items-center gap-2">
+                                        <button
+                                          type="button"
+                                          onClick={() => setCorrectAnswer(qIndex, oIndex)}
+                                          className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${
+                                            q.correct_answer === oIndex
+                                              ? 'bg-green-500 border-green-500 text-white'
+                                              : 'border-gray-300 hover:border-green-400'
+                                          }`}
+                                        >
+                                          {q.correct_answer === oIndex && <CheckCircle className="h-4 w-4" />}
+                                        </button>
+                                        <Input
+                                          value={option}
+                                          onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
+                                          placeholder={`Opcion ${oIndex + 1}`}
+                                          className="flex-1"
+                                        />
+                                        {q.options.length > 2 && (
+                                          <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => removeOption(qIndex, oIndex)}
+                                          >
+                                            <Trash2 className="h-3 w-3 text-gray-400" />
+                                          </Button>
+                                        )}
+                                      </div>
+                                    ))}
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => addOption(qIndex)}
+                                      className="w-full mt-2"
+                                    >
+                                      <Plus className="h-3 w-3 mr-1" /> Agregar Opcion
+                                    </Button>
+                                  </div>
+                                </div>
+                              </Card>
+                            ))}
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={addQuestion}
+                              className="w-full"
+                            >
+                              <Plus className="h-4 w-4 mr-2" /> Agregar Pregunta
+                            </Button>
+                          </div>
+                        )}
                         <Button 
                           className="w-full bg-teal-500 hover:bg-teal-600"
                           onClick={handleAddLesson}
