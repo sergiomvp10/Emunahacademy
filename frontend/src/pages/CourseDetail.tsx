@@ -125,6 +125,43 @@ export function CourseDetail() {
     }
   };
 
+  const getYouTubeEmbedUrl = (url: string): string => {
+    if (!url) return '';
+    
+    // Already an embed URL
+    if (url.includes('youtube.com/embed/')) {
+      return url;
+    }
+    
+    // Extract video ID from various YouTube URL formats
+    let videoId = '';
+    
+    // Format: https://www.youtube.com/watch?v=VIDEO_ID
+    const watchMatch = url.match(/[?&]v=([^&]+)/);
+    if (watchMatch) {
+      videoId = watchMatch[1];
+    }
+    
+    // Format: https://youtu.be/VIDEO_ID
+    const shortMatch = url.match(/youtu\.be\/([^?&]+)/);
+    if (shortMatch) {
+      videoId = shortMatch[1];
+    }
+    
+    // Format: https://www.youtube.com/v/VIDEO_ID
+    const vMatch = url.match(/youtube\.com\/v\/([^?&]+)/);
+    if (vMatch) {
+      videoId = vMatch[1];
+    }
+    
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}`;
+    }
+    
+    // Return original URL if no match (might be another video platform)
+    return url;
+  };
+
   const renderLessonContent = () => {
     if (!selectedLesson) return null;
 
@@ -132,7 +169,7 @@ export function CourseDetail() {
       return (
         <div className="aspect-video bg-black rounded-lg overflow-hidden">
           <iframe
-            src={selectedLesson.content}
+            src={getYouTubeEmbedUrl(selectedLesson.content)}
             className="w-full h-full"
             allowFullScreen
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
