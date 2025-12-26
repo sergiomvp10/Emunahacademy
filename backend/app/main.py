@@ -129,15 +129,19 @@ async def get_current_user(token: str):
 # ==================== USER MANAGEMENT ====================
 
 @app.get("/api/users", response_model=List[User])
-async def get_users(role: Optional[UserRole] = None):
+async def get_users(role: Optional[UserRole] = None, grade_level: Optional[str] = None):
     users = []
     for user_id, user in users_db.items():
         if role is None or user["role"] == role:
+            user_grade = user.get("grade_level")
+            if grade_level and user_grade != grade_level:
+                continue
             users.append(User(
                 id=user_id,
                 email=user["email"],
                 name=user["name"],
                 role=user["role"],
+                grade_level=user_grade,
                 created_at=user["created_at"],
                 is_active=user["is_active"]
             ))
@@ -163,6 +167,26 @@ async def delete_user(user_id: int):
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     del users_db[user_id]
     return {"message": "Usuario eliminado"}
+
+@app.put("/api/users/{user_id}/grade")
+async def update_user_grade(user_id: int, grade_level: Optional[str] = None):
+    if user_id not in users_db:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    user = users_db[user_id]
+    if user["role"] != UserRole.STUDENT:
+        raise HTTPException(status_code=400, detail="Solo estudiantes pueden tener grado asignado")
+    
+    users_db[user_id]["grade_level"] = grade_level
+    return User(
+        id=user_id,
+        email=user["email"],
+        name=user["name"],
+        role=user["role"],
+        grade_level=grade_level,
+        created_at=user["created_at"],
+        is_active=user["is_active"]
+    )
 
 # ==================== COURSE ENDPOINTS ====================
 

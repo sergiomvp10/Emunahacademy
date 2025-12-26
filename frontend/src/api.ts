@@ -77,10 +77,20 @@ class ApiService {
   }
 
   // Users
-  async getUsers(role?: UserRole): Promise<User[]> {
-    const params = role ? `?role=${role}` : '';
-    return this.request<User[]>(`/api/users${params}`);
-  }
+    async getUsers(role?: UserRole, gradeLevel?: string): Promise<User[]> {
+      const params = new URLSearchParams();
+      if (role) params.append('role', role);
+      if (gradeLevel) params.append('grade_level', gradeLevel);
+      const query = params.toString() ? `?${params.toString()}` : '';
+      return this.request<User[]>(`/api/users${query}`);
+    }
+
+    async updateUserGrade(userId: number, gradeLevel: string | null): Promise<User> {
+      const params = gradeLevel ? `?grade_level=${gradeLevel}` : '';
+      return this.request<User>(`/api/users/${userId}/grade${params}`, {
+        method: 'PUT',
+      });
+    }
 
   async getUser(userId: number): Promise<User> {
     return this.request<User>(`/api/users/${userId}`);
