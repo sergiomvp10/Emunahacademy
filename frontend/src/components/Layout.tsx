@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, BookOpen, Calendar, Users, MessageSquare, 
   LogOut, Menu, Bell, Search, ChevronDown,
-  GraduationCap, FileText, BarChart3
+  GraduationCap, FileText, BarChart3, Settings, ClipboardList
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -15,7 +15,9 @@ export function Layout() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const currentPage = location.pathname.split('/')[1] || 'dashboard';
+  // Get current page from path (handle /app prefix)
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const currentPage = pathParts[1] || pathParts[0] || 'dashboard';
 
   const getMenuItems = () => {
     const baseItems = [
@@ -25,31 +27,34 @@ export function Layout() {
       { id: 'messages', label: 'Mensajes', icon: MessageSquare },
     ];
 
-        if (user?.role === 'superuser') {
-          return [
-            ...baseItems,
-            { id: 'users', label: 'Usuarios', icon: Users },
-            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-            { id: 'progress', label: 'Progreso', icon: BarChart3 },
-          ];
-        }
+    if (user?.role === 'superuser') {
+      return [
+        ...baseItems,
+        { id: 'users', label: 'Usuarios', icon: Users },
+        { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+        { id: 'progress', label: 'Progreso', icon: BarChart3 },
+        { id: 'applications', label: 'Solicitudes', icon: ClipboardList },
+        { id: 'site-settings', label: 'Configuracion', icon: Settings },
+      ];
+    }
 
-        if (user?.role === 'director') {
-          return [
-            ...baseItems,
-            { id: 'users', label: 'Usuarios', icon: Users },
-            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-          ];
-        }
+    if (user?.role === 'director') {
+      return [
+        ...baseItems,
+        { id: 'users', label: 'Usuarios', icon: Users },
+        { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+        { id: 'applications', label: 'Solicitudes', icon: ClipboardList },
+      ];
+    }
 
-        if (user?.role === 'teacher') {
-          return [
-            ...baseItems,
-            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-          ];
-        }
+    if (user?.role === 'teacher') {
+      return [
+        ...baseItems,
+        { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+      ];
+    }
 
     if (user?.role === 'student') {
       return [
@@ -74,7 +79,7 @@ export function Layout() {
   const menuItems = getMenuItems();
 
   const handleNavigate = (page: string) => {
-    navigate(`/${page}`);
+    navigate(`/app/${page}`);
   };
 
   const getRoleLabel = (role: string) => {

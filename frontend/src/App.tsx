@@ -11,6 +11,9 @@ import { Students } from './pages/Students';
 import { Evaluations } from './pages/Evaluations';
 import { ProgressPage } from './pages/Progress';
 import { Messages } from './pages/Messages';
+import { LandingPage } from './pages/LandingPage';
+import { SiteSettings } from './pages/SiteSettings';
+import { Applications } from './pages/Applications';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -42,7 +45,7 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   }
   
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/app/dashboard" replace />;
   }
   
   return <>{children}</>;
@@ -51,6 +54,9 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
+      {/* Public Landing Page */}
+      <Route path="/" element={<LandingPage />} />
+      
       <Route path="/login" element={
         <PublicRoute>
           <Login />
@@ -61,24 +67,33 @@ function AppRoutes() {
           <Register />
         </PublicRoute>
       } />
-      <Route path="/" element={
+      
+      {/* Protected Routes */}
+      <Route path="/app" element={
         <PrivateRoute>
           <Layout />
         </PrivateRoute>
       }>
-        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route index element={<Navigate to="/app/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="calendar" element={<Calendar />} />
-                <Route path="users" element={<Users />} />
-                <Route path="students" element={<Students />} />
-                <Route path="evaluations" element={<Evaluations />} />
+        <Route path="users" element={<Users />} />
+        <Route path="students" element={<Students />} />
+        <Route path="evaluations" element={<Evaluations />} />
         <Route path="progress" element={<ProgressPage />} />
         <Route path="children" element={<ProgressPage />} />
         <Route path="messages" element={<Messages />} />
+        <Route path="site-settings" element={<SiteSettings />} />
+        <Route path="applications" element={<Applications />} />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      
+      {/* Redirect old routes to new /app prefix */}
+      <Route path="/dashboard" element={<Navigate to="/app/dashboard" replace />} />
+      <Route path="/courses" element={<Navigate to="/app/courses" replace />} />
+      <Route path="/courses/:courseId" element={<Navigate to="/app/courses/:courseId" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

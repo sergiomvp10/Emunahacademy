@@ -296,6 +296,75 @@ class ApiService {
   async getContacts(userId: number): Promise<User[]> {
     return this.request<User[]>(`/api/messages/contacts?user_id=${userId}`);
   }
+
+  // Site Content
+  async getSiteContent(): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/site-content');
+  }
+
+  async getSiteContentSection(section: string): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
+    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}`);
+  }
+
+  async updateSiteContent(section: string, content: Record<string, unknown>): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
+    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}`, {
+      method: 'PUT',
+      body: JSON.stringify({ section, content }),
+    });
+  }
+
+  // Applications
+  async getApplications(status?: string): Promise<StudentApplication[]> {
+    const params = status ? `?status=${status}` : '';
+    return this.request<StudentApplication[]>(`/api/applications${params}`);
+  }
+
+  async getApplication(applicationId: number): Promise<StudentApplication> {
+    return this.request<StudentApplication>(`/api/applications/${applicationId}`);
+  }
+
+  async submitApplication(application: {
+    student_name: string;
+    student_age: number;
+    grade_level: string;
+    parent_name: string;
+    parent_email: string;
+    parent_phone: string;
+    address?: string;
+    message?: string;
+  }): Promise<StudentApplication> {
+    return this.request<StudentApplication>('/api/applications', {
+      method: 'POST',
+      body: JSON.stringify(application),
+    });
+  }
+
+  async updateApplicationStatus(applicationId: number, status: string, reviewedBy: number): Promise<StudentApplication> {
+    return this.request<StudentApplication>(`/api/applications/${applicationId}/status?status=${status}&reviewed_by=${reviewedBy}`, {
+      method: 'PUT',
+    });
+  }
+
+  async deleteApplication(applicationId: number): Promise<void> {
+    await this.request(`/api/applications/${applicationId}`, { method: 'DELETE' });
+  }
 }
 
 export const api = new ApiService();
+
+// Types for applications
+export interface StudentApplication {
+  id: number;
+  student_name: string;
+  student_age: number;
+  grade_level: string;
+  parent_name: string;
+  parent_email: string;
+  parent_phone: string;
+  address?: string;
+  message?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  reviewed_at?: string;
+  reviewed_by?: number;
+}
