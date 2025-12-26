@@ -103,12 +103,12 @@ class ApiService {
     return this.request<Course>(`/api/courses/${courseId}`);
   }
 
-  async createCourse(course: { title: string; description: string; thumbnail_url?: string }, teacherId: number): Promise<Course> {
-    return this.request<Course>(`/api/courses?teacher_id=${teacherId}`, {
-      method: 'POST',
-      body: JSON.stringify(course),
-    });
-  }
+    async createCourse(course: { title: string; description: string; thumbnail_url?: string | null; grade_level?: string | null }, teacherId: number): Promise<Course> {
+      return this.request<Course>(`/api/courses?teacher_id=${teacherId}`, {
+        method: 'POST',
+        body: JSON.stringify(course),
+      });
+    }
 
   async updateCourse(courseId: number, course: { title: string; description: string; thumbnail_url?: string }): Promise<Course> {
     return this.request<Course>(`/api/courses/${courseId}`, {

@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { 
   Plus, BookOpen, Users, 
-  Edit, Trash2, CheckCircle, GraduationCap
+  Edit, Trash2, CheckCircle
 } from 'lucide-react';
 
 const GRADE_LEVELS: { value: GradeLevel; label: string }[] = [
