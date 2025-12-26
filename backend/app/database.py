@@ -24,6 +24,8 @@ enrollments_db: Dict[int, dict] = {}
 parent_student_links: List[dict] = []
 lesson_completions: List[dict] = []  # {student_id, lesson_id, completed_at}
 messages_db: Dict[int, dict] = {}
+site_content_db: Dict[str, dict] = {}  # section -> content
+applications_db: Dict[int, dict] = {}
 
 # Auto-increment counters
 user_counter = 0
@@ -35,6 +37,7 @@ event_counter = 0
 quiz_result_counter = 0
 enrollment_counter = 0
 message_counter = 0
+application_counter = 0
 
 def get_next_user_id() -> int:
     global user_counter
@@ -80,6 +83,11 @@ def get_next_message_id() -> int:
     global message_counter
     message_counter += 1
     return message_counter
+
+def get_next_application_id() -> int:
+    global application_counter
+    application_counter += 1
+    return application_counter
 
 def init_sample_data():
     """Initialize with sample data for demonstration."""

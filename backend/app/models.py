@@ -233,3 +233,50 @@ class Conversation(BaseModel):
     last_message: str
     last_message_time: datetime
     unread_count: int
+
+# Site Content Models (for landing page)
+class SiteContentUpdate(BaseModel):
+    section: str  # hero, about, how_it_works, programs, faq, contact
+    content: dict  # JSON content for the section
+
+class SiteContent(BaseModel):
+    section: str
+    content: dict
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+# Student Application Models
+class ApplicationStatus(str, Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+class StudentApplicationCreate(BaseModel):
+    student_name: str
+    student_age: int
+    grade_level: str  # K, 1, 2, 3, 4, 5, 6, 7, 8
+    parent_name: str
+    parent_email: str
+    parent_phone: str
+    address: Optional[str] = None
+    message: Optional[str] = None
+
+class StudentApplication(BaseModel):
+    id: int
+    student_name: str
+    student_age: int
+    grade_level: str
+    parent_name: str
+    parent_email: str
+    parent_phone: str
+    address: Optional[str] = None
+    message: Optional[str] = None
+    status: ApplicationStatus = ApplicationStatus.PENDING
+    created_at: datetime
+    reviewed_at: Optional[datetime] = None
+    reviewed_by: Optional[int] = None
+    
+    class Config:
+        from_attributes = True

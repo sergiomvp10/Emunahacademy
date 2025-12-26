@@ -14,15 +14,18 @@ from app.models import (
     QuizSubmission, QuizResult, QuizQuestion,
     EnrollmentCreate, Enrollment,
     StudentProgress, ParentStudentLink, ChildProgress,
-    MessageCreate, Message, Conversation
+    MessageCreate, Message, Conversation,
+    SiteContentUpdate, SiteContent,
+    StudentApplicationCreate, StudentApplication, ApplicationStatus
 )
 from app.database import (
     users_db, courses_db, lessons_db, evaluations_db, submissions_db,
     calendar_events_db, quiz_results_db, enrollments_db, parent_student_links,
-    lesson_completions, messages_db,
+    lesson_completions, messages_db, site_content_db, applications_db,
     get_next_user_id, get_next_course_id, get_next_lesson_id,
     get_next_evaluation_id, get_next_submission_id, get_next_event_id,
-    get_next_quiz_result_id, get_next_enrollment_id, get_next_message_id
+    get_next_quiz_result_id, get_next_enrollment_id, get_next_message_id,
+    get_next_application_id
 )
 
 @asynccontextmanager
@@ -796,3 +799,173 @@ async def get_contacts(user_id: int):
                 ))
     
     return contacts
+
+# ==================== SITE CONTENT ENDPOINTS ====================
+
+# Default site content
+DEFAULT_SITE_CONTENT = {
+    "hero": {
+        "title": "Empowering Vulnerable Communities Through Education",
+        "subtitle": "Emunah Academy provides free, quality education to children from underserved communities around the world. Join us in transforming lives through learning.",
+        "cta_primary": "Apply Now",
+        "cta_secondary": "Learn More"
+    },
+    "about": {
+        "title": "About Emunah Academy",
+        "description": "Emunah Academy is a non-profit educational organization dedicated to providing quality education to vulnerable communities worldwide. Our mission is to break the cycle of poverty through education, offering comprehensive programs from Kindergarten through 8th grade.",
+        "mission": "To empower children from underserved communities with the knowledge, skills, and values they need to succeed in life.",
+        "vision": "A world where every child has access to quality education, regardless of their circumstances."
+    },
+    "how_it_works": {
+        "title": "How It Works",
+        "steps": [
+            {"number": "1", "title": "Apply", "description": "Fill out our simple application form with your child's information."},
+            {"number": "2", "title": "Review", "description": "Our team reviews your application and contacts you within 48 hours."},
+            {"number": "3", "title": "Enroll", "description": "Once approved, your child gains access to our complete learning platform."},
+            {"number": "4", "title": "Learn", "description": "Students access video lessons, interactive quizzes, and personalized support."}
+        ]
+    },
+    "programs": {
+        "title": "Our Programs",
+        "subtitle": "Comprehensive education from Kindergarten through 8th Grade",
+        "grades": [
+            {"level": "K", "name": "Kindergarten", "description": "Foundation skills in reading, math, and social development"},
+            {"level": "1-2", "name": "Early Elementary", "description": "Building core literacy and numeracy skills"},
+            {"level": "3-5", "name": "Upper Elementary", "description": "Expanding knowledge in science, history, and critical thinking"},
+            {"level": "6-8", "name": "Middle School", "description": "Preparing students for high school with advanced subjects"}
+        ]
+    },
+    "impact": {
+        "title": "Our Impact",
+        "stats": [
+            {"number": "500+", "label": "Students Enrolled"},
+            {"number": "15+", "label": "Countries Reached"},
+            {"number": "50+", "label": "Expert Teachers"},
+            {"number": "95%", "label": "Completion Rate"}
+        ]
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "questions": [
+            {"question": "Is Emunah Academy really free?", "answer": "Yes! Emunah Academy is completely free for all students. We are funded by generous donors who believe in our mission."},
+            {"question": "What grades do you offer?", "answer": "We offer comprehensive education from Kindergarten through 8th grade, covering all core subjects."},
+            {"question": "What technology do I need?", "answer": "Students need a device with internet access (computer, tablet, or smartphone) to access our online platform."},
+            {"question": "How do I apply?", "answer": "Simply fill out our application form on this page. A parent or guardian must complete the application for students under 18."},
+            {"question": "What language are classes taught in?", "answer": "Currently, our classes are taught in English with plans to expand to Spanish and other languages."}
+        ]
+    },
+    "contact": {
+        "title": "Contact Us",
+        "email": "info@emunahacademy.org",
+        "phone": "",
+        "address": ""
+    }
+}
+
+@app.get("/api/site-content")
+async def get_all_site_content():
+    content = {}
+    for section in DEFAULT_SITE_CONTENT.keys():
+        if section in site_content_db:
+            content[section] = site_content_db[section]["content"]
+        else:
+            content[section] = DEFAULT_SITE_CONTENT[section]
+    return content
+
+@app.get("/api/site-content/{section}")
+async def get_site_content(section: str):
+    if section in site_content_db:
+        return SiteContent(
+            section=section,
+            content=site_content_db[section]["content"],
+            updated_at=site_content_db[section]["updated_at"]
+        )
+    elif section in DEFAULT_SITE_CONTENT:
+        return SiteContent(
+            section=section,
+            content=DEFAULT_SITE_CONTENT[section],
+            updated_at=datetime.now()
+        )
+    raise HTTPException(status_code=404, detail="Section not found")
+
+@app.put("/api/site-content/{section}")
+async def update_site_content(section: str, update: SiteContentUpdate):
+    if section not in DEFAULT_SITE_CONTENT:
+        raise HTTPException(status_code=400, detail="Invalid section")
+    
+    site_content_db[section] = {
+        "section": section,
+        "content": update.content,
+        "updated_at": datetime.now()
+    }
+    return SiteContent(
+        section=section,
+        content=update.content,
+        updated_at=site_content_db[section]["updated_at"]
+    )
+
+# ==================== STUDENT APPLICATION ENDPOINTS ====================
+
+@app.get("/api/applications", response_model=List[StudentApplication])
+async def get_applications(status: Optional[ApplicationStatus] = None):
+    apps = []
+    for app_id, application in applications_db.items():
+        if status and application["status"] != status:
+            continue
+        apps.append(StudentApplication(**application))
+    return sorted(apps, key=lambda x: x.created_at, reverse=True)
+
+@app.get("/api/applications/{application_id}", response_model=StudentApplication)
+async def get_application(application_id: int):
+    if application_id not in applications_db:
+        raise HTTPException(status_code=404, detail="Application not found")
+    return StudentApplication(**applications_db[application_id])
+
+@app.post("/api/applications", response_model=StudentApplication)
+async def create_application(application: StudentApplicationCreate):
+    app_id = get_next_application_id()
+    applications_db[app_id] = {
+        "id": app_id,
+        "student_name": application.student_name,
+        "student_age": application.student_age,
+        "grade_level": application.grade_level,
+        "parent_name": application.parent_name,
+        "parent_email": application.parent_email,
+        "parent_phone": application.parent_phone,
+        "address": application.address,
+        "message": application.message,
+        "status": ApplicationStatus.PENDING,
+        "created_at": datetime.now(),
+        "reviewed_at": None,
+        "reviewed_by": None
+    }
+    return StudentApplication(**applications_db[app_id])
+
+@app.put("/api/applications/{application_id}/status")
+async def update_application_status(
+    application_id: int, 
+    status: ApplicationStatus,
+    reviewed_by: int
+):
+    if application_id not in applications_db:
+        raise HTTPException(status_code=404, detail="Application not found")
+    
+    if reviewed_by not in users_db:
+        raise HTTPException(status_code=404, detail="Reviewer not found")
+    
+    reviewer = users_db[reviewed_by]
+    if reviewer["role"] not in [UserRole.SUPERUSER, UserRole.DIRECTOR]:
+        raise HTTPException(status_code=403, detail="Only superuser or director can review applications")
+    
+    applications_db[application_id]["status"] = status
+    applications_db[application_id]["reviewed_at"] = datetime.now()
+    applications_db[application_id]["reviewed_by"] = reviewed_by
+    
+    return StudentApplication(**applications_db[application_id])
+
+@app.delete("/api/applications/{application_id}")
+async def delete_application(application_id: int):
+    if application_id not in applications_db:
+        raise HTTPException(status_code=404, detail="Application not found")
+    del applications_db[application_id]
+    return {"message": "Application deleted"}
