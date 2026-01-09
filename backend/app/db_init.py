@@ -45,11 +45,11 @@ def run_migrations():
             conn.commit()
             print("Added file_type column to messages table")
         if 'deleted_by_sender' not in messages_columns:
-            conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_sender BOOLEAN DEFAULT 0"))
+            conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_sender BOOLEAN DEFAULT FALSE"))
             conn.commit()
             print("Added deleted_by_sender column to messages table")
         if 'deleted_by_receiver' not in messages_columns:
-            conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_receiver BOOLEAN DEFAULT 0"))
+            conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_receiver BOOLEAN DEFAULT FALSE"))
             conn.commit()
             print("Added deleted_by_receiver column to messages table")
 
