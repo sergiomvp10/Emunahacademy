@@ -29,6 +29,21 @@ def run_migrations():
             conn.execute(text("ALTER TABLE courses ADD COLUMN grade_level VARCHAR(10)"))
             conn.commit()
             print("Added grade_level column to courses table")
+        
+        # Check and add file columns to messages table
+        messages_columns = [col['name'] for col in inspector.get_columns('messages')]
+        if 'file_url' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN file_url VARCHAR(500)"))
+            conn.commit()
+            print("Added file_url column to messages table")
+        if 'file_name' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN file_name VARCHAR(255)"))
+            conn.commit()
+            print("Added file_name column to messages table")
+        if 'file_type' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN file_type VARCHAR(100)"))
+            conn.commit()
+            print("Added file_type column to messages table")
 
 def seed_sample_data(db: Session):
     existing_user = db.query(User).filter(User.email == "admin@emunahacademy.com").first()
