@@ -278,11 +278,41 @@ class ApiService {
     return this.request<Message[]>(`/api/messages/${otherUserId}?user_id=${userId}`);
   }
 
-  async sendMessage(receiverId: number, content: string, senderId: number): Promise<Message> {
+  async sendMessage(
+    receiverId: number, 
+    content: string, 
+    senderId: number,
+    fileUrl?: string,
+    fileName?: string,
+    fileType?: string
+  ): Promise<Message> {
     return this.request<Message>(`/api/messages?sender_id=${senderId}`, {
       method: 'POST',
-      body: JSON.stringify({ receiver_id: receiverId, content }),
+      body: JSON.stringify({ 
+        receiver_id: receiverId, 
+        content,
+        file_url: fileUrl,
+        file_name: fileName,
+        file_type: fileType
+      }),
     });
+  }
+
+  async uploadFile(file: File): Promise<{ file_url: string; file_name: string; file_type: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const response = await fetch(`${API_URL}/api/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Error al subir archivo');
+    }
+    
+    return response.json();
   }
 
   async markMessageRead(messageId: number): Promise<void> {

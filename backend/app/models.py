@@ -212,6 +212,9 @@ class ChildProgress(BaseModel):
 class MessageCreate(BaseModel):
     receiver_id: int
     content: str
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    file_type: Optional[str] = None
 
 class Message(BaseModel):
     id: int
@@ -222,6 +225,9 @@ class Message(BaseModel):
     content: str
     is_read: bool = False
     created_at: datetime
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    file_type: Optional[str] = None
     
     class Config:
         from_attributes = True

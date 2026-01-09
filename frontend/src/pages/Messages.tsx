@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { 
-  MessageSquare, Send, Search, Plus, ChevronLeft
+  MessageSquare, Send, Search, Plus, ChevronLeft, Paperclip, X, FileText, Download
 } from 'lucide-react';
 
 export function Messages() {
@@ -23,7 +23,10 @@ export function Messages() {
   const [loading, setLoading] = useState(true);
   const [showNewChat, setShowNewChat] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
@@ -82,15 +85,60 @@ export function Messages() {
   };
 
   const handleSendMessage = async () => {
-    if (!user || !selectedUser || !newMessage.trim()) return;
+    if (!user || !selectedUser || (!newMessage.trim() && !selectedFile)) return;
+    
     try {
-      await api.sendMessage(selectedUser.id, newMessage, user.id);
+      setUploading(true);
+      let fileUrl: string | undefined;
+      let fileName: string | undefined;
+      let fileType: string | undefined;
+      
+      if (selectedFile) {
+        const uploadResult = await api.uploadFile(selectedFile);
+        fileUrl = uploadResult.file_url;
+        fileName = uploadResult.file_name;
+        fileType = uploadResult.file_type;
+      }
+      
+      await api.sendMessage(
+        selectedUser.id, 
+        newMessage || (selectedFile ? `Archivo: ${selectedFile.name}` : ''), 
+        user.id,
+        fileUrl,
+        fileName,
+        fileType
+      );
       setNewMessage('');
+      setSelectedFile(null);
       loadMessages(selectedUser.id);
       loadConversations();
     } catch (error) {
       console.error('Error sending message:', error);
+    } finally {
+      setUploading(false);
     }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('El archivo es demasiado grande. Tamaño máximo: 5MB');
+        return;
+      }
+      setSelectedFile(file);
+    }
+  };
+
+  const removeSelectedFile = () => {
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const getBackendUrl = () => {
+    return import.meta.env.VITE_API_URL || 'http://localhost:8000';
   };
 
   const handleSelectConversation = (conv: Conversation) => {
@@ -285,6 +333,36 @@ export function Messages() {
                             : 'bg-gray-100 text-gray-800'
                         }`}
                       >
+                        {msg.file_url && msg.file_type === 'image' && (
+                          <a 
+                            href={`${getBackendUrl()}${msg.file_url}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block mb-2"
+                          >
+                            <img 
+                              src={`${getBackendUrl()}${msg.file_url}`} 
+                              alt={msg.file_name || 'Imagen'} 
+                              className="max-w-full rounded-lg max-h-48 object-cover"
+                            />
+                          </a>
+                        )}
+                        {msg.file_url && msg.file_type === 'document' && (
+                          <a 
+                            href={`${getBackendUrl()}${msg.file_url}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 p-2 rounded mb-2 ${
+                              msg.sender_id === user?.id 
+                                ? 'bg-teal-600 hover:bg-teal-700' 
+                                : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                          >
+                            <FileText className="h-5 w-5" />
+                            <span className="text-sm truncate flex-1">{msg.file_name}</span>
+                            <Download className="h-4 w-4" />
+                          </a>
+                        )}
                         <p className="text-sm">{msg.content}</p>
                         <p className={`text-xs mt-1 ${
                           msg.sender_id === user?.id ? 'text-teal-100' : 'text-gray-400'
@@ -303,20 +381,54 @@ export function Messages() {
 
               {/* Message Input */}
               <div className="p-4 border-t flex-shrink-0">
+                {selectedFile && (
+                  <div className="flex items-center gap-2 mb-2 p-2 bg-gray-100 rounded-lg">
+                    <FileText className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm text-gray-600 truncate flex-1">{selectedFile.name}</span>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={removeSelectedFile}
+                      className="h-6 w-6 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
                 <div className="flex gap-2">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                    accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt,.xls,.xlsx"
+                    className="hidden"
+                  />
+                  <Button 
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    title="Adjuntar archivo"
+                  >
+                    <Paperclip className="h-4 w-4" />
+                  </Button>
                   <Input
                     placeholder="Escribe un mensaje..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    onKeyPress={(e) => e.key === 'Enter' && !uploading && handleSendMessage()}
                     className="flex-1"
+                    disabled={uploading}
                   />
                   <Button 
                     className="bg-teal-500 hover:bg-teal-600"
                     onClick={handleSendMessage}
-                    disabled={!newMessage.trim()}
+                    disabled={(!newMessage.trim() && !selectedFile) || uploading}
                   >
-                    <Send className="h-4 w-4" />
+                    {uploading ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
