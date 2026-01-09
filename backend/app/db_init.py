@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import text
+from sqlalchemy import text, inspect
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
     UserRoleEnum, LessonTypeEnum, EventTypeEnum
@@ -11,24 +11,21 @@ def create_tables():
     Base.metadata.create_all(bind=engine)
 
 def run_migrations():
-    """Add new columns to existing tables if they don't exist"""
+    """Add new columns to existing tables if they don't exist.
+    Uses SQLAlchemy introspection to work with both SQLite and PostgreSQL."""
+    inspector = inspect(engine)
+    
     with engine.connect() as conn:
         # Check and add grade_level column to users table
-        result = conn.execute(text("""
-            SELECT column_name FROM information_schema.columns 
-            WHERE table_name = 'users' AND column_name = 'grade_level'
-        """))
-        if not result.fetchone():
+        users_columns = [col['name'] for col in inspector.get_columns('users')]
+        if 'grade_level' not in users_columns:
             conn.execute(text("ALTER TABLE users ADD COLUMN grade_level VARCHAR(10)"))
             conn.commit()
             print("Added grade_level column to users table")
         
         # Check and add grade_level column to courses table
-        result = conn.execute(text("""
-            SELECT column_name FROM information_schema.columns 
-            WHERE table_name = 'courses' AND column_name = 'grade_level'
-        """))
-        if not result.fetchone():
+        courses_columns = [col['name'] for col in inspector.get_columns('courses')]
+        if 'grade_level' not in courses_columns:
             conn.execute(text("ALTER TABLE courses ADD COLUMN grade_level VARCHAR(10)"))
             conn.commit()
             print("Added grade_level column to courses table")
