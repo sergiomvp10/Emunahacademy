@@ -331,6 +331,10 @@ class ApiService {
     return this.request<{ unread_count: number }>(`/api/messages/unread-count?user_id=${userId}`);
   }
 
+  async deleteConversation(otherUserId: number, userId: number): Promise<void> {
+    await this.request(`/api/messages/conversation/${otherUserId}?user_id=${userId}`, { method: 'DELETE' });
+  }
+
   // Site Content
   async getSiteContent(): Promise<Record<string, unknown>> {
     return this.request<Record<string, unknown>>('/api/site-content');

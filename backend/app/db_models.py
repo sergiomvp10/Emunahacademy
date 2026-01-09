@@ -192,6 +192,8 @@ class Message(Base):
     file_url = Column(String(500), nullable=True)
     file_name = Column(String(255), nullable=True)
     file_type = Column(String(100), nullable=True)
+    deleted_by_sender = Column(Boolean, default=False)
+    deleted_by_receiver = Column(Boolean, default=False)
     
     sender = relationship("User", foreign_keys=[sender_id], back_populates="messages_sent")
     receiver = relationship("User", foreign_keys=[receiver_id], back_populates="messages_received")

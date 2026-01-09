@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { 
-  MessageSquare, Send, Search, Plus, ChevronLeft, Paperclip, X, FileText, Download
+  MessageSquare, Send, Search, Plus, ChevronLeft, Paperclip, X, FileText, Download, Trash2
 } from 'lucide-react';
 
 export function Messages() {
@@ -170,7 +170,28 @@ export function Messages() {
     }
   };
 
-  const filteredContacts = contacts.filter(c => 
+  const handleDeleteConversation = async (otherUserId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+    
+    if (!confirm('¿Estas seguro de que deseas eliminar esta conversacion? Solo se eliminara para ti.')) {
+      return;
+    }
+    
+    try {
+      await api.deleteConversation(otherUserId, user.id);
+      setConversations(prev => prev.filter(c => c.user_id !== otherUserId));
+      if (selectedUser?.id === otherUserId) {
+        setSelectedUser(null);
+        setMessages([]);
+      }
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      alert('Error al eliminar la conversacion');
+    }
+  };
+
+  const filteredContacts = contacts.filter(c =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     c.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -256,7 +277,7 @@ export function Messages() {
               {conversations.map(conv => (
                 <div
                   key={conv.user_id}
-                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors group ${
                     selectedUser?.id === conv.user_id 
                       ? 'bg-teal-50 border border-teal-200' 
                       : 'hover:bg-gray-50'
@@ -271,11 +292,22 @@ export function Messages() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="font-medium truncate">{conv.user_name}</p>
-                      {conv.unread_count > 0 && (
-                        <Badge className="bg-teal-500 text-white text-xs">
-                          {conv.unread_count}
-                        </Badge>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {conv.unread_count > 0 && (
+                          <Badge className="bg-teal-500 text-white text-xs">
+                            {conv.unread_count}
+                          </Badge>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500"
+                          onClick={(e) => handleDeleteConversation(conv.user_id, e)}
+                          title="Eliminar conversacion"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                     <p className="text-sm text-gray-500 truncate">{conv.last_message}</p>
                   </div>
