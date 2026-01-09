@@ -1029,6 +1029,14 @@ async def mark_all_read(user_id: int, other_user_id: int, db: Session = Depends(
     db.commit()
     return {"message": "Mensajes marcados como leidos"}
 
+@app.get("/api/messages/unread-count")
+async def get_unread_count(user_id: int, db: Session = Depends(get_db)):
+    count = db.query(Message).filter(
+        Message.receiver_id == user_id,
+        Message.is_read == False
+    ).count()
+    return {"unread_count": count}
+
 @app.get("/api/messages/contacts", response_model=List[UserSchema])
 async def get_contacts(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
@@ -1037,11 +1045,11 @@ async def get_contacts(user_id: int, db: Session = Depends(get_db)):
     
     if user.role == UserRoleEnum.STUDENT:
         users = db.query(User).filter(
-            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR])
+            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER])
         ).all()
     elif user.role == UserRoleEnum.PARENT:
         users = db.query(User).filter(
-            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR])
+            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER])
         ).all()
     elif user.role in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR]:
         users = db.query(User).filter(User.id != user_id).all()

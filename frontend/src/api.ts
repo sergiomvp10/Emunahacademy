@@ -297,6 +297,10 @@ class ApiService {
     return this.request<User[]>(`/api/messages/contacts?user_id=${userId}`);
   }
 
+  async getUnreadCount(userId: number): Promise<{ unread_count: number }> {
+    return this.request<{ unread_count: number }>(`/api/messages/unread-count?user_id=${userId}`);
+  }
+
   // Site Content
   async getSiteContent(): Promise<Record<string, unknown>> {
     return this.request<Record<string, unknown>>('/api/site-content');
