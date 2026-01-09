@@ -911,6 +911,51 @@ async def get_statistics(db: Session = Depends(get_db)):
 
 # ==================== MESSAGING ENDPOINTS ====================
 
+@app.get("/api/messages/contacts", response_model=List[UserSchema])
+async def get_contacts(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role == UserRoleEnum.STUDENT:
+        users = db.query(User).filter(
+            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER])
+        ).all()
+    elif user.role == UserRoleEnum.PARENT:
+        users = db.query(User).filter(
+            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER])
+        ).all()
+    elif user.role in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR]:
+        users = db.query(User).filter(User.id != user_id).all()
+    else:
+        users = db.query(User).filter(User.id != user_id).all()
+    
+    return [UserSchema(
+        id=u.id,
+        email=u.email,
+        name=u.name,
+        role=UserRole(u.role.value),
+        created_at=u.created_at,
+        is_active=u.is_active
+    ) for u in users]
+
+@app.get("/api/messages/unread-count")
+async def get_unread_count(user_id: int, db: Session = Depends(get_db)):
+    count = db.query(Message).filter(
+        Message.receiver_id == user_id,
+        Message.is_read == False
+    ).count()
+    return {"unread_count": count}
+
+@app.post("/api/messages/read-all")
+async def mark_all_read(user_id: int, other_user_id: int, db: Session = Depends(get_db)):
+    db.query(Message).filter(
+        Message.sender_id == other_user_id,
+        Message.receiver_id == user_id
+    ).update({"is_read": True})
+    db.commit()
+    return {"message": "Mensajes marcados como leidos"}
+
 @app.get("/api/messages/conversations", response_model=List[Conversation])
 async def get_conversations(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
@@ -1019,51 +1064,6 @@ async def mark_message_read(message_id: int, db: Session = Depends(get_db)):
     message.is_read = True
     db.commit()
     return {"message": "Mensaje marcado como leido"}
-
-@app.post("/api/messages/read-all")
-async def mark_all_read(user_id: int, other_user_id: int, db: Session = Depends(get_db)):
-    db.query(Message).filter(
-        Message.sender_id == other_user_id,
-        Message.receiver_id == user_id
-    ).update({"is_read": True})
-    db.commit()
-    return {"message": "Mensajes marcados como leidos"}
-
-@app.get("/api/messages/unread-count")
-async def get_unread_count(user_id: int, db: Session = Depends(get_db)):
-    count = db.query(Message).filter(
-        Message.receiver_id == user_id,
-        Message.is_read == False
-    ).count()
-    return {"unread_count": count}
-
-@app.get("/api/messages/contacts", response_model=List[UserSchema])
-async def get_contacts(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    
-    if user.role == UserRoleEnum.STUDENT:
-        users = db.query(User).filter(
-            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER])
-        ).all()
-    elif user.role == UserRoleEnum.PARENT:
-        users = db.query(User).filter(
-            User.role.in_([UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER])
-        ).all()
-    elif user.role in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR]:
-        users = db.query(User).filter(User.id != user_id).all()
-    else:
-        users = db.query(User).filter(User.id != user_id).all()
-    
-    return [UserSchema(
-        id=u.id,
-        email=u.email,
-        name=u.name,
-        role=UserRole(u.role.value),
-        created_at=u.created_at,
-        is_active=u.is_active
-    ) for u in users]
 
 # ==================== SITE CONTENT ENDPOINTS ====================
 
