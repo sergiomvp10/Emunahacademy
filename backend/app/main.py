@@ -1003,6 +1003,29 @@ async def mark_all_read(user_id: int, other_user_id: int, db: Session = Depends(
     db.commit()
     return {"message": "Mensajes marcados como leidos"}
 
+@app.delete("/api/messages/conversation/{other_user_id}")
+async def delete_conversation(other_user_id: int, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    messages_as_sender = db.query(Message).filter(
+        Message.sender_id == user_id,
+        Message.receiver_id == other_user_id
+    ).all()
+    for msg in messages_as_sender:
+        msg.deleted_by_sender = True
+    
+    messages_as_receiver = db.query(Message).filter(
+        Message.sender_id == other_user_id,
+        Message.receiver_id == user_id
+    ).all()
+    for msg in messages_as_receiver:
+        msg.deleted_by_receiver = True
+    
+    db.commit()
+    return {"message": "Conversacion eliminada"}
+
 @app.get("/api/messages/conversations", response_model=List[Conversation])
 async def get_conversations(user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()
@@ -1126,29 +1149,6 @@ async def mark_message_read(message_id: int, db: Session = Depends(get_db)):
     message.is_read = True
     db.commit()
     return {"message": "Mensaje marcado como leido"}
-
-@app.delete("/api/messages/conversation/{other_user_id}")
-async def delete_conversation(other_user_id: int, user_id: int, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    
-    messages_as_sender = db.query(Message).filter(
-        Message.sender_id == user_id,
-        Message.receiver_id == other_user_id
-    ).all()
-    for msg in messages_as_sender:
-        msg.deleted_by_sender = True
-    
-    messages_as_receiver = db.query(Message).filter(
-        Message.sender_id == other_user_id,
-        Message.receiver_id == user_id
-    ).all()
-    for msg in messages_as_receiver:
-        msg.deleted_by_receiver = True
-    
-    db.commit()
-    return {"message": "Conversacion eliminada"}
 
 # ==================== SITE CONTENT ENDPOINTS ====================
 
