@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from typing import List, Optional
 from datetime import datetime
@@ -7,6 +8,13 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_
 import json
 import os
+import uuid
+import shutil
+from pathlib import Path
+
+UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR.mkdir(exist_ok=True)
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB max file size
 
 from app.models import (
     UserCreate, User as UserSchema, UserLogin, Token, UserRole,
@@ -60,6 +68,8 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
+
+app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
 @app.get("/healthz")
 async def healthz():
@@ -909,6 +919,43 @@ async def get_statistics(db: Session = Depends(get_db)):
         "total_evaluations": total_evaluations
     }
 
+# ==================== FILE UPLOAD ENDPOINTS ====================
+
+ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.gif', '.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx'}
+
+@app.post("/api/upload")
+async def upload_file(file: UploadFile = File(...)):
+    file_ext = Path(file.filename).suffix.lower() if file.filename else ''
+    if file_ext not in ALLOWED_EXTENSIONS:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Tipo de archivo no permitido. Tipos permitidos: {', '.join(ALLOWED_EXTENSIONS)}"
+        )
+    
+    contents = await file.read()
+    if len(contents) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Archivo demasiado grande. Tamaño máximo: {MAX_FILE_SIZE // (1024*1024)}MB"
+        )
+    
+    unique_filename = f"{uuid.uuid4()}{file_ext}"
+    file_path = UPLOAD_DIR / unique_filename
+    
+    with open(file_path, "wb") as f:
+        f.write(contents)
+    
+    file_url = f"/uploads/{unique_filename}"
+    
+    is_image = file_ext in {'.jpg', '.jpeg', '.png', '.gif'}
+    file_type = "image" if is_image else "document"
+    
+    return {
+        "file_url": file_url,
+        "file_name": file.filename,
+        "file_type": file_type
+    }
+
 # ==================== MESSAGING ENDPOINTS ====================
 
 @app.get("/api/messages/contacts", response_model=List[UserSchema])
@@ -1022,7 +1069,10 @@ async def get_messages(other_user_id: int, user_id: int, db: Session = Depends(g
             receiver_name=receiver.name if receiver else "Unknown",
             content=msg.content,
             is_read=msg.is_read,
-            created_at=msg.created_at
+            created_at=msg.created_at,
+            file_url=msg.file_url,
+            file_name=msg.file_name,
+            file_type=msg.file_type
         ))
     return result
 
@@ -1039,7 +1089,10 @@ async def send_message(message: MessageCreate, sender_id: int, db: Session = Dep
     db_message = Message(
         sender_id=sender_id,
         receiver_id=message.receiver_id,
-        content=message.content
+        content=message.content,
+        file_url=message.file_url,
+        file_name=message.file_name,
+        file_type=message.file_type
     )
     db.add(db_message)
     db.commit()
@@ -1053,7 +1106,10 @@ async def send_message(message: MessageCreate, sender_id: int, db: Session = Dep
         receiver_name=receiver.name,
         content=db_message.content,
         is_read=db_message.is_read,
-        created_at=db_message.created_at
+        created_at=db_message.created_at,
+        file_url=db_message.file_url,
+        file_name=db_message.file_name,
+        file_type=db_message.file_type
     )
 
 @app.post("/api/messages/{message_id}/read")

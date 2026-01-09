@@ -189,6 +189,9 @@ class Message(Base):
     content = Column(Text, nullable=False)
     is_read = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    file_url = Column(String(500), nullable=True)
+    file_name = Column(String(255), nullable=True)
+    file_type = Column(String(100), nullable=True)
     
     sender = relationship("User", foreign_keys=[sender_id], back_populates="messages_sent")
     receiver = relationship("User", foreign_keys=[receiver_id], back_populates="messages_received")
