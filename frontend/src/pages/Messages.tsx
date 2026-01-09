@@ -87,14 +87,38 @@ export function Messages() {
   const handleSendMessage = async () => {
     if (!user || !selectedUser || (!newMessage.trim() && !selectedFile)) return;
     
+    const messageContent = newMessage || (selectedFile ? `Archivo: ${selectedFile.name}` : '');
+    const currentFile = selectedFile;
+    
+    const optimisticMessage: Message = {
+      id: Date.now(),
+      sender_id: user.id,
+      sender_name: user.name,
+      receiver_id: selectedUser.id,
+      receiver_name: selectedUser.name,
+      content: messageContent,
+      is_read: false,
+      created_at: new Date().toISOString(),
+      file_url: currentFile ? URL.createObjectURL(currentFile) : null,
+      file_name: currentFile?.name || null,
+      file_type: currentFile ? (currentFile.type.startsWith('image/') ? 'image' : 'document') : null
+    };
+    
+    setMessages(prev => [...prev, optimisticMessage]);
+    setNewMessage('');
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    
     try {
       setUploading(true);
       let fileUrl: string | undefined;
       let fileName: string | undefined;
       let fileType: string | undefined;
       
-      if (selectedFile) {
-        const uploadResult = await api.uploadFile(selectedFile);
+      if (currentFile) {
+        const uploadResult = await api.uploadFile(currentFile);
         fileUrl = uploadResult.file_url;
         fileName = uploadResult.file_name;
         fileType = uploadResult.file_type;
@@ -102,18 +126,19 @@ export function Messages() {
       
       await api.sendMessage(
         selectedUser.id, 
-        newMessage || (selectedFile ? `Archivo: ${selectedFile.name}` : ''), 
+        messageContent, 
         user.id,
         fileUrl,
         fileName,
         fileType
       );
-      setNewMessage('');
-      setSelectedFile(null);
+      
       loadMessages(selectedUser.id);
       loadConversations();
     } catch (error) {
       console.error('Error sending message:', error);
+      setMessages(prev => prev.filter(m => m.id !== optimisticMessage.id));
+      alert('Error al enviar el mensaje. Por favor intenta de nuevo.');
     } finally {
       setUploading(false);
     }
