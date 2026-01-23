@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { Message, Conversation, User } from '../types';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,6 +16,7 @@ import {
 
 export function Messages() {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [contacts, setContacts] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<{ id: number; name: string } | null>(null);
@@ -122,10 +124,10 @@ export function Messages() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert('El archivo es demasiado grande. Tamaño máximo: 5MB');
-        return;
-      }
+            if (file.size > 5 * 1024 * 1024) {
+              alert(t.messages.fileTooLarge);
+              return;
+            }
       setSelectedFile(file);
     }
   };
@@ -160,23 +162,23 @@ export function Messages() {
     }
   };
 
-  const getRoleLabel = (role: string) => {
-    switch (role) {
-      case 'director': return 'Directora';
-      case 'teacher': return 'Profesor';
-      case 'student': return 'Estudiante';
-      case 'parent': return 'Padre';
-      default: return role;
-    }
-  };
+    const getRoleLabel = (role: string) => {
+      switch (role) {
+        case 'director': return t.roles.director;
+        case 'teacher': return t.roles.teacher;
+        case 'student': return t.roles.student;
+        case 'parent': return t.roles.parent;
+        default: return role;
+      }
+    };
 
   const handleDeleteConversation = async (otherUserId: number, e: React.MouseEvent) => {
     e.stopPropagation();
     if (!user) return;
     
-    if (!confirm('¿Estas seguro de que deseas eliminar esta conversacion? Solo se eliminara para ti.')) {
-      return;
-    }
+        if (!confirm(t.messages.confirmDelete)) {
+          return;
+        }
     
     try {
       await api.deleteConversation(otherUserId, user.id);
@@ -187,7 +189,7 @@ export function Messages() {
       }
     } catch (error) {
       console.error('Error deleting conversation:', error);
-      alert('Error al eliminar la conversacion');
+      alert(t.messages.deleteError);
     }
   };
 
@@ -207,26 +209,26 @@ export function Messages() {
   return (
     <div className="h-[calc(100vh-120px)]">
       <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Mensajes</h1>
-          <p className="text-gray-500">Comunicacion con profesores y directivos</p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.messages.title}</h1>
+                  <p className="text-gray-500">{t.messages.subtitle}</p>
+                </div>
         <Dialog open={showNewChat} onOpenChange={setShowNewChat}>
           <DialogTrigger asChild>
-            <Button className="bg-teal-500 hover:bg-teal-600">
-              <Plus className="h-4 w-4 mr-2" />
-              Nuevo Mensaje
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Iniciar Conversacion</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Buscar contacto..."
+                      <Button className="bg-teal-500 hover:bg-teal-600">
+                        <Plus className="h-4 w-4 mr-2" />
+                        {t.messages.newMessage}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{t.messages.startConversation}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 mt-4">
+                        <div className="relative">
+                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <Input
+                            placeholder={t.messages.searchContacts}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -254,11 +256,11 @@ export function Messages() {
                       </Badge>
                     </div>
                   ))}
-                  {filteredContacts.length === 0 && (
-                    <p className="text-center text-gray-500 py-4">
-                      No se encontraron contactos
-                    </p>
-                  )}
+                                    {filteredContacts.length === 0 && (
+                                      <p className="text-center text-gray-500 py-4">
+                                        {t.messages.noContactsFound}
+                                      </p>
+                                    )}
                 </div>
               </ScrollArea>
             </div>
@@ -270,7 +272,7 @@ export function Messages() {
         {/* Conversations List */}
         <Card className="md:col-span-1 overflow-hidden">
           <CardHeader className="py-3 border-b">
-            <CardTitle className="text-sm font-medium">Conversaciones</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.messages.conversations}</CardTitle>
           </CardHeader>
           <ScrollArea className="h-[calc(100%-50px)]">
             <div className="p-2">
@@ -303,7 +305,7 @@ export function Messages() {
                           size="sm"
                           className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500"
                           onClick={(e) => handleDeleteConversation(conv.user_id, e)}
-                          title="Eliminar conversacion"
+                          title={t.messages.deleteConversation}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -315,9 +317,9 @@ export function Messages() {
               ))}
               {conversations.length === 0 && (
                 <div className="text-center py-8">
-                  <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-2" />
-                  <p className="text-gray-500 text-sm">No hay conversaciones</p>
-                  <p className="text-gray-400 text-xs">Inicia una nueva conversacion</p>
+                                    <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-2" />
+                                    <p className="text-gray-500 text-sm">{t.messages.noConversations}</p>
+                                    <p className="text-gray-400 text-xs">{t.messages.startNewConversation}</p>
                 </div>
               )}
             </div>
@@ -399,10 +401,10 @@ export function Messages() {
                         <p className={`text-xs mt-1 ${
                           msg.sender_id === user?.id ? 'text-teal-100' : 'text-gray-400'
                         }`}>
-                          {new Date(msg.created_at).toLocaleTimeString('es-ES', {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
+                                                    {new Date(msg.created_at).toLocaleTimeString(language === 'es' ? 'es-ES' : 'en-US', {
+                                                      hour: '2-digit',
+                                                      minute: '2-digit'
+                                                    })}
                         </p>
                       </div>
                     </div>
@@ -439,13 +441,13 @@ export function Messages() {
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploading}
-                    title="Adjuntar archivo"
+                    title={t.messages.attachFile}
                   >
                     <Paperclip className="h-4 w-4" />
                   </Button>
-                  <Input
-                    placeholder="Escribe un mensaje..."
-                    value={newMessage}
+                                    <Input
+                                      placeholder={t.messages.typeMessage}
+                                      value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && !uploading && handleSendMessage()}
                     className="flex-1"
@@ -469,12 +471,12 @@ export function Messages() {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <MessageSquare className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-600 mb-2">
-                  Selecciona una conversacion
-                </h3>
-                <p className="text-gray-500 text-sm">
-                  O inicia una nueva conversacion con el boton de arriba
-                </p>
+                                <h3 className="text-lg font-medium text-gray-600 mb-2">
+                                  {t.messages.selectConversation}
+                                </h3>
+                                <p className="text-gray-500 text-sm">
+                                  {t.messages.selectOrStart}
+                                </p>
               </div>
             </div>
           )}
