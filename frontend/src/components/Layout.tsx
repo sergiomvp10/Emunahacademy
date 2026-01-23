@@ -5,7 +5,7 @@ import { api } from '../api';
 import { 
   LayoutDashboard, BookOpen, Calendar, Users, MessageSquare, 
   LogOut, Menu, Bell, Search, ChevronDown,
-  GraduationCap, FileText, BarChart3, Settings, ClipboardList
+  GraduationCap, FileText, BarChart3, Settings, ClipboardList, DollarSign
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -47,26 +47,28 @@ export function Layout() {
       { id: 'messages', label: 'Mensajes', icon: MessageSquare },
     ];
 
-    if (user?.role === 'superuser') {
-      return [
-        ...baseItems,
-        { id: 'users', label: 'Usuarios', icon: Users },
-        { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-        { id: 'progress', label: 'Progreso', icon: BarChart3 },
-        { id: 'applications', label: 'Solicitudes', icon: ClipboardList },
-        { id: 'site-settings', label: 'Configuracion', icon: Settings },
-      ];
-    }
+        if (user?.role === 'superuser') {
+          return [
+            ...baseItems,
+            { id: 'users', label: 'Usuarios', icon: Users },
+            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+            { id: 'progress', label: 'Progreso', icon: BarChart3 },
+            { id: 'applications', label: 'Solicitudes', icon: ClipboardList },
+            { id: 'payments', label: 'Pagos', icon: DollarSign },
+            { id: 'site-settings', label: 'Configuracion', icon: Settings },
+          ];
+        }
 
-    if (user?.role === 'director') {
-      return [
-        ...baseItems,
-        { id: 'users', label: 'Usuarios', icon: Users },
-        { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-        { id: 'applications', label: 'Solicitudes', icon: ClipboardList },
-      ];
-    }
+        if (user?.role === 'director') {
+          return [
+            ...baseItems,
+            { id: 'users', label: 'Usuarios', icon: Users },
+            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+            { id: 'applications', label: 'Solicitudes', icon: ClipboardList },
+            { id: 'payments', label: 'Pagos', icon: DollarSign },
+          ];
+        }
 
     if (user?.role === 'teacher') {
       return [
@@ -84,14 +86,15 @@ export function Layout() {
       ];
     }
 
-    if (user?.role === 'parent') {
-      return [
-        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-        { id: 'children', label: 'Mis Hijos', icon: Users },
-        { id: 'calendar', label: 'Calendario', icon: Calendar },
-        { id: 'messages', label: 'Mensajes', icon: MessageSquare },
-      ];
-    }
+        if (user?.role === 'parent') {
+          return [
+            { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+            { id: 'children', label: 'Mis Hijos', icon: Users },
+            { id: 'calendar', label: 'Calendario', icon: Calendar },
+            { id: 'messages', label: 'Mensajes', icon: MessageSquare },
+            { id: 'payments', label: 'Pagos', icon: DollarSign },
+          ];
+        }
 
     return baseItems;
   };

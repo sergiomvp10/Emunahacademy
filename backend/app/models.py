@@ -279,3 +279,41 @@ class StudentApplication(BaseModel):
     created_at: datetime
     reviewed_at: Optional[datetime] = None
     reviewed_by: Optional[int] = None
+
+class PaymentStatus(str, Enum):
+    PENDING = "pending"
+    PAID = "paid"
+    OVERDUE = "overdue"
+    CANCELLED = "cancelled"
+
+class PaymentCreate(BaseModel):
+    student_id: int
+    amount: float
+    month: str
+    year: int
+    due_date: datetime
+    notes: Optional[str] = None
+
+class PaymentUpdate(BaseModel):
+    status: PaymentStatus
+    payment_date: Optional[datetime] = None
+    notes: Optional[str] = None
+
+class Payment(BaseModel):
+    id: int
+    student_id: int
+    student_name: str
+    parent_id: Optional[int] = None
+    parent_name: Optional[str] = None
+    amount: float
+    month: str
+    year: int
+    status: PaymentStatus
+    payment_date: Optional[datetime] = None
+    due_date: datetime
+    notes: Optional[str] = None
+    created_at: datetime
+    created_by: int
+    
+    class Config:
+        from_attributes = True

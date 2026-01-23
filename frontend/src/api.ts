@@ -1,7 +1,8 @@
 import { 
   User, Token, Course, Lesson, Evaluation, StudentEvaluation,
   CalendarEvent, QuizResult, StudentProgress, ChildProgress, 
-  Statistics, Enrollment, UserRole, Message, Conversation
+  Statistics, Enrollment, UserRole, Message, Conversation,
+  Payment, PaymentStatus, StudentForPayment
 } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -385,6 +386,53 @@ class ApiService {
 
   async deleteApplication(applicationId: number): Promise<void> {
     await this.request(`/api/applications/${applicationId}`, { method: 'DELETE' });
+  }
+
+  // Payments
+  async getPayments(userId: number, studentId?: number, status?: PaymentStatus, year?: number): Promise<Payment[]> {
+    const params = new URLSearchParams();
+    params.append('user_id', userId.toString());
+    if (studentId) params.append('student_id', studentId.toString());
+    if (status) params.append('status', status);
+    if (year) params.append('year', year.toString());
+    return this.request<Payment[]>(`/api/payments?${params.toString()}`);
+  }
+
+  async getPayment(paymentId: number): Promise<Payment> {
+    return this.request<Payment>(`/api/payments/${paymentId}`);
+  }
+
+  async createPayment(payment: {
+    student_id: number;
+    amount: number;
+    month: string;
+    year: number;
+    due_date: string;
+    notes?: string;
+  }, userId: number): Promise<Payment> {
+    return this.request<Payment>(`/api/payments?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify(payment),
+    });
+  }
+
+  async updatePayment(paymentId: number, update: {
+    status: PaymentStatus;
+    payment_date?: string;
+    notes?: string;
+  }, userId: number): Promise<Payment> {
+    return this.request<Payment>(`/api/payments/${paymentId}?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(update),
+    });
+  }
+
+  async deletePayment(paymentId: number, userId: number): Promise<void> {
+    await this.request(`/api/payments/${paymentId}?user_id=${userId}`, { method: 'DELETE' });
+  }
+
+  async getStudentsForPayments(userId: number): Promise<StudentForPayment[]> {
+    return this.request<StudentForPayment[]>(`/api/payments/students?user_id=${userId}`);
   }
 }
 
