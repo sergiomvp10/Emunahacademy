@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api';
 import { Payment, PaymentStatus, StudentForPayment } from '../types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { 
   DollarSign, Search, CheckCircle, XCircle, Clock, AlertCircle,
-  Plus, Calendar, User, Trash2, Edit
+  Plus, Calendar, User, Trash2
 } from 'lucide-react';
 
 const STATUS_CONFIG: Record<PaymentStatus, { label: string; color: string; icon: React.ComponentType<{ className?: string }> }> = {
