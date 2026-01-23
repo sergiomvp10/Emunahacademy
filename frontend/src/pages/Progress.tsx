@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { StudentProgress, ChildProgress } from '../types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,7 @@ import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 export function ProgressPage() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [progress, setProgress] = useState<StudentProgress[]>([]);
   const [childrenProgress, setChildrenProgress] = useState<ChildProgress[]>([]);
   const [loading, setLoading] = useState(true);
@@ -75,10 +77,10 @@ export function ProgressPage() {
 
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Mi Progreso</h1>
-          <p className="text-gray-500">Seguimiento de tu aprendizaje</p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.progress.myProgress}</h1>
+                  <p className="text-gray-500">{t.progress.subtitle}</p>
+                </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -86,7 +88,7 @@ export function ProgressPage() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-teal-100 text-sm">Progreso General</p>
+                  <p className="text-teal-100 text-sm">{t.progress.overallProgress}</p>
                   <p className="text-3xl font-bold">{overallProgress.toFixed(0)}%</p>
                 </div>
                 <TrendingUp className="h-10 w-10 text-teal-200" />
@@ -97,7 +99,7 @@ export function ProgressPage() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm">Lecciones Completadas</p>
+                  <p className="text-gray-500 text-sm">{t.progress.completedLessons}</p>
                   <p className="text-2xl font-bold">{totalCompleted}/{totalLessons}</p>
                 </div>
                 <CheckCircle className="h-8 w-8 text-green-500" />
@@ -108,7 +110,7 @@ export function ProgressPage() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm">Promedio Quizzes</p>
+                  <p className="text-gray-500 text-sm">{t.progress.quizAverage}</p>
                   <p className="text-2xl font-bold">
                     {averageScore !== null ? `${averageScore.toFixed(0)}%` : 'N/A'}
                   </p>
@@ -121,7 +123,7 @@ export function ProgressPage() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-500 text-sm">Evaluaciones</p>
+                  <p className="text-gray-500 text-sm">{t.progress.evaluations}</p>
                   <p className="text-2xl font-bold">{totalEvaluations}</p>
                 </div>
                 <Target className="h-8 w-8 text-blue-500" />
@@ -134,7 +136,7 @@ export function ProgressPage() {
           {/* Progress by Course */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Progreso por Curso</CardTitle>
+              <CardTitle className="text-lg">{t.progress.progressByCourse}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {progress.map((p, index) => (
@@ -156,29 +158,29 @@ export function ProgressPage() {
                     className="h-2"
                   />
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>
-                      {p.average_quiz_score !== null 
-                        ? `Quiz: ${p.average_quiz_score.toFixed(0)}%` 
-                        : 'Sin quizzes'}
-                    </span>
-                    <span>
-                      Evaluaciones: {p.evaluations_completed}/{p.total_evaluations}
-                    </span>
+                                        <span>
+                                          {p.average_quiz_score !== null 
+                                            ? `Quiz: ${p.average_quiz_score.toFixed(0)}%` 
+                                            : t.progress.noQuizzes}
+                                        </span>
+                                        <span>
+                                          {t.progress.evaluations}: {p.evaluations_completed}/{p.total_evaluations}
+                                        </span>
                   </div>
                 </div>
               ))}
-              {progress.length === 0 && (
-                <p className="text-center text-gray-500 py-4">
-                  No estas inscrito en ningun curso
-                </p>
-              )}
+                            {progress.length === 0 && (
+                              <p className="text-center text-gray-500 py-4">
+                                {t.progress.notEnrolled}
+                              </p>
+                            )}
             </CardContent>
           </Card>
 
           {/* Distribution Chart */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Distribucion de Lecciones</CardTitle>
+              <CardTitle className="text-lg">{t.progress.lessonDistribution}</CardTitle>
             </CardHeader>
             <CardContent>
               {pieData.length > 0 ? (
@@ -204,9 +206,9 @@ export function ProgressPage() {
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <p className="text-center text-gray-500 py-12">
-                  No hay datos para mostrar
-                </p>
+                                <p className="text-center text-gray-500 py-12">
+                                  {t.progress.noData}
+                                </p>
               )}
             </CardContent>
           </Card>
@@ -219,10 +221,10 @@ export function ProgressPage() {
   if (user?.role === 'parent') {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Progreso de Mis Hijos</h1>
-          <p className="text-gray-500">Seguimiento del aprendizaje de tus hijos</p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.progress.childrenProgress}</h1>
+                  <p className="text-gray-500">{t.progress.childrenSubtitle}</p>
+                </div>
 
         {childrenProgress.map((child) => {
           const childOverall = calculateOverallProgress(child.courses);
@@ -248,17 +250,17 @@ export function ProgressPage() {
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center p-3 bg-teal-50 rounded-lg">
                     <p className="text-2xl font-bold text-teal-600">{childOverall.toFixed(0)}%</p>
-                    <p className="text-xs text-gray-500">Progreso General</p>
-                  </div>
-                  <div className="text-center p-3 bg-amber-50 rounded-lg">
-                    <p className="text-2xl font-bold text-amber-600">
-                      {childAverage !== null ? `${childAverage.toFixed(0)}%` : 'N/A'}
-                    </p>
-                    <p className="text-xs text-gray-500">Promedio Quizzes</p>
-                  </div>
-                  <div className="text-center p-3 bg-blue-50 rounded-lg">
-                    <p className="text-2xl font-bold text-blue-600">{child.courses.length}</p>
-                    <p className="text-xs text-gray-500">Cursos Inscritos</p>
+                                      <p className="text-xs text-gray-500">{t.progress.overallProgress}</p>
+                                    </div>
+                                    <div className="text-center p-3 bg-amber-50 rounded-lg">
+                                      <p className="text-2xl font-bold text-amber-600">
+                                        {childAverage !== null ? `${childAverage.toFixed(0)}%` : 'N/A'}
+                                      </p>
+                                      <p className="text-xs text-gray-500">{t.progress.quizAverage}</p>
+                                    </div>
+                                    <div className="text-center p-3 bg-blue-50 rounded-lg">
+                                      <p className="text-2xl font-bold text-blue-600">{child.courses.length}</p>
+                                      <p className="text-xs text-gray-500">{t.progress.enrolledCourses}</p>
                   </div>
                 </div>
 
@@ -268,9 +270,9 @@ export function ProgressPage() {
                     <div key={course.course_id} className="space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium">{course.course_title}</span>
-                        <span className="text-xs text-gray-500">
-                          {course.completed_lessons}/{course.total_lessons} lecciones
-                        </span>
+                                                <span className="text-xs text-gray-500">
+                                                  {course.completed_lessons}/{course.total_lessons} {t.progress.lessons}
+                                                </span>
                       </div>
                       <Progress 
                         value={course.total_lessons > 0 ? (course.completed_lessons / course.total_lessons) * 100 : 0}
@@ -284,15 +286,15 @@ export function ProgressPage() {
           );
         })}
 
-        {childrenProgress.length === 0 && (
-          <Card className="p-12 text-center">
-            <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-600 mb-2">Sin hijos vinculados</h3>
-            <p className="text-gray-500">
-              Contacta al administrador para vincular a tus hijos
-            </p>
-          </Card>
-        )}
+                {childrenProgress.length === 0 && (
+                  <Card className="p-12 text-center">
+                    <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-600 mb-2">{t.progress.noChildrenLinked}</h3>
+                    <p className="text-gray-500">
+                      {t.progress.contactAdmin}
+                    </p>
+                  </Card>
+                )}
       </div>
     );
   }

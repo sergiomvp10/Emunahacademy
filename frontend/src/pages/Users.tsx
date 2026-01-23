@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { User, UserRole } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,6 +18,7 @@ import {
 
 export function Users() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<UserRole | 'all'>('all');
@@ -56,8 +58,8 @@ export function Users() {
     }
   };
 
-  const handleDeleteUser = async (userId: number) => {
-    if (!confirm('Eliminar este usuario?')) return;
+    const handleDeleteUser = async (userId: number) => {
+      if (!confirm(t.users.confirmDelete)) return;
     try {
       await api.deleteUser(userId);
       loadUsers();
@@ -66,15 +68,15 @@ export function Users() {
     }
   };
 
-  const getRoleLabel = (role: string) => {
-    const labels: Record<string, string> = {
-      director: 'Directora',
-      teacher: 'Profesor',
-      student: 'Estudiante',
-      parent: 'Padre/Madre'
+    const getRoleLabel = (role: string) => {
+      const labels: Record<string, string> = {
+        director: t.roles.director,
+        teacher: t.roles.teacher,
+        student: t.roles.student,
+        parent: t.roles.parent
+      };
+      return labels[role] || role;
     };
-    return labels[role] || role;
-  };
 
   const getRoleColor = (role: string) => {
     const colors: Record<string, string> = {
@@ -123,72 +125,72 @@ export function Users() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Usuarios</h1>
-          <p className="text-gray-500">Gestiona los usuarios de la plataforma</p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.users.title}</h1>
+                  <p className="text-gray-500">{t.users.subtitle}</p>
+                </div>
         <Dialog open={showAddUser} onOpenChange={setShowAddUser}>
           <DialogTrigger asChild>
-            <Button className="bg-teal-500 hover:bg-teal-600">
-              <Plus className="h-4 w-4 mr-2" />
-              Nuevo Usuario
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Crear Usuario</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-4">
-              <div className="space-y-2">
-                <Label>Nombre</Label>
-                <Input
-                  value={newUser.name}
-                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                  placeholder="Nombre completo"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Email</Label>
-                <Input
-                  type="email"
-                  value={newUser.email}
-                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                  placeholder="correo@ejemplo.com"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Contrasena</Label>
-                <Input
-                  type="password"
-                  value={newUser.password}
-                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                  placeholder="********"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Rol</Label>
-                <Select
-                  value={newUser.role}
-                  onValueChange={(value: UserRole) => setNewUser({ ...newUser, role: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="student">Estudiante</SelectItem>
-                    <SelectItem value="teacher">Profesor</SelectItem>
-                    <SelectItem value="parent">Padre/Madre</SelectItem>
-                    <SelectItem value="director">Director</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button 
-                className="w-full bg-teal-500 hover:bg-teal-600"
-                onClick={handleAddUser}
-                disabled={!newUser.name || !newUser.email || !newUser.password}
-              >
-                Crear Usuario
-              </Button>
+                      <Button className="bg-teal-500 hover:bg-teal-600">
+                        <Plus className="h-4 w-4 mr-2" />
+                        {t.users.newUser}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{t.users.createUser}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 mt-4">
+                        <div className="space-y-2">
+                          <Label>{t.users.name}</Label>
+                          <Input
+                            value={newUser.name}
+                            onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                            placeholder={t.users.namePlaceholder}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>{t.users.email}</Label>
+                          <Input
+                            type="email"
+                            value={newUser.email}
+                            onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                            placeholder={t.users.emailPlaceholder}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>{t.users.password}</Label>
+                          <Input
+                            type="password"
+                            value={newUser.password}
+                            onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                            placeholder="********"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>{t.users.role}</Label>
+                          <Select
+                            value={newUser.role}
+                            onValueChange={(value: UserRole) => setNewUser({ ...newUser, role: value })}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="student">{t.roles.student}</SelectItem>
+                              <SelectItem value="teacher">{t.roles.teacher}</SelectItem>
+                              <SelectItem value="parent">{t.roles.parent}</SelectItem>
+                              <SelectItem value="director">{t.roles.director}</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <Button 
+                          className="w-full bg-teal-500 hover:bg-teal-600"
+                          onClick={handleAddUser}
+                          disabled={!newUser.name || !newUser.email || !newUser.password}
+                        >
+                          {t.users.createUser}
+                        </Button>
             </div>
           </DialogContent>
         </Dialog>
@@ -199,10 +201,10 @@ export function Users() {
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('all')}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Total</p>
-                <p className="text-2xl font-bold">{stats.total}</p>
-              </div>
+                            <div>
+                              <p className="text-sm text-gray-500">{t.common.total}</p>
+                              <p className="text-2xl font-bold">{stats.total}</p>
+                            </div>
               <UsersIcon className="h-8 w-8 text-gray-400" />
             </div>
           </CardContent>
@@ -210,10 +212,10 @@ export function Users() {
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('director')}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Directores</p>
-                <p className="text-2xl font-bold">{stats.directors}</p>
-              </div>
+                            <div>
+                              <p className="text-sm text-gray-500">{t.users.directors}</p>
+                              <p className="text-2xl font-bold">{stats.directors}</p>
+                            </div>
               <GraduationCap className="h-8 w-8 text-purple-400" />
             </div>
           </CardContent>
@@ -221,10 +223,10 @@ export function Users() {
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('teacher')}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Profesores</p>
-                <p className="text-2xl font-bold">{stats.teachers}</p>
-              </div>
+                            <div>
+                              <p className="text-sm text-gray-500">{t.users.teachers}</p>
+                              <p className="text-2xl font-bold">{stats.teachers}</p>
+                            </div>
               <BookOpen className="h-8 w-8 text-blue-400" />
             </div>
           </CardContent>
@@ -232,10 +234,10 @@ export function Users() {
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('student')}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Estudiantes</p>
-                <p className="text-2xl font-bold">{stats.students}</p>
-              </div>
+                            <div>
+                              <p className="text-sm text-gray-500">{t.users.students}</p>
+                              <p className="text-2xl font-bold">{stats.students}</p>
+                            </div>
               <UserCircle className="h-8 w-8 text-teal-400" />
             </div>
           </CardContent>
@@ -243,10 +245,10 @@ export function Users() {
         <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setFilter('parent')}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Padres</p>
-                <p className="text-2xl font-bold">{stats.parents}</p>
-              </div>
+                            <div>
+                              <p className="text-sm text-gray-500">{t.users.parents}</p>
+                              <p className="text-2xl font-bold">{stats.parents}</p>
+                            </div>
               <UsersIcon className="h-8 w-8 text-amber-400" />
             </div>
           </CardContent>
@@ -257,25 +259,25 @@ export function Users() {
       <div className="flex gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Buscar usuarios..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <Select value={filter} onValueChange={(value: any) => setFilter(value)}>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Filtrar por rol" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos</SelectItem>
-            <SelectItem value="director">Directores</SelectItem>
-            <SelectItem value="teacher">Profesores</SelectItem>
-            <SelectItem value="student">Estudiantes</SelectItem>
-            <SelectItem value="parent">Padres</SelectItem>
-          </SelectContent>
-        </Select>
+                  <Input
+                    placeholder={t.users.searchUsers}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <Select value={filter} onValueChange={(value: any) => setFilter(value)}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue placeholder={t.users.filterByRole} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t.common.all}</SelectItem>
+                    <SelectItem value="director">{t.users.directors}</SelectItem>
+                    <SelectItem value="teacher">{t.users.teachers}</SelectItem>
+                    <SelectItem value="student">{t.users.students}</SelectItem>
+                    <SelectItem value="parent">{t.users.parents}</SelectItem>
+                  </SelectContent>
+                </Select>
       </div>
 
       {/* Users List */}
@@ -313,9 +315,9 @@ export function Users() {
               </div>
             ))}
           </div>
-          {filteredUsers.length === 0 && (
-            <p className="text-center text-gray-500 py-8">No se encontraron usuarios</p>
-          )}
+                    {filteredUsers.length === 0 && (
+                      <p className="text-center text-gray-500 py-8">{t.users.noUsersFound}</p>
+                    )}
         </CardContent>
       </Card>
     </div>

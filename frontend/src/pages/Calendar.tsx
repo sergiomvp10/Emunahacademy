@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { CalendarEvent, Course } from '../types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +17,7 @@ import {
 
 export function Calendar() {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -74,7 +76,7 @@ export function Calendar() {
   };
 
   const handleDeleteEvent = async (eventId: number) => {
-    if (!confirm('Eliminar este evento?')) return;
+    if (!confirm(t.calendar.confirmDelete)) return;
     try {
       await api.deleteCalendarEvent(eventId);
       loadData();
@@ -121,23 +123,23 @@ export function Calendar() {
     return colors[type] || 'bg-gray-500';
   };
 
-  const getEventTypeLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      class: 'Clase',
-      evaluation: 'Evaluacion',
-      meeting: 'Reunion',
-      holiday: 'Feriado',
-      other: 'Otro'
+    const getEventTypeLabel = (type: string) => {
+      const labels: Record<string, string> = {
+        class: t.calendar.class,
+        evaluation: t.calendar.evaluation,
+        meeting: t.calendar.meeting,
+        holiday: t.calendar.holiday,
+        other: t.calendar.other
+      };
+      return labels[type] || type;
     };
-    return labels[type] || type;
-  };
 
-  const monthNames = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-  ];
+    const monthNames = [
+      t.months.january, t.months.february, t.months.march, t.months.april, t.months.may, t.months.june,
+      t.months.july, t.months.august, t.months.september, t.months.october, t.months.november, t.months.december
+    ];
 
-  const dayNames = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
+    const dayNames = [t.calendar.days.sun, t.calendar.days.mon, t.calendar.days.tue, t.calendar.days.wed, t.calendar.days.thu, t.calendar.days.fri, t.calendar.days.sat];
 
   const canManageEvents = user?.role === 'director' || user?.role === 'teacher';
 
@@ -156,102 +158,102 @@ export function Calendar() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Calendario</h1>
-          <p className="text-gray-500">Eventos y actividades programadas</p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.calendar.title}</h1>
+                  <p className="text-gray-500">{t.calendar.subtitle}</p>
+                </div>
         {canManageEvents && (
           <Dialog open={showAddEvent} onOpenChange={setShowAddEvent}>
             <DialogTrigger asChild>
-              <Button className="bg-teal-500 hover:bg-teal-600">
-                <Plus className="h-4 w-4 mr-2" />
-                Nuevo Evento
-              </Button>
+                            <Button className="bg-teal-500 hover:bg-teal-600">
+                              <Plus className="h-4 w-4 mr-2" />
+                              {t.calendar.newEvent}
+                            </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Crear Evento</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <Label>Titulo</Label>
-                  <Input
-                    value={newEvent.title}
-                    onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                    placeholder="Titulo del evento"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Descripcion</Label>
-                  <Textarea
-                    value={newEvent.description}
-                    onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                    placeholder="Descripcion (opcional)"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Tipo de Evento</Label>
-                  <Select
-                    value={newEvent.event_type}
-                    onValueChange={(value: any) => setNewEvent({ ...newEvent, event_type: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="class">Clase</SelectItem>
-                      <SelectItem value="evaluation">Evaluacion</SelectItem>
-                      <SelectItem value="meeting">Reunion</SelectItem>
-                      <SelectItem value="holiday">Feriado</SelectItem>
-                      <SelectItem value="other">Otro</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Inicio</Label>
-                    <Input
-                      type="datetime-local"
-                      value={newEvent.start_time}
-                      onChange={(e) => setNewEvent({ ...newEvent, start_time: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Fin</Label>
-                    <Input
-                      type="datetime-local"
-                      value={newEvent.end_time}
-                      onChange={(e) => setNewEvent({ ...newEvent, end_time: e.target.value })}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>Curso (opcional)</Label>
-                  <Select
-                    value={newEvent.course_id}
-                    onValueChange={(value) => setNewEvent({ ...newEvent, course_id: value })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar curso" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">Ninguno</SelectItem>
-                      {courses.map(course => (
-                        <SelectItem key={course.id} value={course.id.toString()}>
-                          {course.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <Button 
-                  className="w-full bg-teal-500 hover:bg-teal-600"
-                  onClick={handleAddEvent}
-                  disabled={!newEvent.title || !newEvent.start_time || !newEvent.end_time}
-                >
-                  Crear Evento
-                </Button>
-              </div>
+                              <DialogTitle>{t.calendar.createEvent}</DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-4 mt-4">
+                              <div className="space-y-2">
+                                <Label>{t.calendar.eventTitle}</Label>
+                                <Input
+                                  value={newEvent.title}
+                                  onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                                  placeholder={t.calendar.eventTitlePlaceholder}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>{t.calendar.eventDescription}</Label>
+                                <Textarea
+                                  value={newEvent.description}
+                                  onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                                  placeholder={t.calendar.descriptionPlaceholder}
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label>{t.calendar.eventType}</Label>
+                                <Select
+                                  value={newEvent.event_type}
+                                  onValueChange={(value: any) => setNewEvent({ ...newEvent, event_type: value })}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="class">{t.calendar.class}</SelectItem>
+                                    <SelectItem value="evaluation">{t.calendar.evaluation}</SelectItem>
+                                    <SelectItem value="meeting">{t.calendar.meeting}</SelectItem>
+                                    <SelectItem value="holiday">{t.calendar.holiday}</SelectItem>
+                                    <SelectItem value="other">{t.calendar.other}</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <Label>{t.calendar.start}</Label>
+                                  <Input
+                                    type="datetime-local"
+                                    value={newEvent.start_time}
+                                    onChange={(e) => setNewEvent({ ...newEvent, start_time: e.target.value })}
+                                  />
+                                </div>
+                                <div className="space-y-2">
+                                  <Label>{t.calendar.end}</Label>
+                                  <Input
+                                    type="datetime-local"
+                                    value={newEvent.end_time}
+                                    onChange={(e) => setNewEvent({ ...newEvent, end_time: e.target.value })}
+                                  />
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                <Label>{t.calendar.courseOptional}</Label>
+                                <Select
+                                  value={newEvent.course_id}
+                                  onValueChange={(value) => setNewEvent({ ...newEvent, course_id: value })}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder={t.calendar.selectCourse} />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="">{t.common.none}</SelectItem>
+                                    {courses.map(course => (
+                                      <SelectItem key={course.id} value={course.id.toString()}>
+                                        {course.title}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <Button 
+                                className="w-full bg-teal-500 hover:bg-teal-600"
+                                onClick={handleAddEvent}
+                                disabled={!newEvent.title || !newEvent.start_time || !newEvent.end_time}
+                              >
+                                {t.calendar.createEvent}
+                              </Button>
+                            </div>
             </DialogContent>
           </Dialog>
         )}
@@ -318,7 +320,7 @@ export function Calendar() {
                               </div>
                             ))}
                             {dayEvents.length > 2 && (
-                              <span className="text-xs text-gray-500">+{dayEvents.length - 2} mas</span>
+                              <span className="text-xs text-gray-500">+{dayEvents.length - 2} {t.calendar.more}</span>
                             )}
                           </div>
                         </>
@@ -335,7 +337,7 @@ export function Calendar() {
         <div className="lg:col-span-1">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Proximos Eventos</CardTitle>
+              <CardTitle className="text-lg">{t.calendar.upcomingEvents}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {events
@@ -353,12 +355,12 @@ export function Calendar() {
                         <div className="flex items-center gap-2 text-xs text-gray-500">
                           <Clock className="h-3 w-3" />
                           <span>
-                            {new Date(event.start_time).toLocaleDateString('es-ES', {
-                              day: 'numeric',
-                              month: 'short',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
+                                                        {new Date(event.start_time).toLocaleDateString(language === 'es' ? 'es-ES' : 'en-US', {
+                                                          day: 'numeric',
+                                                          month: 'short',
+                                                          hour: '2-digit',
+                                                          minute: '2-digit'
+                                                        })}
                           </span>
                         </div>
                         <Badge variant="secondary" className="mt-1 text-xs">
@@ -378,7 +380,7 @@ export function Calendar() {
                   </div>
                 ))}
               {events.filter(e => new Date(e.start_time) >= new Date()).length === 0 && (
-                <p className="text-center text-gray-500 py-4">No hay eventos proximos</p>
+                <p className="text-center text-gray-500 py-4">{t.calendar.noUpcomingEvents}</p>
               )}
             </CardContent>
           </Card>
