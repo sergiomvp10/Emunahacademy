@@ -51,20 +51,8 @@ interface SiteContent {
   };
 }
 
-const GRADE_OPTIONS = [
-  { value: 'K', label: 'Kindergarten' },
-  { value: '1', label: '1st Grade' },
-  { value: '2', label: '2nd Grade' },
-  { value: '3', label: '3rd Grade' },
-  { value: '4', label: '4th Grade' },
-  { value: '5', label: '5th Grade' },
-  { value: '6', label: '6th Grade' },
-  { value: '7', label: '7th Grade' },
-  { value: '8', label: '8th Grade' },
-];
-
 export function LandingPage() {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const [content, setContent] = useState<SiteContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -157,18 +145,18 @@ export function LandingPage() {
               <span className="font-bold text-xl text-gray-800">Emunah Academy</span>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6">
-              <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-teal-600 transition-colors">About</button>
-              <button onClick={() => scrollToSection('programs')} className="text-gray-600 hover:text-teal-600 transition-colors">Programs</button>
-              <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-teal-600 transition-colors">How It Works</button>
-              <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-teal-600 transition-colors">FAQ</button>
-              <Link to="/login">
-                <Button variant="outline" className="border-teal-500 text-teal-600 hover:bg-teal-50">
-                  Sign In
-                </Button>
-              </Link>
-            </nav>
+                        {/* Desktop Navigation */}
+                        <nav className="hidden md:flex items-center gap-6">
+                          <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.about}</button>
+                          <button onClick={() => scrollToSection('programs')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.programs}</button>
+                          <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.howItWorks}</button>
+                          <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.faq}</button>
+                          <Link to="/login">
+                            <Button variant="outline" className="border-teal-500 text-teal-600 hover:bg-teal-50">
+                              {t.landing.nav.signIn}
+                            </Button>
+                          </Link>
+                        </nav>
 
                         {/* Language Switch + Mobile Menu Button */}
                         <div className="flex items-center gap-2">
@@ -190,20 +178,20 @@ export function LandingPage() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t">
-            <div className="px-4 py-4 space-y-3">
-              <button onClick={() => scrollToSection('about')} className="block w-full text-left text-gray-600 hover:text-teal-600">About</button>
-              <button onClick={() => scrollToSection('programs')} className="block w-full text-left text-gray-600 hover:text-teal-600">Programs</button>
-              <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left text-gray-600 hover:text-teal-600">How It Works</button>
-              <button onClick={() => scrollToSection('faq')} className="block w-full text-left text-gray-600 hover:text-teal-600">FAQ</button>
-              <Link to="/login" className="block">
-                <Button variant="outline" className="w-full border-teal-500 text-teal-600">Sign In</Button>
-              </Link>
-            </div>
-          </div>
-        )}
+                {/* Mobile Navigation */}
+                {mobileMenuOpen && (
+                  <div className="md:hidden bg-white border-t">
+                    <div className="px-4 py-4 space-y-3">
+                      <button onClick={() => scrollToSection('about')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.about}</button>
+                      <button onClick={() => scrollToSection('programs')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.programs}</button>
+                      <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.howItWorks}</button>
+                      <button onClick={() => scrollToSection('faq')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.faq}</button>
+                      <Link to="/login" className="block">
+                        <Button variant="outline" className="w-full border-teal-500 text-teal-600">{t.landing.nav.signIn}</Button>
+                      </Link>
+                    </div>
+                  </div>
+                )}
       </header>
 
       {/* Hero Section */}
@@ -268,20 +256,20 @@ export function LandingPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{content.about.title}</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">{content.about.description}</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="border-l-4 border-l-teal-500">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">Our Mission</h3>
-                <p className="text-gray-600">{content.about.mission}</p>
-              </CardContent>
-            </Card>
-            <Card className="border-l-4 border-l-blue-500">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">Our Vision</h3>
-                <p className="text-gray-600">{content.about.vision}</p>
-              </CardContent>
-            </Card>
-          </div>
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <Card className="border-l-4 border-l-teal-500">
+                        <CardContent className="p-6">
+                          <h3 className="text-xl font-semibold text-gray-800 mb-3">{t.landing.sections.ourMission}</h3>
+                          <p className="text-gray-600">{content.about.mission}</p>
+                        </CardContent>
+                      </Card>
+                      <Card className="border-l-4 border-l-blue-500">
+                        <CardContent className="p-6">
+                          <h3 className="text-xl font-semibold text-gray-800 mb-3">{t.landing.sections.ourVision}</h3>
+                          <p className="text-gray-600">{content.about.vision}</p>
+                        </CardContent>
+                      </Card>
+                    </div>
         </div>
       </section>
 
@@ -334,139 +322,143 @@ export function LandingPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="shadow-2xl">
             <CardContent className="p-8">
-              {applicationSubmitted ? (
-                <div className="text-center py-12">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="h-10 w-10 text-green-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Application Submitted!</h3>
-                  <p className="text-gray-600 text-lg">
-                    We have received your application and will contact you soon.
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="text-center mb-8">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Apply Now</h2>
-                    <p className="text-gray-600">Fill out the form below to start your child's educational journey</p>
-                  </div>
-                  <form onSubmit={handleSubmitApplication} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="student_name">Student Name *</Label>
-                        <Input
-                          id="student_name"
-                          value={formData.student_name}
-                          onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
-                          required
-                          placeholder="Enter student's full name"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="student_age">Student Age *</Label>
-                        <Input
-                          id="student_age"
-                          type="number"
-                          min="4"
-                          max="18"
-                          value={formData.student_age}
-                          onChange={(e) => setFormData({ ...formData, student_age: e.target.value })}
-                          required
-                          placeholder="Enter age"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="grade_level">Grade Level *</Label>
-                      <Select
-                        value={formData.grade_level}
-                        onValueChange={(value) => setFormData({ ...formData, grade_level: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select grade level" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {GRADE_OPTIONS.map((grade) => (
-                            <SelectItem key={grade.value} value={grade.value}>
-                              {grade.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="parent_name">Parent/Guardian Name *</Label>
-                        <Input
-                          id="parent_name"
-                          value={formData.parent_name}
-                          onChange={(e) => setFormData({ ...formData, parent_name: e.target.value })}
-                          required
-                          placeholder="Enter your full name"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="parent_email">Email Address *</Label>
-                        <Input
-                          id="parent_email"
-                          type="email"
-                          value={formData.parent_email}
-                          onChange={(e) => setFormData({ ...formData, parent_email: e.target.value })}
-                          required
-                          placeholder="Enter your email"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="parent_phone">Phone Number *</Label>
-                        <Input
-                          id="parent_phone"
-                          type="tel"
-                          value={formData.parent_phone}
-                          onChange={(e) => setFormData({ ...formData, parent_phone: e.target.value })}
-                          required
-                          placeholder="Enter phone number"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="address">Address (Optional)</Label>
-                        <Input
-                          id="address"
-                          value={formData.address}
-                          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                          placeholder="City, Country"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="message">Additional Information (Optional)</Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        placeholder="Tell us anything else you'd like us to know"
-                        rows={3}
-                      />
-                    </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-teal-500 hover:bg-teal-600"
-                      disabled={submitting || !formData.student_name || !formData.student_age || !formData.grade_level || !formData.parent_name || !formData.parent_email || !formData.parent_phone}
-                    >
-                      {submitting ? (
-                        <span className="flex items-center gap-2">
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                          Submitting...
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-2">
-                          <Send className="h-4 w-4" />
-                          Submit Application
-                        </span>
-                      )}
-                    </Button>
-                  </form>
+                            {applicationSubmitted ? (
+                              <div className="text-center py-12">
+                                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                  <CheckCircle className="h-10 w-10 text-green-600" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-800 mb-4">{t.landing.form.applicationSubmitted}</h3>
+                                <p className="text-gray-600 text-lg">
+                                  {t.landing.form.applicationReceived}
+                                </p>
+                              </div>
+                            ) : (
+                              <>
+                                <div className="text-center mb-8">
+                                  <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">{t.landing.form.applyNow}</h2>
+                                  <p className="text-gray-600">{t.landing.form.fillForm}</p>
+                                </div>
+                                    <form onSubmit={handleSubmitApplication} className="space-y-6">
+                                      <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                          <Label htmlFor="student_name">{t.landing.form.studentName} *</Label>
+                                          <Input
+                                            id="student_name"
+                                            value={formData.student_name}
+                                            onChange={(e) => setFormData({ ...formData, student_name: e.target.value })}
+                                            required
+                                            placeholder={t.landing.form.studentNamePlaceholder}
+                                          />
+                                        </div>
+                                        <div>
+                                          <Label htmlFor="student_age">{t.landing.form.studentAge} *</Label>
+                                          <Input
+                                            id="student_age"
+                                            type="number"
+                                            min="4"
+                                            max="18"
+                                            value={formData.student_age}
+                                            onChange={(e) => setFormData({ ...formData, student_age: e.target.value })}
+                                            required
+                                            placeholder={t.landing.form.studentAgePlaceholder}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <Label htmlFor="grade_level">{t.landing.form.gradeLevel} *</Label>
+                                        <Select
+                                          value={formData.grade_level}
+                                          onValueChange={(value) => setFormData({ ...formData, grade_level: value })}
+                                        >
+                                          <SelectTrigger>
+                                            <SelectValue placeholder={t.landing.form.selectGrade} />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="K">{t.landing.gradeOptions.kindergarten}</SelectItem>
+                                            <SelectItem value="1">{t.landing.gradeOptions.grade1}</SelectItem>
+                                            <SelectItem value="2">{t.landing.gradeOptions.grade2}</SelectItem>
+                                            <SelectItem value="3">{t.landing.gradeOptions.grade3}</SelectItem>
+                                            <SelectItem value="4">{t.landing.gradeOptions.grade4}</SelectItem>
+                                            <SelectItem value="5">{t.landing.gradeOptions.grade5}</SelectItem>
+                                            <SelectItem value="6">{t.landing.gradeOptions.grade6}</SelectItem>
+                                            <SelectItem value="7">{t.landing.gradeOptions.grade7}</SelectItem>
+                                            <SelectItem value="8">{t.landing.gradeOptions.grade8}</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                          <Label htmlFor="parent_name">{t.landing.form.parentName} *</Label>
+                                          <Input
+                                            id="parent_name"
+                                            value={formData.parent_name}
+                                            onChange={(e) => setFormData({ ...formData, parent_name: e.target.value })}
+                                            required
+                                            placeholder={t.landing.form.parentNamePlaceholder}
+                                          />
+                                        </div>
+                                        <div>
+                                          <Label htmlFor="parent_email">{t.landing.form.emailAddress} *</Label>
+                                          <Input
+                                            id="parent_email"
+                                            type="email"
+                                            value={formData.parent_email}
+                                            onChange={(e) => setFormData({ ...formData, parent_email: e.target.value })}
+                                            required
+                                            placeholder={t.landing.form.emailPlaceholder}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                          <Label htmlFor="parent_phone">{t.landing.form.phoneNumber} *</Label>
+                                          <Input
+                                            id="parent_phone"
+                                            type="tel"
+                                            value={formData.parent_phone}
+                                            onChange={(e) => setFormData({ ...formData, parent_phone: e.target.value })}
+                                            required
+                                            placeholder={t.landing.form.phonePlaceholder}
+                                          />
+                                        </div>
+                                        <div>
+                                          <Label htmlFor="address">{t.landing.form.address}</Label>
+                                          <Input
+                                            id="address"
+                                            value={formData.address}
+                                            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                            placeholder={t.landing.form.addressPlaceholder}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <Label htmlFor="message">{t.landing.form.message}</Label>
+                                        <Textarea
+                                          id="message"
+                                          value={formData.message}
+                                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                          placeholder={t.landing.form.messagePlaceholder}
+                                          rows={3}
+                                        />
+                                      </div>
+                                      <Button 
+                                        type="submit" 
+                                        className="w-full bg-teal-500 hover:bg-teal-600"
+                                        disabled={submitting || !formData.student_name || !formData.student_age || !formData.grade_level || !formData.parent_name || !formData.parent_email || !formData.parent_phone}
+                                      >
+                                        {submitting ? (
+                                          <span className="flex items-center gap-2">
+                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                            {t.landing.form.submitting}
+                                          </span>
+                                        ) : (
+                                          <span className="flex items-center gap-2">
+                                            <Send className="h-4 w-4" />
+                                            {t.landing.form.submitApplication}
+                                          </span>
+                                        )}
+                                      </Button>
+                                    </form>
                 </>
               )}
             </CardContent>
@@ -505,44 +497,44 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="bg-teal-500 p-2 rounded-lg">
-                  <GraduationCap className="h-6 w-6 text-white" />
+            {/* Footer */}
+            <footer className="bg-gray-900 text-white py-12">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid md:grid-cols-4 gap-8">
+                  <div className="md:col-span-2">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="bg-teal-500 p-2 rounded-lg">
+                        <GraduationCap className="h-6 w-6 text-white" />
+                      </div>
+                      <span className="font-bold text-xl">Emunah Academy</span>
+                    </div>
+                    <p className="text-gray-400 mb-4">
+                      {t.landing.footer.empowering}
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-4">{t.landing.footer.quickLinks}</h4>
+                    <ul className="space-y-2 text-gray-400">
+                      <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">{t.landing.footer.aboutUs}</button></li>
+                      <li><button onClick={() => scrollToSection('programs')} className="hover:text-white transition-colors">{t.landing.nav.programs}</button></li>
+                      <li><button onClick={() => scrollToSection('faq')} className="hover:text-white transition-colors">{t.landing.nav.faq}</button></li>
+                      <li><button onClick={() => scrollToSection('apply')} className="hover:text-white transition-colors">{t.landing.footer.applyNow}</button></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-4">{content.contact.title}</h4>
+                    <ul className="space-y-2 text-gray-400">
+                      {content.contact.email && <li>{content.contact.email}</li>}
+                      {content.contact.phone && <li>{content.contact.phone}</li>}
+                      {content.contact.address && <li>{content.contact.address}</li>}
+                    </ul>
+                  </div>
                 </div>
-                <span className="font-bold text-xl">Emunah Academy</span>
+                <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                  <p>&copy; {new Date().getFullYear()} Emunah Academy. {t.landing.footer.allRightsReserved}</p>
+                </div>
               </div>
-              <p className="text-gray-400 mb-4">
-                Empowering vulnerable communities through quality education.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">About Us</button></li>
-                <li><button onClick={() => scrollToSection('programs')} className="hover:text-white transition-colors">Programs</button></li>
-                <li><button onClick={() => scrollToSection('faq')} className="hover:text-white transition-colors">FAQ</button></li>
-                <li><button onClick={() => scrollToSection('apply')} className="hover:text-white transition-colors">Apply Now</button></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">{content.contact.title}</h4>
-              <ul className="space-y-2 text-gray-400">
-                {content.contact.email && <li>{content.contact.email}</li>}
-                {content.contact.phone && <li>{content.contact.phone}</li>}
-                {content.contact.address && <li>{content.contact.address}</li>}
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} Emunah Academy. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+            </footer>
     </div>
   );
 }
