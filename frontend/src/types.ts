@@ -151,3 +151,29 @@ export interface Conversation {
   last_message_time: string;
   unread_count: number;
 }
+
+export type PaymentStatus = 'pending' | 'paid' | 'overdue' | 'cancelled';
+
+export interface Payment {
+  id: number;
+  student_id: number;
+  student_name: string;
+  parent_id: number | null;
+  parent_name: string | null;
+  amount: number;
+  month: string;
+  year: number;
+  status: PaymentStatus;
+  payment_date: string | null;
+  due_date: string;
+  notes: string | null;
+  created_at: string;
+  created_by: number;
+}
+
+export interface StudentForPayment {
+  id: number;
+  name: string;
+  grade_level: string | null;
+  parent_name: string | null;
+}

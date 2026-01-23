@@ -2,8 +2,8 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import text, inspect
 from app.db_models import (
-    Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
-    UserRoleEnum, LessonTypeEnum, EventTypeEnum
+    Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink, Payment,
+    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum
 )
 from app.db_config import engine, SessionLocal
 

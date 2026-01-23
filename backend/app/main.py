@@ -26,13 +26,14 @@ from app.models import (
     StudentProgress, ParentStudentLink as ParentStudentLinkSchema, ChildProgress,
     MessageCreate, Message as MessageSchema, Conversation,
     SiteContentUpdate, SiteContent,
-    StudentApplicationCreate, StudentApplication, ApplicationStatus
+    StudentApplicationCreate, StudentApplication, ApplicationStatus,
+    PaymentCreate, PaymentUpdate, Payment as PaymentSchema, PaymentStatus
 )
 from app.db_config import get_db, engine
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
-    QuizResult, Evaluation, EvaluationSubmission, LessonCompletion, Message,
-    UserRoleEnum, LessonTypeEnum, EventTypeEnum
+    QuizResult, Evaluation, EvaluationSubmission, LessonCompletion, Message, Payment,
+    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum
 )
 from app.db_init import init_database
 
@@ -1319,3 +1320,217 @@ async def delete_application(application_id: int):
         raise HTTPException(status_code=404, detail="Application not found")
     del applications_db[application_id]
     return {"message": "Application deleted"}
+
+# ==================== PAYMENT ENDPOINTS ====================
+
+@app.get("/api/payments/students", response_model=List[dict])
+async def get_students_for_payments(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR]:
+        raise HTTPException(status_code=403, detail="No tiene permiso")
+    
+    students = db.query(User).filter(User.role == UserRoleEnum.STUDENT).all()
+    result = []
+    for student in students:
+        parent_link = db.query(ParentStudentLink).filter(ParentStudentLink.student_id == student.id).first()
+        parent = db.query(User).filter(User.id == parent_link.parent_id).first() if parent_link else None
+        result.append({
+            "id": student.id,
+            "name": student.name,
+            "grade_level": student.grade_level,
+            "parent_name": parent.name if parent else None
+        })
+    return result
+
+@app.get("/api/payments", response_model=List[PaymentSchema])
+async def get_payments(
+    student_id: Optional[int] = None,
+    parent_id: Optional[int] = None,
+    status: Optional[PaymentStatus] = None,
+    year: Optional[int] = None,
+    user_id: int = None,
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    query = db.query(Payment)
+    
+    if user.role == UserRoleEnum.PARENT:
+        children_links = db.query(ParentStudentLink).filter(ParentStudentLink.parent_id == user_id).all()
+        children_ids = [link.student_id for link in children_links]
+        query = query.filter(Payment.student_id.in_(children_ids))
+    elif user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR]:
+        raise HTTPException(status_code=403, detail="No tiene permiso para ver pagos")
+    
+    if student_id:
+        query = query.filter(Payment.student_id == student_id)
+    if parent_id:
+        query = query.filter(Payment.parent_id == parent_id)
+    if status:
+        query = query.filter(Payment.status == PaymentStatusEnum(status.value))
+    if year:
+        query = query.filter(Payment.year == year)
+    
+    payments = query.order_by(Payment.due_date.desc()).all()
+    
+    result = []
+    for payment in payments:
+        student = db.query(User).filter(User.id == payment.student_id).first()
+        parent = db.query(User).filter(User.id == payment.parent_id).first() if payment.parent_id else None
+        result.append(PaymentSchema(
+            id=payment.id,
+            student_id=payment.student_id,
+            student_name=student.name if student else "Desconocido",
+            parent_id=payment.parent_id,
+            parent_name=parent.name if parent else None,
+            amount=payment.amount,
+            month=payment.month,
+            year=payment.year,
+            status=PaymentStatus(payment.status.value),
+            payment_date=payment.payment_date,
+            due_date=payment.due_date,
+            notes=payment.notes,
+            created_at=payment.created_at,
+            created_by=payment.created_by
+        ))
+    return result
+
+@app.get("/api/payments/{payment_id}", response_model=PaymentSchema)
+async def get_payment(payment_id: int, db: Session = Depends(get_db)):
+    payment = db.query(Payment).filter(Payment.id == payment_id).first()
+    if not payment:
+        raise HTTPException(status_code=404, detail="Pago no encontrado")
+    
+    student = db.query(User).filter(User.id == payment.student_id).first()
+    parent = db.query(User).filter(User.id == payment.parent_id).first() if payment.parent_id else None
+    
+    return PaymentSchema(
+        id=payment.id,
+        student_id=payment.student_id,
+        student_name=student.name if student else "Desconocido",
+        parent_id=payment.parent_id,
+        parent_name=parent.name if parent else None,
+        amount=payment.amount,
+        month=payment.month,
+        year=payment.year,
+        status=PaymentStatus(payment.status.value),
+        payment_date=payment.payment_date,
+        due_date=payment.due_date,
+        notes=payment.notes,
+        created_at=payment.created_at,
+        created_by=payment.created_by
+    )
+
+@app.post("/api/payments", response_model=PaymentSchema)
+async def create_payment(payment: PaymentCreate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR]:
+        raise HTTPException(status_code=403, detail="Solo administradores y directores pueden crear pagos")
+    
+    student = db.query(User).filter(User.id == payment.student_id).first()
+    if not student or student.role != UserRoleEnum.STUDENT:
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+    
+    parent_link = db.query(ParentStudentLink).filter(ParentStudentLink.student_id == payment.student_id).first()
+    parent_id = parent_link.parent_id if parent_link else None
+    
+    new_payment = Payment(
+        student_id=payment.student_id,
+        parent_id=parent_id,
+        amount=payment.amount,
+        month=payment.month,
+        year=payment.year,
+        status=PaymentStatusEnum.PENDING,
+        due_date=payment.due_date,
+        notes=payment.notes,
+        created_by=user_id
+    )
+    db.add(new_payment)
+    db.commit()
+    db.refresh(new_payment)
+    
+    parent = db.query(User).filter(User.id == parent_id).first() if parent_id else None
+    
+    return PaymentSchema(
+        id=new_payment.id,
+        student_id=new_payment.student_id,
+        student_name=student.name,
+        parent_id=new_payment.parent_id,
+        parent_name=parent.name if parent else None,
+        amount=new_payment.amount,
+        month=new_payment.month,
+        year=new_payment.year,
+        status=PaymentStatus(new_payment.status.value),
+        payment_date=new_payment.payment_date,
+        due_date=new_payment.due_date,
+        notes=new_payment.notes,
+        created_at=new_payment.created_at,
+        created_by=new_payment.created_by
+    )
+
+@app.put("/api/payments/{payment_id}", response_model=PaymentSchema)
+async def update_payment(payment_id: int, update: PaymentUpdate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR]:
+        raise HTTPException(status_code=403, detail="Solo administradores y directores pueden actualizar pagos")
+    
+    payment = db.query(Payment).filter(Payment.id == payment_id).first()
+    if not payment:
+        raise HTTPException(status_code=404, detail="Pago no encontrado")
+    
+    payment.status = PaymentStatusEnum(update.status.value)
+    if update.payment_date:
+        payment.payment_date = update.payment_date
+    if update.notes is not None:
+        payment.notes = update.notes
+    
+    db.commit()
+    db.refresh(payment)
+    
+    student = db.query(User).filter(User.id == payment.student_id).first()
+    parent = db.query(User).filter(User.id == payment.parent_id).first() if payment.parent_id else None
+    
+    return PaymentSchema(
+        id=payment.id,
+        student_id=payment.student_id,
+        student_name=student.name if student else "Desconocido",
+        parent_id=payment.parent_id,
+        parent_name=parent.name if parent else None,
+        amount=payment.amount,
+        month=payment.month,
+        year=payment.year,
+        status=PaymentStatus(payment.status.value),
+        payment_date=payment.payment_date,
+        due_date=payment.due_date,
+        notes=payment.notes,
+        created_at=payment.created_at,
+        created_by=payment.created_by
+    )
+
+@app.delete("/api/payments/{payment_id}")
+async def delete_payment(payment_id: int, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR]:
+        raise HTTPException(status_code=403, detail="Solo administradores y directores pueden eliminar pagos")
+    
+    payment = db.query(Payment).filter(Payment.id == payment_id).first()
+    if not payment:
+        raise HTTPException(status_code=404, detail="Pago no encontrado")
+    
+    db.delete(payment)
+    db.commit()
+    return {"message": "Pago eliminado"}

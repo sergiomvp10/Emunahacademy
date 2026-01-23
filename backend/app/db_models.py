@@ -35,6 +35,12 @@ class GradeLevelEnum(str, enum.Enum):
     GRADE_7 = "7"
     GRADE_8 = "8"
 
+class PaymentStatusEnum(str, enum.Enum):
+    PENDING = "pending"
+    PAID = "paid"
+    OVERDUE = "overdue"
+    CANCELLED = "cancelled"
+
 class User(Base):
     __tablename__ = "users"
     
@@ -197,3 +203,23 @@ class Message(Base):
     
     sender = relationship("User", foreign_keys=[sender_id], back_populates="messages_sent")
     receiver = relationship("User", foreign_keys=[receiver_id], back_populates="messages_received")
+
+class Payment(Base):
+    __tablename__ = "payments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    parent_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    amount = Column(Float, nullable=False)
+    month = Column(String(20), nullable=False)
+    year = Column(Integer, nullable=False)
+    status = Column(SQLEnum(PaymentStatusEnum), default=PaymentStatusEnum.PENDING)
+    payment_date = Column(DateTime, nullable=True)
+    due_date = Column(DateTime, nullable=False)
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    
+    student = relationship("User", foreign_keys=[student_id])
+    parent = relationship("User", foreign_keys=[parent_id])
+    creator = relationship("User", foreign_keys=[created_by])
