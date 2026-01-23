@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../api';
+import { useLanguage } from '../context/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { 
   GraduationCap, BookOpen, 
-  ChevronDown, ChevronUp, CheckCircle, Send, Menu, X
+  ChevronDown, ChevronUp, CheckCircle, Send, Menu, X, Globe
 } from 'lucide-react';
 
 interface SiteContent {
@@ -63,6 +64,7 @@ const GRADE_OPTIONS = [
 ];
 
 export function LandingPage() {
+  const { language, setLanguage } = useLanguage();
   const [content, setContent] = useState<SiteContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -168,13 +170,23 @@ export function LandingPage() {
               </Link>
             </nav>
 
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+                        {/* Language Switch + Mobile Menu Button */}
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
+                            className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-100 transition-colors text-gray-600"
+                            title={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+                          >
+                            <Globe className="h-4 w-4" />
+                            <span className="text-xs font-medium uppercase">{language}</span>
+                          </button>
+                          <button 
+                            className="md:hidden p-2"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                          >
+                            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                          </button>
+                        </div>
           </div>
         </div>
 
