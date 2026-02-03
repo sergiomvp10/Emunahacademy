@@ -215,17 +215,18 @@ class ApiService {
   }
 
   // Calendar
-  async getCalendarEvents(courseId?: number, startDate?: string, endDate?: string): Promise<CalendarEvent[]> {
+  async getCalendarEvents(courseId?: number, startDate?: string, endDate?: string, userId?: number): Promise<CalendarEvent[]> {
     const params = new URLSearchParams();
     if (courseId) params.append('course_id', courseId.toString());
     if (startDate) params.append('start_date', startDate);
     if (endDate) params.append('end_date', endDate);
+    if (userId) params.append('user_id', userId.toString());
     const query = params.toString() ? `?${params.toString()}` : '';
     return this.request<CalendarEvent[]>(`/api/calendar${query}`);
   }
 
-  async createCalendarEvent(event: { title: string; description?: string; event_type: string; start_time: string; end_time: string; course_id?: number }, createdBy: number): Promise<CalendarEvent> {
-    return this.request<CalendarEvent>(`/api/calendar?created_by=${createdBy}`, {
+  async createCalendarEvent(event: { title: string; description?: string; event_type: string; start_time: string; end_time: string; course_id?: number; grade_level?: string | null }, createdBy: number, notify: boolean = false): Promise<CalendarEvent> {
+    return this.request<CalendarEvent>(`/api/calendar?created_by=${createdBy}&notify=${notify}`, {
       method: 'POST',
       body: JSON.stringify(event),
     });

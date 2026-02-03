@@ -161,6 +161,7 @@ class CalendarEventBase(BaseModel):
     start_time: datetime
     end_time: datetime
     course_id: Optional[int] = None
+    grade_level: Optional[str] = None  # K, 1, 2, 3, 4, 5, 6, 7, 8 or null for "all"
 
 class CalendarEventCreate(CalendarEventBase):
     pass

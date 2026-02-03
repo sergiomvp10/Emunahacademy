@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
-import { CalendarEvent, Course } from '../types';
+import { CalendarEvent, Course, GradeLevel } from '../types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,9 +11,23 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { 
-  ChevronLeft, ChevronRight, Plus, Clock, Trash2
+  ChevronLeft, ChevronRight, Plus, Clock, Trash2, Bell
 } from 'lucide-react';
+
+const GRADE_LEVELS: { value: GradeLevel | 'all'; label: string }[] = [
+  { value: 'all', label: 'Todos los grados' },
+  { value: 'K', label: 'Kindergarten' },
+  { value: '1', label: '1er Grado' },
+  { value: '2', label: '2do Grado' },
+  { value: '3', label: '3er Grado' },
+  { value: '4', label: '4to Grado' },
+  { value: '5', label: '5to Grado' },
+  { value: '6', label: '6to Grado' },
+  { value: '7', label: '7mo Grado' },
+  { value: '8', label: '8vo Grado' },
+];
 
 export function Calendar() {
   const { user } = useAuth();
@@ -23,13 +37,15 @@ export function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [showAddEvent, setShowAddEvent] = useState(false);
+  const [notifyStudents, setNotifyStudents] = useState(false);
   const [newEvent, setNewEvent] = useState({
     title: '',
     description: '',
     event_type: 'class' as 'class' | 'evaluation' | 'meeting' | 'holiday' | 'other',
     start_time: '',
     end_time: '',
-    course_id: ''
+    course_id: '',
+    grade_level: 'all' as GradeLevel | 'all'
   });
 
   useEffect(() => {
@@ -38,7 +54,8 @@ export function Calendar() {
 
   const loadData = async () => {
     try {
-      const eventsData = await api.getCalendarEvents();
+      // If user is a student, filter events by their grade level
+      const eventsData = await api.getCalendarEvents(undefined, undefined, undefined, user?.id);
       setEvents(eventsData);
       const coursesData = await api.getCourses();
       setCourses(coursesData);
@@ -58,16 +75,19 @@ export function Calendar() {
         event_type: newEvent.event_type,
         start_time: new Date(newEvent.start_time).toISOString(),
         end_time: new Date(newEvent.end_time).toISOString(),
-        course_id: newEvent.course_id ? parseInt(newEvent.course_id) : undefined
-      }, user.id);
+        course_id: newEvent.course_id ? parseInt(newEvent.course_id) : undefined,
+        grade_level: newEvent.grade_level === 'all' ? null : newEvent.grade_level
+      }, user.id, notifyStudents);
       setNewEvent({
         title: '',
         description: '',
         event_type: 'class',
         start_time: '',
         end_time: '',
-        course_id: ''
+        course_id: '',
+        grade_level: 'all'
       });
+      setNotifyStudents(false);
       setShowAddEvent(false);
       loadData();
     } catch (error) {
@@ -245,6 +265,37 @@ export function Calendar() {
                                     ))}
                                   </SelectContent>
                                 </Select>
+                              </div>
+                              <div className="space-y-2">
+                                <Label>Grado</Label>
+                                <Select
+                                  value={newEvent.grade_level}
+                                  onValueChange={(value: GradeLevel | 'all') => setNewEvent({ ...newEvent, grade_level: value })}
+                                >
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Seleccionar grado" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {GRADE_LEVELS.map(grade => (
+                                      <SelectItem key={grade.value} value={grade.value}>
+                                        {grade.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="flex items-center space-x-2 p-3 bg-blue-50 rounded-lg">
+                                <Checkbox
+                                  id="notify"
+                                  checked={notifyStudents}
+                                  onCheckedChange={(checked) => setNotifyStudents(checked === true)}
+                                />
+                                <div className="flex items-center gap-2">
+                                  <Bell className="h-4 w-4 text-blue-600" />
+                                  <Label htmlFor="notify" className="text-sm cursor-pointer">
+                                    Notificar a los estudiantes
+                                  </Label>
+                                </div>
                               </div>
                               <Button 
                                 className="w-full bg-teal-500 hover:bg-teal-600"

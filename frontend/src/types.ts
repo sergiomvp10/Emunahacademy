@@ -89,6 +89,7 @@ export interface CalendarEvent {
   start_time: string;
   end_time: string;
   course_id: number | null;
+  grade_level: GradeLevel | null;
   created_by: number;
   created_at: string;
 }

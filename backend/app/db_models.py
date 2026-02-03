@@ -170,6 +170,7 @@ class CalendarEvent(Base):
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=False)
     course_id = Column(Integer, ForeignKey("courses.id"))
+    grade_level = Column(String(10), nullable=True)  # K, 1, 2, 3, 4, 5, 6, 7, 8 or null for "all"
     created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     
