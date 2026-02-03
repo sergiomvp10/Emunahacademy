@@ -656,6 +656,8 @@ async def get_calendar_events(
     course_id: Optional[int] = None,
     start_date: Optional[datetime] = None,
     end_date: Optional[datetime] = None,
+    grade_level: Optional[str] = None,
+    user_id: Optional[int] = None,
     db: Session = Depends(get_db)
 ):
     query = db.query(CalendarEvent)
@@ -666,6 +668,19 @@ async def get_calendar_events(
     if end_date:
         query = query.filter(CalendarEvent.end_time <= end_date)
     
+    # If user_id is provided, filter events for that user's grade level
+    if user_id:
+        user = db.query(User).filter(User.id == user_id).first()
+        if user and user.role == UserRoleEnum.STUDENT and user.grade_level:
+            # Show events for student's grade or events for all grades (grade_level is null)
+            query = query.filter(
+                (CalendarEvent.grade_level == user.grade_level) | 
+                (CalendarEvent.grade_level == None)
+            )
+    elif grade_level:
+        # Filter by specific grade level
+        query = query.filter(CalendarEvent.grade_level == grade_level)
+    
     events = query.order_by(CalendarEvent.start_time).all()
     return [CalendarEventSchema(
         id=e.id,
@@ -675,12 +690,13 @@ async def get_calendar_events(
         start_time=e.start_time,
         end_time=e.end_time,
         course_id=e.course_id,
+        grade_level=e.grade_level,
         created_by=e.created_by,
         created_at=e.created_at
     ) for e in events]
 
 @app.post("/api/calendar", response_model=CalendarEventSchema)
-async def create_calendar_event(event: CalendarEventCreate, created_by: int, db: Session = Depends(get_db)):
+async def create_calendar_event(event: CalendarEventCreate, created_by: int, notify: bool = False, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == created_by).first()
     if not user:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
@@ -692,11 +708,34 @@ async def create_calendar_event(event: CalendarEventCreate, created_by: int, db:
         start_time=event.start_time,
         end_time=event.end_time,
         course_id=event.course_id,
+        grade_level=event.grade_level,
         created_by=created_by
     )
     db.add(db_event)
     db.commit()
     db.refresh(db_event)
+    
+    # Send notifications to students if requested
+    if notify:
+        students_query = db.query(User).filter(User.role == UserRoleEnum.STUDENT)
+        if event.grade_level:
+            # Notify only students of the specific grade
+            students_query = students_query.filter(User.grade_level == event.grade_level)
+        
+        students = students_query.all()
+        notification_content = f"Nuevo evento en el calendario: {event.title}\nFecha: {event.start_time.strftime('%d/%m/%Y %H:%M')}"
+        if event.description:
+            notification_content += f"\nDescripcion: {event.description}"
+        
+        for student in students:
+            notification = Message(
+                sender_id=created_by,
+                receiver_id=student.id,
+                content=notification_content,
+                is_read=False
+            )
+            db.add(notification)
+        db.commit()
     
     return CalendarEventSchema(
         id=db_event.id,
@@ -706,6 +745,7 @@ async def create_calendar_event(event: CalendarEventCreate, created_by: int, db:
         start_time=db_event.start_time,
         end_time=db_event.end_time,
         course_id=db_event.course_id,
+        grade_level=db_event.grade_level,
         created_by=db_event.created_by,
         created_at=db_event.created_at
     )
