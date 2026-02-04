@@ -250,14 +250,14 @@ export function Calendar() {
                               <div className="space-y-2">
                                 <Label>{t.calendar.courseOptional}</Label>
                                 <Select
-                                  value={newEvent.course_id}
-                                  onValueChange={(value) => setNewEvent({ ...newEvent, course_id: value })}
+                                  value={newEvent.course_id || 'none'}
+                                  onValueChange={(value) => setNewEvent({ ...newEvent, course_id: value === 'none' ? '' : value })}
                                 >
                                   <SelectTrigger>
                                     <SelectValue placeholder={t.calendar.selectCourse} />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="">{t.common.none}</SelectItem>
+                                    <SelectItem value="none">{t.common.none}</SelectItem>
                                     {courses.map(course => (
                                       <SelectItem key={course.id} value={course.id.toString()}>
                                         {course.title}
