@@ -161,7 +161,7 @@ export function Calendar() {
 
     const dayNames = [t.calendar.days.sun, t.calendar.days.mon, t.calendar.days.tue, t.calendar.days.wed, t.calendar.days.thu, t.calendar.days.fri, t.calendar.days.sat];
 
-  const canManageEvents = user?.role === 'director' || user?.role === 'teacher';
+  const canManageEvents = user?.role === 'director' || user?.role === 'teacher' || user?.role === 'superuser';
 
   const days = getDaysInMonth(currentDate);
   const today = new Date();
