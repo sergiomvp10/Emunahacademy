@@ -52,6 +52,13 @@ def run_migrations():
             conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_receiver BOOLEAN DEFAULT FALSE"))
             conn.commit()
             print("Added deleted_by_receiver column to messages table")
+        
+        # Check and add grade_level column to calendar_events table
+        calendar_events_columns = [col['name'] for col in inspector.get_columns('calendar_events')]
+        if 'grade_level' not in calendar_events_columns:
+            conn.execute(text("ALTER TABLE calendar_events ADD COLUMN grade_level VARCHAR(10)"))
+            conn.commit()
+            print("Added grade_level column to calendar_events table")
 
 def seed_sample_data(db: Session):
     existing_user = db.query(User).filter(User.email == "admin@emunahacademy.com").first()
