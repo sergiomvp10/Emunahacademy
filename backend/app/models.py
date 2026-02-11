@@ -287,6 +287,12 @@ class PaymentStatus(str, Enum):
     OVERDUE = "overdue"
     CANCELLED = "cancelled"
 
+class AssignmentStatus(str, Enum):
+    PENDING = "pending"
+    SUBMITTED = "submitted"
+    GRADED = "graded"
+    LATE = "late"
+
 class PaymentCreate(BaseModel):
     student_id: int
     amount: float
@@ -318,3 +324,60 @@ class Payment(BaseModel):
     
     class Config:
         from_attributes = True
+
+# Assignment Models
+class AssignmentBase(BaseModel):
+    title: str
+    description: Optional[str] = None
+    course_id: int
+    due_date: datetime
+    max_score: float = 100.0
+
+class AssignmentCreate(AssignmentBase):
+    pass
+
+class Assignment(AssignmentBase):
+    id: int
+    created_by: int
+    created_at: datetime
+    course_title: Optional[str] = None
+    creator_name: Optional[str] = None
+    submissions_count: int = 0
+    graded_count: int = 0
+    
+    class Config:
+        from_attributes = True
+
+class AssignmentSubmissionCreate(BaseModel):
+    assignment_id: int
+    content: Optional[str] = None
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+
+class AssignmentSubmissionGrade(BaseModel):
+    submission_id: int
+    score: float
+    feedback: Optional[str] = None
+
+class AssignmentSubmission(BaseModel):
+    id: int
+    assignment_id: int
+    student_id: int
+    student_name: str
+    content: Optional[str] = None
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    status: AssignmentStatus
+    score: Optional[float] = None
+    feedback: Optional[str] = None
+    submitted_at: Optional[datetime] = None
+    graded_at: Optional[datetime] = None
+    graded_by: Optional[int] = None
+    grader_name: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+class StudentAssignment(BaseModel):
+    assignment: Assignment
+    submission: Optional[AssignmentSubmission] = None
