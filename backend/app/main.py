@@ -27,13 +27,17 @@ from app.models import (
     MessageCreate, Message as MessageSchema, Conversation,
     SiteContentUpdate, SiteContent,
     StudentApplicationCreate, StudentApplication, ApplicationStatus,
-    PaymentCreate, PaymentUpdate, Payment as PaymentSchema, PaymentStatus
+    PaymentCreate, PaymentUpdate, Payment as PaymentSchema, PaymentStatus,
+    AssignmentCreate, Assignment as AssignmentSchema, AssignmentSubmissionCreate, 
+    AssignmentSubmissionGrade, AssignmentSubmission as AssignmentSubmissionSchema, 
+    AssignmentStatus, StudentAssignment
 )
 from app.db_config import get_db, engine
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
     QuizResult, Evaluation, EvaluationSubmission, LessonCompletion, Message, Payment,
-    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum
+    Assignment, AssignmentSubmission,
+    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum, AssignmentStatusEnum
 )
 from app.db_init import init_database
 
@@ -1574,3 +1578,368 @@ async def delete_payment(payment_id: int, user_id: int, db: Session = Depends(ge
     db.delete(payment)
     db.commit()
     return {"message": "Pago eliminado"}
+
+# ==================== ASSIGNMENT ENDPOINTS ====================
+
+@app.get("/api/assignments", response_model=List[AssignmentSchema])
+async def get_assignments(course_id: Optional[int] = None, user_id: Optional[int] = None, db: Session = Depends(get_db)):
+    query = db.query(Assignment)
+    
+    if course_id:
+        query = query.filter(Assignment.course_id == course_id)
+    
+    if user_id:
+        user = db.query(User).filter(User.id == user_id).first()
+        if user and user.role == UserRoleEnum.STUDENT:
+            enrollments = db.query(Enrollment).filter(Enrollment.student_id == user_id).all()
+            enrolled_course_ids = [e.course_id for e in enrollments]
+            query = query.filter(Assignment.course_id.in_(enrolled_course_ids))
+    
+    assignments = query.order_by(Assignment.due_date.desc()).all()
+    
+    result = []
+    for a in assignments:
+        submissions = db.query(AssignmentSubmission).filter(AssignmentSubmission.assignment_id == a.id).all()
+        graded = [s for s in submissions if s.status == AssignmentStatusEnum.GRADED]
+        
+        result.append(AssignmentSchema(
+            id=a.id,
+            title=a.title,
+            description=a.description,
+            course_id=a.course_id,
+            due_date=a.due_date,
+            max_score=a.max_score,
+            created_by=a.created_by,
+            created_at=a.created_at,
+            course_title=a.course.title if a.course else None,
+            creator_name=a.creator.name if a.creator else None,
+            submissions_count=len(submissions),
+            graded_count=len(graded)
+        ))
+    
+    return result
+
+@app.get("/api/assignments/{assignment_id}", response_model=AssignmentSchema)
+async def get_assignment(assignment_id: int, db: Session = Depends(get_db)):
+    assignment = db.query(Assignment).filter(Assignment.id == assignment_id).first()
+    if not assignment:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    
+    submissions = db.query(AssignmentSubmission).filter(AssignmentSubmission.assignment_id == assignment_id).all()
+    graded = [s for s in submissions if s.status == AssignmentStatusEnum.GRADED]
+    
+    return AssignmentSchema(
+        id=assignment.id,
+        title=assignment.title,
+        description=assignment.description,
+        course_id=assignment.course_id,
+        due_date=assignment.due_date,
+        max_score=assignment.max_score,
+        created_by=assignment.created_by,
+        created_at=assignment.created_at,
+        course_title=assignment.course.title if assignment.course else None,
+        creator_name=assignment.creator.name if assignment.creator else None,
+        submissions_count=len(submissions),
+        graded_count=len(graded)
+    )
+
+@app.post("/api/assignments", response_model=AssignmentSchema)
+async def create_assignment(assignment: AssignmentCreate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR, UserRoleEnum.TEACHER]:
+        raise HTTPException(status_code=403, detail="Solo profesores pueden crear tareas")
+    
+    course = db.query(Course).filter(Course.id == assignment.course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Curso no encontrado")
+    
+    db_assignment = Assignment(
+        title=assignment.title,
+        description=assignment.description,
+        course_id=assignment.course_id,
+        due_date=assignment.due_date,
+        max_score=assignment.max_score,
+        created_by=user_id
+    )
+    db.add(db_assignment)
+    db.commit()
+    db.refresh(db_assignment)
+    
+    return AssignmentSchema(
+        id=db_assignment.id,
+        title=db_assignment.title,
+        description=db_assignment.description,
+        course_id=db_assignment.course_id,
+        due_date=db_assignment.due_date,
+        max_score=db_assignment.max_score,
+        created_by=db_assignment.created_by,
+        created_at=db_assignment.created_at,
+        course_title=course.title,
+        creator_name=user.name,
+        submissions_count=0,
+        graded_count=0
+    )
+
+@app.put("/api/assignments/{assignment_id}", response_model=AssignmentSchema)
+async def update_assignment(assignment_id: int, assignment: AssignmentCreate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR, UserRoleEnum.TEACHER]:
+        raise HTTPException(status_code=403, detail="Solo profesores pueden editar tareas")
+    
+    db_assignment = db.query(Assignment).filter(Assignment.id == assignment_id).first()
+    if not db_assignment:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    
+    db_assignment.title = assignment.title
+    db_assignment.description = assignment.description
+    db_assignment.course_id = assignment.course_id
+    db_assignment.due_date = assignment.due_date
+    db_assignment.max_score = assignment.max_score
+    
+    db.commit()
+    db.refresh(db_assignment)
+    
+    submissions = db.query(AssignmentSubmission).filter(AssignmentSubmission.assignment_id == assignment_id).all()
+    graded = [s for s in submissions if s.status == AssignmentStatusEnum.GRADED]
+    
+    return AssignmentSchema(
+        id=db_assignment.id,
+        title=db_assignment.title,
+        description=db_assignment.description,
+        course_id=db_assignment.course_id,
+        due_date=db_assignment.due_date,
+        max_score=db_assignment.max_score,
+        created_by=db_assignment.created_by,
+        created_at=db_assignment.created_at,
+        course_title=db_assignment.course.title if db_assignment.course else None,
+        creator_name=db_assignment.creator.name if db_assignment.creator else None,
+        submissions_count=len(submissions),
+        graded_count=len(graded)
+    )
+
+@app.delete("/api/assignments/{assignment_id}")
+async def delete_assignment(assignment_id: int, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR, UserRoleEnum.TEACHER]:
+        raise HTTPException(status_code=403, detail="Solo profesores pueden eliminar tareas")
+    
+    assignment = db.query(Assignment).filter(Assignment.id == assignment_id).first()
+    if not assignment:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    
+    db.delete(assignment)
+    db.commit()
+    return {"message": "Tarea eliminada"}
+
+# ==================== ASSIGNMENT SUBMISSION ENDPOINTS ====================
+
+@app.get("/api/assignments/{assignment_id}/submissions", response_model=List[AssignmentSubmissionSchema])
+async def get_assignment_submissions(assignment_id: int, db: Session = Depends(get_db)):
+    assignment = db.query(Assignment).filter(Assignment.id == assignment_id).first()
+    if not assignment:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    
+    submissions = db.query(AssignmentSubmission).filter(
+        AssignmentSubmission.assignment_id == assignment_id
+    ).all()
+    
+    result = []
+    for s in submissions:
+        student = db.query(User).filter(User.id == s.student_id).first()
+        grader = db.query(User).filter(User.id == s.graded_by).first() if s.graded_by else None
+        
+        result.append(AssignmentSubmissionSchema(
+            id=s.id,
+            assignment_id=s.assignment_id,
+            student_id=s.student_id,
+            student_name=student.name if student else "Desconocido",
+            content=s.content,
+            file_url=s.file_url,
+            file_name=s.file_name,
+            status=AssignmentStatus(s.status.value),
+            score=s.score,
+            feedback=s.feedback,
+            submitted_at=s.submitted_at,
+            graded_at=s.graded_at,
+            graded_by=s.graded_by,
+            grader_name=grader.name if grader else None
+        ))
+    
+    return result
+
+@app.get("/api/students/{student_id}/assignments", response_model=List[StudentAssignment])
+async def get_student_assignments(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(User).filter(User.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+    
+    enrollments = db.query(Enrollment).filter(Enrollment.student_id == student_id).all()
+    enrolled_course_ids = [e.course_id for e in enrollments]
+    
+    assignments = db.query(Assignment).filter(
+        Assignment.course_id.in_(enrolled_course_ids)
+    ).order_by(Assignment.due_date.desc()).all()
+    
+    result = []
+    for a in assignments:
+        submission = db.query(AssignmentSubmission).filter(
+            AssignmentSubmission.assignment_id == a.id,
+            AssignmentSubmission.student_id == student_id
+        ).first()
+        
+        all_submissions = db.query(AssignmentSubmission).filter(AssignmentSubmission.assignment_id == a.id).all()
+        graded = [s for s in all_submissions if s.status == AssignmentStatusEnum.GRADED]
+        
+        assignment_schema = AssignmentSchema(
+            id=a.id,
+            title=a.title,
+            description=a.description,
+            course_id=a.course_id,
+            due_date=a.due_date,
+            max_score=a.max_score,
+            created_by=a.created_by,
+            created_at=a.created_at,
+            course_title=a.course.title if a.course else None,
+            creator_name=a.creator.name if a.creator else None,
+            submissions_count=len(all_submissions),
+            graded_count=len(graded)
+        )
+        
+        submission_schema = None
+        if submission:
+            grader = db.query(User).filter(User.id == submission.graded_by).first() if submission.graded_by else None
+            submission_schema = AssignmentSubmissionSchema(
+                id=submission.id,
+                assignment_id=submission.assignment_id,
+                student_id=submission.student_id,
+                student_name=student.name,
+                content=submission.content,
+                file_url=submission.file_url,
+                file_name=submission.file_name,
+                status=AssignmentStatus(submission.status.value),
+                score=submission.score,
+                feedback=submission.feedback,
+                submitted_at=submission.submitted_at,
+                graded_at=submission.graded_at,
+                graded_by=submission.graded_by,
+                grader_name=grader.name if grader else None
+            )
+        
+        result.append(StudentAssignment(
+            assignment=assignment_schema,
+            submission=submission_schema
+        ))
+    
+    return result
+
+@app.post("/api/assignments/submit", response_model=AssignmentSubmissionSchema)
+async def submit_assignment(submission: AssignmentSubmissionCreate, student_id: int, db: Session = Depends(get_db)):
+    student = db.query(User).filter(User.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+    
+    if student.role != UserRoleEnum.STUDENT:
+        raise HTTPException(status_code=403, detail="Solo estudiantes pueden entregar tareas")
+    
+    assignment = db.query(Assignment).filter(Assignment.id == submission.assignment_id).first()
+    if not assignment:
+        raise HTTPException(status_code=404, detail="Tarea no encontrada")
+    
+    existing = db.query(AssignmentSubmission).filter(
+        AssignmentSubmission.assignment_id == submission.assignment_id,
+        AssignmentSubmission.student_id == student_id
+    ).first()
+    
+    now = datetime.utcnow()
+    is_late = now > assignment.due_date
+    status = AssignmentStatusEnum.LATE if is_late else AssignmentStatusEnum.SUBMITTED
+    
+    if existing:
+        existing.content = submission.content
+        existing.file_url = submission.file_url
+        existing.file_name = submission.file_name
+        existing.submitted_at = now
+        existing.status = status
+        db.commit()
+        db.refresh(existing)
+        db_submission = existing
+    else:
+        db_submission = AssignmentSubmission(
+            assignment_id=submission.assignment_id,
+            student_id=student_id,
+            content=submission.content,
+            file_url=submission.file_url,
+            file_name=submission.file_name,
+            status=status,
+            submitted_at=now
+        )
+        db.add(db_submission)
+        db.commit()
+        db.refresh(db_submission)
+    
+    return AssignmentSubmissionSchema(
+        id=db_submission.id,
+        assignment_id=db_submission.assignment_id,
+        student_id=db_submission.student_id,
+        student_name=student.name,
+        content=db_submission.content,
+        file_url=db_submission.file_url,
+        file_name=db_submission.file_name,
+        status=AssignmentStatus(db_submission.status.value),
+        score=db_submission.score,
+        feedback=db_submission.feedback,
+        submitted_at=db_submission.submitted_at,
+        graded_at=db_submission.graded_at,
+        graded_by=db_submission.graded_by,
+        grader_name=None
+    )
+
+@app.post("/api/assignments/grade", response_model=AssignmentSubmissionSchema)
+async def grade_assignment(grade: AssignmentSubmissionGrade, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.role not in [UserRoleEnum.SUPERUSER, UserRoleEnum.DIRECTOR, UserRoleEnum.TEACHER]:
+        raise HTTPException(status_code=403, detail="Solo profesores pueden calificar tareas")
+    
+    submission = db.query(AssignmentSubmission).filter(AssignmentSubmission.id == grade.submission_id).first()
+    if not submission:
+        raise HTTPException(status_code=404, detail="Entrega no encontrada")
+    
+    submission.score = grade.score
+    submission.feedback = grade.feedback
+    submission.status = AssignmentStatusEnum.GRADED
+    submission.graded_at = datetime.utcnow()
+    submission.graded_by = user_id
+    
+    db.commit()
+    db.refresh(submission)
+    
+    student = db.query(User).filter(User.id == submission.student_id).first()
+    
+    return AssignmentSubmissionSchema(
+        id=submission.id,
+        assignment_id=submission.assignment_id,
+        student_id=submission.student_id,
+        student_name=student.name if student else "Desconocido",
+        content=submission.content,
+        file_url=submission.file_url,
+        file_name=submission.file_name,
+        status=AssignmentStatus(submission.status.value),
+        score=submission.score,
+        feedback=submission.feedback,
+        submitted_at=submission.submitted_at,
+        graded_at=submission.graded_at,
+        graded_by=submission.graded_by,
+        grader_name=user.name
+    )

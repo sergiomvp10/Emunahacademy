@@ -10,6 +10,7 @@ import { Calendar } from './pages/Calendar';
 import { Users } from './pages/Users';
 import { Students } from './pages/Students';
 import { Evaluations } from './pages/Evaluations';
+import { Assignments } from './pages/Assignments';
 import { ProgressPage } from './pages/Progress';
 import { Messages } from './pages/Messages';
 import { LandingPage } from './pages/LandingPage';
@@ -84,6 +85,7 @@ function AppRoutes() {
         <Route path="users" element={<Users />} />
         <Route path="students" element={<Students />} />
         <Route path="evaluations" element={<Evaluations />} />
+        <Route path="assignments" element={<Assignments />} />
         <Route path="progress" element={<ProgressPage />} />
         <Route path="children" element={<ProgressPage />} />
         <Route path="messages" element={<Messages />} />

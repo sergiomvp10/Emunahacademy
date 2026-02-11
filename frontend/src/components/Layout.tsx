@@ -6,7 +6,7 @@ import { api } from '../api';
 import { 
   LayoutDashboard, BookOpen, Calendar, Users, MessageSquare, 
   LogOut, Menu, Bell, Search, ChevronDown,
-  GraduationCap, FileText, BarChart3, Settings, ClipboardList, DollarSign, Globe
+  GraduationCap, FileText, BarChart3, Settings, ClipboardList, DollarSign, Globe, ClipboardCheck
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -55,6 +55,7 @@ export function Layout() {
           { id: 'users', label: t.nav.users, icon: Users },
           { id: 'students', label: t.nav.students, icon: GraduationCap },
           { id: 'evaluations', label: t.nav.evaluations, icon: FileText },
+          { id: 'assignments', label: t.nav.assignments, icon: ClipboardCheck },
           { id: 'progress', label: t.nav.progress, icon: BarChart3 },
           { id: 'applications', label: t.nav.applications, icon: ClipboardList },
           { id: 'payments', label: t.nav.payments, icon: DollarSign },
@@ -77,6 +78,7 @@ export function Layout() {
           ...baseItems,
           { id: 'students', label: t.nav.students, icon: GraduationCap },
           { id: 'evaluations', label: t.nav.evaluations, icon: FileText },
+          { id: 'assignments', label: t.nav.assignments, icon: ClipboardCheck },
         ];
       }
 
@@ -85,6 +87,7 @@ export function Layout() {
           ...baseItems,
           { id: 'progress', label: t.nav.myProgress, icon: BarChart3 },
           { id: 'evaluations', label: t.nav.evaluations, icon: FileText },
+          { id: 'assignments', label: t.nav.assignments, icon: ClipboardCheck },
         ];
       }
 

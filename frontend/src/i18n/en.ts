@@ -53,6 +53,7 @@ export const en = {
     users: 'Users',
     students: 'Students',
     evaluations: 'Evaluations',
+    assignments: 'Assignments',
     progress: 'Progress',
     applications: 'Applications',
     payments: 'Payments',

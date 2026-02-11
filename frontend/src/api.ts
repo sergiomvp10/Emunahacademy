@@ -2,7 +2,8 @@ import {
   User, Token, Course, Lesson, Evaluation, StudentEvaluation,
   CalendarEvent, QuizResult, StudentProgress, ChildProgress, 
   Statistics, Enrollment, UserRole, Message, Conversation,
-  Payment, PaymentStatus, StudentForPayment
+  Payment, PaymentStatus, StudentForPayment,
+  Assignment, AssignmentSubmission, StudentAssignment
 } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -434,6 +435,76 @@ class ApiService {
 
   async getStudentsForPayments(userId: number): Promise<StudentForPayment[]> {
     return this.request<StudentForPayment[]>(`/api/payments/students?user_id=${userId}`);
+  }
+
+  // Assignments
+  async getAssignments(courseId?: number, userId?: number): Promise<Assignment[]> {
+    const params = new URLSearchParams();
+    if (courseId) params.append('course_id', courseId.toString());
+    if (userId) params.append('user_id', userId.toString());
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return this.request<Assignment[]>(`/api/assignments${query}`);
+  }
+
+  async getAssignment(assignmentId: number): Promise<Assignment> {
+    return this.request<Assignment>(`/api/assignments/${assignmentId}`);
+  }
+
+  async createAssignment(assignment: {
+    title: string;
+    description?: string;
+    course_id: number;
+    due_date: string;
+    max_score: number;
+  }, userId: number): Promise<Assignment> {
+    return this.request<Assignment>(`/api/assignments?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify(assignment),
+    });
+  }
+
+  async updateAssignment(assignmentId: number, assignment: {
+    title: string;
+    description?: string;
+    course_id: number;
+    due_date: string;
+    max_score: number;
+  }, userId: number): Promise<Assignment> {
+    return this.request<Assignment>(`/api/assignments/${assignmentId}?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(assignment),
+    });
+  }
+
+  async deleteAssignment(assignmentId: number, userId: number): Promise<void> {
+    await this.request(`/api/assignments/${assignmentId}?user_id=${userId}`, { method: 'DELETE' });
+  }
+
+  async getAssignmentSubmissions(assignmentId: number): Promise<AssignmentSubmission[]> {
+    return this.request<AssignmentSubmission[]>(`/api/assignments/${assignmentId}/submissions`);
+  }
+
+  async getStudentAssignments(studentId: number): Promise<StudentAssignment[]> {
+    return this.request<StudentAssignment[]>(`/api/students/${studentId}/assignments`);
+  }
+
+  async submitAssignment(submission: {
+    assignment_id: number;
+    content?: string;
+    file_url?: string;
+    file_name?: string;
+  }, studentId: number): Promise<AssignmentSubmission> {
+    return this.request<AssignmentSubmission>(`/api/assignments/submit?student_id=${studentId}`, {
+      method: 'POST',
+      body: JSON.stringify(submission),
+    });
+  }
+
+  async gradeAssignment(submissionId: number, score: number, feedback: string, userId: number): Promise<AssignmentSubmission> {
+    return this.request<AssignmentSubmission>(`/api/assignments/grade?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify({ submission_id: submissionId, score, feedback }),
+    });
   }
 }
 

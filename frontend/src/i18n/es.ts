@@ -53,6 +53,7 @@ export const es = {
     users: 'Usuarios',
     students: 'Estudiantes',
     evaluations: 'Evaluaciones',
+    assignments: 'Tareas',
     progress: 'Progreso',
     applications: 'Solicitudes',
     payments: 'Pagos',
