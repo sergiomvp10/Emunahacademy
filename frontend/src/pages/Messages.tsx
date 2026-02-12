@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { Message, Conversation, User } from '../types';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,11 +11,12 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { 
-  MessageSquare, Send, Search, Plus, ChevronLeft
+  MessageSquare, Send, Search, Plus, ChevronLeft, Paperclip, X, FileText, Download, Trash2
 } from 'lucide-react';
 
 export function Messages() {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [contacts, setContacts] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<{ id: number; name: string } | null>(null);
@@ -23,7 +25,10 @@ export function Messages() {
   const [loading, setLoading] = useState(true);
   const [showNewChat, setShowNewChat] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
@@ -82,15 +87,60 @@ export function Messages() {
   };
 
   const handleSendMessage = async () => {
-    if (!user || !selectedUser || !newMessage.trim()) return;
+    if (!user || !selectedUser || (!newMessage.trim() && !selectedFile)) return;
+    
     try {
-      await api.sendMessage(selectedUser.id, newMessage, user.id);
+      setUploading(true);
+      let fileUrl: string | undefined;
+      let fileName: string | undefined;
+      let fileType: string | undefined;
+      
+      if (selectedFile) {
+        const uploadResult = await api.uploadFile(selectedFile);
+        fileUrl = uploadResult.file_url;
+        fileName = uploadResult.file_name;
+        fileType = uploadResult.file_type;
+      }
+      
+      await api.sendMessage(
+        selectedUser.id, 
+        newMessage || (selectedFile ? `Archivo: ${selectedFile.name}` : ''), 
+        user.id,
+        fileUrl,
+        fileName,
+        fileType
+      );
       setNewMessage('');
+      setSelectedFile(null);
       loadMessages(selectedUser.id);
       loadConversations();
     } catch (error) {
       console.error('Error sending message:', error);
+    } finally {
+      setUploading(false);
     }
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+            if (file.size > 5 * 1024 * 1024) {
+              alert(t.messages.fileTooLarge);
+              return;
+            }
+      setSelectedFile(file);
+    }
+  };
+
+  const removeSelectedFile = () => {
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const getBackendUrl = () => {
+    return import.meta.env.VITE_API_URL || 'http://localhost:8000';
   };
 
   const handleSelectConversation = (conv: Conversation) => {
@@ -112,17 +162,38 @@ export function Messages() {
     }
   };
 
-  const getRoleLabel = (role: string) => {
-    switch (role) {
-      case 'director': return 'Directora';
-      case 'teacher': return 'Profesor';
-      case 'student': return 'Estudiante';
-      case 'parent': return 'Padre';
-      default: return role;
+    const getRoleLabel = (role: string) => {
+      switch (role) {
+        case 'director': return t.roles.director;
+        case 'teacher': return t.roles.teacher;
+        case 'student': return t.roles.student;
+        case 'parent': return t.roles.parent;
+        default: return role;
+      }
+    };
+
+  const handleDeleteConversation = async (otherUserId: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+    
+        if (!confirm(t.messages.confirmDelete)) {
+          return;
+        }
+    
+    try {
+      await api.deleteConversation(otherUserId, user.id);
+      setConversations(prev => prev.filter(c => c.user_id !== otherUserId));
+      if (selectedUser?.id === otherUserId) {
+        setSelectedUser(null);
+        setMessages([]);
+      }
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      alert(t.messages.deleteError);
     }
   };
 
-  const filteredContacts = contacts.filter(c => 
+  const filteredContacts = contacts.filter(c =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     c.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -138,26 +209,26 @@ export function Messages() {
   return (
     <div className="h-[calc(100vh-120px)]">
       <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Mensajes</h1>
-          <p className="text-gray-500">Comunicacion con profesores y directivos</p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.messages.title}</h1>
+                  <p className="text-gray-500">{t.messages.subtitle}</p>
+                </div>
         <Dialog open={showNewChat} onOpenChange={setShowNewChat}>
           <DialogTrigger asChild>
-            <Button className="bg-teal-500 hover:bg-teal-600">
-              <Plus className="h-4 w-4 mr-2" />
-              Nuevo Mensaje
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Iniciar Conversacion</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 mt-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Buscar contacto..."
+                      <Button className="bg-teal-500 hover:bg-teal-600">
+                        <Plus className="h-4 w-4 mr-2" />
+                        {t.messages.newMessage}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{t.messages.startConversation}</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 mt-4">
+                        <div className="relative">
+                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <Input
+                            placeholder={t.messages.searchContacts}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -185,11 +256,11 @@ export function Messages() {
                       </Badge>
                     </div>
                   ))}
-                  {filteredContacts.length === 0 && (
-                    <p className="text-center text-gray-500 py-4">
-                      No se encontraron contactos
-                    </p>
-                  )}
+                                    {filteredContacts.length === 0 && (
+                                      <p className="text-center text-gray-500 py-4">
+                                        {t.messages.noContactsFound}
+                                      </p>
+                                    )}
                 </div>
               </ScrollArea>
             </div>
@@ -201,14 +272,14 @@ export function Messages() {
         {/* Conversations List */}
         <Card className="md:col-span-1 overflow-hidden">
           <CardHeader className="py-3 border-b">
-            <CardTitle className="text-sm font-medium">Conversaciones</CardTitle>
+            <CardTitle className="text-sm font-medium">{t.messages.conversations}</CardTitle>
           </CardHeader>
           <ScrollArea className="h-[calc(100%-50px)]">
             <div className="p-2">
               {conversations.map(conv => (
                 <div
                   key={conv.user_id}
-                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors ${
+                  className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors group ${
                     selectedUser?.id === conv.user_id 
                       ? 'bg-teal-50 border border-teal-200' 
                       : 'hover:bg-gray-50'
@@ -223,11 +294,22 @@ export function Messages() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <p className="font-medium truncate">{conv.user_name}</p>
-                      {conv.unread_count > 0 && (
-                        <Badge className="bg-teal-500 text-white text-xs">
-                          {conv.unread_count}
-                        </Badge>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {conv.unread_count > 0 && (
+                          <Badge className="bg-teal-500 text-white text-xs">
+                            {conv.unread_count}
+                          </Badge>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-red-500"
+                          onClick={(e) => handleDeleteConversation(conv.user_id, e)}
+                          title={t.messages.deleteConversation}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                     <p className="text-sm text-gray-500 truncate">{conv.last_message}</p>
                   </div>
@@ -235,9 +317,9 @@ export function Messages() {
               ))}
               {conversations.length === 0 && (
                 <div className="text-center py-8">
-                  <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-2" />
-                  <p className="text-gray-500 text-sm">No hay conversaciones</p>
-                  <p className="text-gray-400 text-xs">Inicia una nueva conversacion</p>
+                                    <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-2" />
+                                    <p className="text-gray-500 text-sm">{t.messages.noConversations}</p>
+                                    <p className="text-gray-400 text-xs">{t.messages.startNewConversation}</p>
                 </div>
               )}
             </div>
@@ -285,14 +367,44 @@ export function Messages() {
                             : 'bg-gray-100 text-gray-800'
                         }`}
                       >
+                        {msg.file_url && msg.file_type === 'image' && (
+                          <a 
+                            href={`${getBackendUrl()}${msg.file_url}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="block mb-2"
+                          >
+                            <img 
+                              src={`${getBackendUrl()}${msg.file_url}`} 
+                              alt={msg.file_name || 'Imagen'} 
+                              className="max-w-full rounded-lg max-h-48 object-cover"
+                            />
+                          </a>
+                        )}
+                        {msg.file_url && msg.file_type === 'document' && (
+                          <a 
+                            href={`${getBackendUrl()}${msg.file_url}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className={`flex items-center gap-2 p-2 rounded mb-2 ${
+                              msg.sender_id === user?.id 
+                                ? 'bg-teal-600 hover:bg-teal-700' 
+                                : 'bg-gray-200 hover:bg-gray-300'
+                            }`}
+                          >
+                            <FileText className="h-5 w-5" />
+                            <span className="text-sm truncate flex-1">{msg.file_name}</span>
+                            <Download className="h-4 w-4" />
+                          </a>
+                        )}
                         <p className="text-sm">{msg.content}</p>
                         <p className={`text-xs mt-1 ${
                           msg.sender_id === user?.id ? 'text-teal-100' : 'text-gray-400'
                         }`}>
-                          {new Date(msg.created_at).toLocaleTimeString('es-ES', {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
+                                                    {new Date(msg.created_at).toLocaleTimeString(language === 'es' ? 'es-ES' : 'en-US', {
+                                                      hour: '2-digit',
+                                                      minute: '2-digit'
+                                                    })}
                         </p>
                       </div>
                     </div>
@@ -303,20 +415,54 @@ export function Messages() {
 
               {/* Message Input */}
               <div className="p-4 border-t flex-shrink-0">
+                {selectedFile && (
+                  <div className="flex items-center gap-2 mb-2 p-2 bg-gray-100 rounded-lg">
+                    <FileText className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm text-gray-600 truncate flex-1">{selectedFile.name}</span>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={removeSelectedFile}
+                      className="h-6 w-6 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
                 <div className="flex gap-2">
-                  <Input
-                    placeholder="Escribe un mensaje..."
-                    value={newMessage}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                    accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.txt,.xls,.xlsx"
+                    className="hidden"
+                  />
+                  <Button 
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    title={t.messages.attachFile}
+                  >
+                    <Paperclip className="h-4 w-4" />
+                  </Button>
+                                    <Input
+                                      placeholder={t.messages.typeMessage}
+                                      value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                    onKeyPress={(e) => e.key === 'Enter' && !uploading && handleSendMessage()}
                     className="flex-1"
+                    disabled={uploading}
                   />
                   <Button 
                     className="bg-teal-500 hover:bg-teal-600"
                     onClick={handleSendMessage}
-                    disabled={!newMessage.trim()}
+                    disabled={(!newMessage.trim() && !selectedFile) || uploading}
                   >
-                    <Send className="h-4 w-4" />
+                    {uploading ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -325,12 +471,12 @@ export function Messages() {
             <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
                 <MessageSquare className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-600 mb-2">
-                  Selecciona una conversacion
-                </h3>
-                <p className="text-gray-500 text-sm">
-                  O inicia una nueva conversacion con el boton de arriba
-                </p>
+                                <h3 className="text-lg font-medium text-gray-600 mb-2">
+                                  {t.messages.selectConversation}
+                                </h3>
+                                <p className="text-gray-500 text-sm">
+                                  {t.messages.selectOrStart}
+                                </p>
               </div>
             </div>
           )}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { Course, GradeLevel } from '../types';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,21 +17,22 @@ import {
   Edit, Trash2, CheckCircle
 } from 'lucide-react';
 
-const GRADE_LEVELS: { value: GradeLevel; label: string }[] = [
-  { value: 'K', label: 'Kindergarten' },
-  { value: '1', label: '1er Grado' },
-  { value: '2', label: '2do Grado' },
-  { value: '3', label: '3er Grado' },
-  { value: '4', label: '4to Grado' },
-  { value: '5', label: '5to Grado' },
-  { value: '6', label: '6to Grado' },
-  { value: '7', label: '7mo Grado' },
-  { value: '8', label: '8vo Grado' },
+const GRADE_LEVEL_KEYS: { value: GradeLevel; key: keyof typeof import('../i18n').es.grades }[] = [
+  { value: 'K', key: 'kindergarten' },
+  { value: '1', key: 'grade1' },
+  { value: '2', key: 'grade2' },
+  { value: '3', key: 'grade3' },
+  { value: '4', key: 'grade4' },
+  { value: '5', key: 'grade5' },
+  { value: '6', key: 'grade6' },
+  { value: '7', key: 'grade7' },
+  { value: '8', key: 'grade8' },
 ];
 
 export function Courses() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -81,11 +83,11 @@ export function Courses() {
     }
   };
 
-  const getGradeLevelLabel = (grade: string | null | undefined) => {
-    if (!grade) return null;
-    const found = GRADE_LEVELS.find(g => g.value === grade);
-    return found ? found.label : `Grado ${grade}`;
-  };
+    const getGradeLevelLabel = (grade: string | null | undefined) => {
+      if (!grade) return null;
+      const found = GRADE_LEVEL_KEYS.find(g => g.value === grade);
+      return found ? t.grades[found.key] : `${t.grades.grade} ${grade}`;
+    };
 
   const filteredCourses = filterGrade === 'all' 
     ? courses 
@@ -101,7 +103,7 @@ export function Courses() {
   };
 
   const handleDeleteCourse = async (courseId: number) => {
-    if (!confirm('Estas seguro de eliminar este curso?')) return;
+    if (!confirm(t.courses.confirmDelete)) return;
     try {
       await api.deleteCourse(courseId);
       loadCourses();
@@ -136,77 +138,77 @@ export function Courses() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Cursos</h1>
-          <p className="text-gray-500">
-            {canManageCourses ? 'Gestiona tus cursos' : 'Explora los cursos disponibles'}
-          </p>
-        </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-800">{t.courses.title}</h1>
+                  <p className="text-gray-500">
+                    {canManageCourses ? t.courses.manageCourses : t.courses.exploreCourses}
+                  </p>
+                </div>
         <div className="flex items-center gap-3">
           <Select value={filterGrade} onValueChange={(value) => setFilterGrade(value as GradeLevel | 'all')}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filtrar por grado" />
+              <SelectValue placeholder={t.courses.filterByGrade} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Todos los grados</SelectItem>
-              {GRADE_LEVELS.map((grade) => (
-                <SelectItem key={grade.value} value={grade.value}>
-                  {grade.label}
-                </SelectItem>
-              ))}
+                            <SelectItem value="all">{t.courses.allGrades}</SelectItem>
+                            {GRADE_LEVEL_KEYS.map((grade) => (
+                              <SelectItem key={grade.value} value={grade.value}>
+                                {t.grades[grade.key]}
+                              </SelectItem>
+                            ))}
             </SelectContent>
           </Select>
         {canManageCourses && (
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>
-              <Button className="bg-teal-500 hover:bg-teal-600">
-                <Plus className="h-4 w-4 mr-2" />
-                Nuevo Curso
-              </Button>
+                            <Button className="bg-teal-500 hover:bg-teal-600">
+                              <Plus className="h-4 w-4 mr-2" />
+                              {t.courses.newCourse}
+                            </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Crear Nuevo Curso</DialogTitle>
+                <DialogTitle>{t.courses.createNewCourse}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="title">Titulo del Curso</Label>
-                  <Input
-                    id="title"
-                    placeholder="Ej: Matematicas Basicas"
+                                    <Label htmlFor="title">{t.courses.courseTitle}</Label>
+                                    <Input
+                                      id="title"
+                                      placeholder={t.courses.titlePlaceholder}
                     value={newCourse.title}
                     onChange={(e) => setNewCourse({ ...newCourse, title: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">Descripcion</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Describe el contenido del curso..."
+                                    <Label htmlFor="description">{t.courses.courseDescription}</Label>
+                                    <Textarea
+                                      id="description"
+                                      placeholder={t.courses.descriptionPlaceholder}
                     value={newCourse.description}
                     onChange={(e) => setNewCourse({ ...newCourse, description: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="grade_level">Grado</Label>
-                  <Select
-                    value={newCourse.grade_level}
-                    onValueChange={(value) => setNewCourse({ ...newCourse, grade_level: value as GradeLevel })}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona un grado" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {GRADE_LEVELS.map((grade) => (
-                        <SelectItem key={grade.value} value={grade.value}>
-                          {grade.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                                    <Label htmlFor="grade_level">{t.grades.grade}</Label>
+                                    <Select
+                                      value={newCourse.grade_level}
+                                      onValueChange={(value) => setNewCourse({ ...newCourse, grade_level: value as GradeLevel })}
+                                    >
+                                      <SelectTrigger>
+                                        <SelectValue placeholder={t.courses.selectGrade} />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {GRADE_LEVEL_KEYS.map((grade) => (
+                                          <SelectItem key={grade.value} value={grade.value}>
+                                            {t.grades[grade.key]}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="thumbnail">URL de Imagen (opcional)</Label>
+                  <Label htmlFor="thumbnail">{t.courses.imageUrl}</Label>
                   <Input
                     id="thumbnail"
                     placeholder="https://..."
@@ -219,7 +221,7 @@ export function Courses() {
                   onClick={handleCreateCourse}
                   disabled={creating || !newCourse.title}
                 >
-                  {creating ? 'Creando...' : 'Crear Curso'}
+                  {creating ? t.courses.creating : t.courses.createCourse}
                 </Button>
               </div>
             </DialogContent>
@@ -234,7 +236,7 @@ export function Courses() {
           <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
             <div 
               className={`h-32 bg-gradient-to-br ${getCourseColor(index)} relative`}
-              onClick={() => navigate(`/courses/${course.id}`)}
+              onClick={() => navigate(`/app/courses/${course.id}`)}
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <BookOpen className="h-16 w-16 text-white/30" />
@@ -243,17 +245,17 @@ export function Courses() {
                 {course.grade_level && (
                   <Badge className="bg-blue-500">{getGradeLevelLabel(course.grade_level)}</Badge>
                 )}
-                {course.is_published ? (
-                  <Badge className="bg-green-500">Publicado</Badge>
-                ) : (
-                  <Badge variant="secondary">Borrador</Badge>
-                )}
+                                {course.is_published ? (
+                                  <Badge className="bg-green-500">{t.courses.published}</Badge>
+                                ) : (
+                                  <Badge variant="secondary">{t.courses.draft}</Badge>
+                                )}
               </div>
             </div>
             <CardContent className="p-4">
               <h3 
                 className="font-semibold text-lg text-gray-800 mb-1 group-hover:text-teal-600 transition-colors cursor-pointer"
-                onClick={() => navigate(`/courses/${course.id}`)}
+                onClick={() => navigate(`/app/courses/${course.id}`)}
               >
                 {course.title}
               </h3>
@@ -282,7 +284,7 @@ export function Courses() {
                       size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/courses/${course.id}`);
+                        navigate(`/app/courses/${course.id}`);
                       }}
                     >
                       <Edit className="h-4 w-4 text-blue-500" />
@@ -308,20 +310,20 @@ export function Courses() {
       {filteredCourses.length === 0 && (
         <Card className="p-12 text-center">
           <BookOpen className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-600 mb-2">No hay cursos disponibles</h3>
-          <p className="text-gray-500 mb-4">
-            {canManageCourses 
-              ? 'Crea tu primer curso para comenzar' 
-              : 'Los cursos estaran disponibles pronto'}
-          </p>
+                    <h3 className="text-lg font-medium text-gray-600 mb-2">{t.courses.noCourses}</h3>
+                    <p className="text-gray-500 mb-4">
+                      {canManageCourses 
+                        ? t.courses.createFirst 
+                        : t.courses.comingSoon}
+                    </p>
           {canManageCourses && (
-            <Button 
-              className="bg-teal-500 hover:bg-teal-600"
-              onClick={() => setShowCreateDialog(true)}
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Crear Curso
-            </Button>
+                        <Button 
+                          className="bg-teal-500 hover:bg-teal-600"
+                          onClick={() => setShowCreateDialog(true)}
+                        >
+                          <Plus className="h-4 w-4 mr-2" />
+                          {t.courses.createCourse}
+                        </Button>
           )}
         </Card>
       )}

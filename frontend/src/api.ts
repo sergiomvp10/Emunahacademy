@@ -1,7 +1,9 @@
 import { 
   User, Token, Course, Lesson, Evaluation, StudentEvaluation,
   CalendarEvent, QuizResult, StudentProgress, ChildProgress, 
-  Statistics, Enrollment, UserRole, Message, Conversation
+  Statistics, Enrollment, UserRole, Message, Conversation,
+  Payment, PaymentStatus, StudentForPayment,
+  Assignment, AssignmentSubmission, StudentAssignment
 } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -214,17 +216,18 @@ class ApiService {
   }
 
   // Calendar
-  async getCalendarEvents(courseId?: number, startDate?: string, endDate?: string): Promise<CalendarEvent[]> {
+  async getCalendarEvents(courseId?: number, startDate?: string, endDate?: string, userId?: number): Promise<CalendarEvent[]> {
     const params = new URLSearchParams();
     if (courseId) params.append('course_id', courseId.toString());
     if (startDate) params.append('start_date', startDate);
     if (endDate) params.append('end_date', endDate);
+    if (userId) params.append('user_id', userId.toString());
     const query = params.toString() ? `?${params.toString()}` : '';
     return this.request<CalendarEvent[]>(`/api/calendar${query}`);
   }
 
-  async createCalendarEvent(event: { title: string; description?: string; event_type: string; start_time: string; end_time: string; course_id?: number }, createdBy: number): Promise<CalendarEvent> {
-    return this.request<CalendarEvent>(`/api/calendar?created_by=${createdBy}`, {
+  async createCalendarEvent(event: { title: string; description?: string; event_type: string; start_time: string; end_time: string; course_id?: number; grade_level?: string | null }, createdBy: number, notify: boolean = false): Promise<CalendarEvent> {
+    return this.request<CalendarEvent>(`/api/calendar?created_by=${createdBy}&notify=${notify}`, {
       method: 'POST',
       body: JSON.stringify(event),
     });
@@ -278,11 +281,41 @@ class ApiService {
     return this.request<Message[]>(`/api/messages/${otherUserId}?user_id=${userId}`);
   }
 
-  async sendMessage(receiverId: number, content: string, senderId: number): Promise<Message> {
+  async sendMessage(
+    receiverId: number, 
+    content: string, 
+    senderId: number,
+    fileUrl?: string,
+    fileName?: string,
+    fileType?: string
+  ): Promise<Message> {
     return this.request<Message>(`/api/messages?sender_id=${senderId}`, {
       method: 'POST',
-      body: JSON.stringify({ receiver_id: receiverId, content }),
+      body: JSON.stringify({ 
+        receiver_id: receiverId, 
+        content,
+        file_url: fileUrl,
+        file_name: fileName,
+        file_type: fileType
+      }),
     });
+  }
+
+  async uploadFile(file: File): Promise<{ file_url: string; file_name: string; file_type: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    const response = await fetch(`${API_URL}/api/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Error al subir archivo');
+    }
+    
+    return response.json();
   }
 
   async markMessageRead(messageId: number): Promise<void> {
@@ -296,6 +329,200 @@ class ApiService {
   async getContacts(userId: number): Promise<User[]> {
     return this.request<User[]>(`/api/messages/contacts?user_id=${userId}`);
   }
+
+  async getUnreadCount(userId: number): Promise<{ unread_count: number }> {
+    return this.request<{ unread_count: number }>(`/api/messages/unread-count?user_id=${userId}`);
+  }
+
+  async deleteConversation(otherUserId: number, userId: number): Promise<void> {
+    await this.request(`/api/messages/conversation/${otherUserId}?user_id=${userId}`, { method: 'DELETE' });
+  }
+
+  // Site Content
+  async getSiteContent(): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>('/api/site-content');
+  }
+
+  async getSiteContentSection(section: string): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
+    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}`);
+  }
+
+  async updateSiteContent(section: string, content: Record<string, unknown>): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
+    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}`, {
+      method: 'PUT',
+      body: JSON.stringify({ section, content }),
+    });
+  }
+
+  // Applications
+  async getApplications(status?: string): Promise<StudentApplication[]> {
+    const params = status ? `?status=${status}` : '';
+    return this.request<StudentApplication[]>(`/api/applications${params}`);
+  }
+
+  async getApplication(applicationId: number): Promise<StudentApplication> {
+    return this.request<StudentApplication>(`/api/applications/${applicationId}`);
+  }
+
+  async submitApplication(application: {
+    student_name: string;
+    student_age: number;
+    grade_level: string;
+    parent_name: string;
+    parent_email: string;
+    parent_phone: string;
+    address?: string;
+    message?: string;
+  }): Promise<StudentApplication> {
+    return this.request<StudentApplication>('/api/applications', {
+      method: 'POST',
+      body: JSON.stringify(application),
+    });
+  }
+
+  async updateApplicationStatus(applicationId: number, status: string, reviewedBy: number): Promise<StudentApplication> {
+    return this.request<StudentApplication>(`/api/applications/${applicationId}/status?status=${status}&reviewed_by=${reviewedBy}`, {
+      method: 'PUT',
+    });
+  }
+
+  async deleteApplication(applicationId: number): Promise<void> {
+    await this.request(`/api/applications/${applicationId}`, { method: 'DELETE' });
+  }
+
+  // Payments
+  async getPayments(userId: number, studentId?: number, status?: PaymentStatus, year?: number): Promise<Payment[]> {
+    const params = new URLSearchParams();
+    params.append('user_id', userId.toString());
+    if (studentId) params.append('student_id', studentId.toString());
+    if (status) params.append('status', status);
+    if (year) params.append('year', year.toString());
+    return this.request<Payment[]>(`/api/payments?${params.toString()}`);
+  }
+
+  async getPayment(paymentId: number): Promise<Payment> {
+    return this.request<Payment>(`/api/payments/${paymentId}`);
+  }
+
+  async createPayment(payment: {
+    student_id: number;
+    amount: number;
+    month: string;
+    year: number;
+    due_date: string;
+    notes?: string;
+  }, userId: number): Promise<Payment> {
+    return this.request<Payment>(`/api/payments?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify(payment),
+    });
+  }
+
+  async updatePayment(paymentId: number, update: {
+    status: PaymentStatus;
+    payment_date?: string;
+    notes?: string;
+  }, userId: number): Promise<Payment> {
+    return this.request<Payment>(`/api/payments/${paymentId}?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(update),
+    });
+  }
+
+  async deletePayment(paymentId: number, userId: number): Promise<void> {
+    await this.request(`/api/payments/${paymentId}?user_id=${userId}`, { method: 'DELETE' });
+  }
+
+  async getStudentsForPayments(userId: number): Promise<StudentForPayment[]> {
+    return this.request<StudentForPayment[]>(`/api/payments/students?user_id=${userId}`);
+  }
+
+  // Assignments
+  async getAssignments(courseId?: number, userId?: number): Promise<Assignment[]> {
+    const params = new URLSearchParams();
+    if (courseId) params.append('course_id', courseId.toString());
+    if (userId) params.append('user_id', userId.toString());
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return this.request<Assignment[]>(`/api/assignments${query}`);
+  }
+
+  async getAssignment(assignmentId: number): Promise<Assignment> {
+    return this.request<Assignment>(`/api/assignments/${assignmentId}`);
+  }
+
+  async createAssignment(assignment: {
+    title: string;
+    description?: string;
+    course_id: number;
+    due_date: string;
+    max_score: number;
+  }, userId: number): Promise<Assignment> {
+    return this.request<Assignment>(`/api/assignments?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify(assignment),
+    });
+  }
+
+  async updateAssignment(assignmentId: number, assignment: {
+    title: string;
+    description?: string;
+    course_id: number;
+    due_date: string;
+    max_score: number;
+  }, userId: number): Promise<Assignment> {
+    return this.request<Assignment>(`/api/assignments/${assignmentId}?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(assignment),
+    });
+  }
+
+  async deleteAssignment(assignmentId: number, userId: number): Promise<void> {
+    await this.request(`/api/assignments/${assignmentId}?user_id=${userId}`, { method: 'DELETE' });
+  }
+
+  async getAssignmentSubmissions(assignmentId: number): Promise<AssignmentSubmission[]> {
+    return this.request<AssignmentSubmission[]>(`/api/assignments/${assignmentId}/submissions`);
+  }
+
+  async getStudentAssignments(studentId: number): Promise<StudentAssignment[]> {
+    return this.request<StudentAssignment[]>(`/api/students/${studentId}/assignments`);
+  }
+
+  async submitAssignment(submission: {
+    assignment_id: number;
+    content?: string;
+    file_url?: string;
+    file_name?: string;
+  }, studentId: number): Promise<AssignmentSubmission> {
+    return this.request<AssignmentSubmission>(`/api/assignments/submit?student_id=${studentId}`, {
+      method: 'POST',
+      body: JSON.stringify(submission),
+    });
+  }
+
+  async gradeAssignment(submissionId: number, score: number, feedback: string, userId: number): Promise<AssignmentSubmission> {
+    return this.request<AssignmentSubmission>(`/api/assignments/grade?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify({ submission_id: submissionId, score, feedback }),
+    });
+  }
 }
 
 export const api = new ApiService();
+
+// Types for applications
+export interface StudentApplication {
+  id: number;
+  student_name: string;
+  student_age: number;
+  grade_level: string;
+  parent_name: string;
+  parent_email: string;
+  parent_phone: string;
+  address?: string;
+  message?: string;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  reviewed_at?: string;
+  reviewed_by?: number;
+}

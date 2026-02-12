@@ -1,75 +1,108 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import { api } from '../api';
 import { 
   LayoutDashboard, BookOpen, Calendar, Users, MessageSquare, 
   LogOut, Menu, Bell, Search, ChevronDown,
-  GraduationCap, FileText, BarChart3, Bot
+  GraduationCap, FileText, BarChart3, Settings, ClipboardList, DollarSign, Globe, ClipboardCheck, Bot
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export function Layout() {
   const { user, logout } = useAuth();
+  const { language, t, toggleLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
 
-  const currentPage = location.pathname.split('/')[1] || 'dashboard';
+  useEffect(() => {
+    if (user) {
+      loadUnreadCount();
+      const interval = setInterval(loadUnreadCount, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
+  const loadUnreadCount = async () => {
+    if (!user) return;
+    try {
+      const data = await api.getUnreadCount(user.id);
+      setUnreadCount(data.unread_count);
+    } catch (error) {
+      console.error('Error loading unread count:', error);
+    }
+  };
+
+  // Get current page from path (handle /app prefix)
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const currentPage = pathParts[1] || pathParts[0] || 'dashboard';
 
   const getMenuItems = () => {
     const baseItems = [
-      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-      { id: 'courses', label: 'Cursos', icon: BookOpen },
-      { id: 'calendar', label: 'Calendario', icon: Calendar },
-      { id: 'messages', label: 'Mensajes', icon: MessageSquare },
+      { id: 'dashboard', label: t.nav.dashboard, icon: LayoutDashboard },
+      { id: 'courses', label: t.nav.courses, icon: BookOpen },
+      { id: 'calendar', label: t.nav.calendar, icon: Calendar },
+      { id: 'messages', label: t.nav.messages, icon: MessageSquare },
     ];
 
-        if (user?.role === 'superuser') {
-          return [
-            ...baseItems,
-            { id: 'users', label: 'Usuarios', icon: Users },
-            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-            { id: 'progress', label: 'Progreso', icon: BarChart3 },
-            { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
-          ];
-        }
+    if (user?.role === 'superuser') {
+      return [
+        ...baseItems,
+        { id: 'users', label: t.nav.users, icon: Users },
+        { id: 'students', label: t.nav.students, icon: GraduationCap },
+        { id: 'evaluations', label: t.nav.evaluations, icon: FileText },
+        { id: 'assignments', label: t.nav.assignments, icon: ClipboardCheck },
+        { id: 'progress', label: t.nav.progress, icon: BarChart3 },
+        { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
+        { id: 'applications', label: t.nav.applications, icon: ClipboardList },
+        { id: 'payments', label: t.nav.payments, icon: DollarSign },
+        { id: 'site-settings', label: t.nav.settings, icon: Settings },
+      ];
+    }
 
-        if (user?.role === 'director') {
-          return [
-            ...baseItems,
-            { id: 'users', label: 'Usuarios', icon: Users },
-            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-            { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
-          ];
-        }
+    if (user?.role === 'director') {
+      return [
+        ...baseItems,
+        { id: 'users', label: t.nav.users, icon: Users },
+        { id: 'students', label: t.nav.students, icon: GraduationCap },
+        { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
+        { id: 'applications', label: t.nav.applications, icon: ClipboardList },
+        { id: 'payments', label: t.nav.payments, icon: DollarSign },
+      ];
+    }
 
-        if (user?.role === 'teacher') {
-          return [
-            ...baseItems,
-            { id: 'students', label: 'Estudiantes', icon: GraduationCap },
-            { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
-            { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
-          ];
-        }
+    if (user?.role === 'teacher') {
+      return [
+        ...baseItems,
+        { id: 'students', label: t.nav.students, icon: GraduationCap },
+        { id: 'evaluations', label: t.nav.evaluations, icon: FileText },
+        { id: 'assignments', label: t.nav.assignments, icon: ClipboardCheck },
+        { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
+      ];
+    }
 
     if (user?.role === 'student') {
       return [
         ...baseItems,
-        { id: 'progress', label: 'Mi Progreso', icon: BarChart3 },
-        { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+        { id: 'progress', label: t.nav.myProgress, icon: BarChart3 },
+        { id: 'evaluations', label: t.nav.evaluations, icon: FileText },
+        { id: 'assignments', label: t.nav.assignments, icon: ClipboardCheck },
         { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
       ];
     }
 
     if (user?.role === 'parent') {
       return [
-        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-        { id: 'children', label: 'Mis Hijos', icon: Users },
-        { id: 'calendar', label: 'Calendario', icon: Calendar },
-        { id: 'messages', label: 'Mensajes', icon: MessageSquare },
+        { id: 'dashboard', label: t.nav.dashboard, icon: LayoutDashboard },
+        { id: 'children', label: t.nav.myChildren, icon: Users },
+        { id: 'calendar', label: t.nav.calendar, icon: Calendar },
+        { id: 'messages', label: t.nav.messages, icon: MessageSquare },
         { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
+        { id: 'payments', label: t.nav.payments, icon: DollarSign },
       ];
     }
 
@@ -79,16 +112,16 @@ export function Layout() {
   const menuItems = getMenuItems();
 
   const handleNavigate = (page: string) => {
-    navigate(`/${page}`);
+    navigate(`/app/${page}`);
   };
 
   const getRoleLabel = (role: string) => {
     const labels: Record<string, string> = {
-      superuser: 'Administrador',
-      director: 'Directora',
-      teacher: 'Profesor',
-      student: 'Estudiante',
-      parent: 'Padre/Madre'
+      superuser: t.roles.superuser,
+      director: t.roles.director,
+      teacher: t.roles.teacher,
+      student: t.roles.student,
+      parent: t.roles.parent
     };
     return labels[role] || role;
   };
@@ -137,7 +170,7 @@ export function Layout() {
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
           >
             <LogOut className="h-5 w-5" />
-            {sidebarOpen && <span>Cerrar Sesion</span>}
+            {sidebarOpen && <span>{t.common.logout}</span>}
           </button>
         </div>
       </aside>
@@ -157,16 +190,31 @@ export function Layout() {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
-                  placeholder="Buscar..."
+                  placeholder={t.common.search + '...'}
                   className="pl-10 w-64 bg-gray-50 border-gray-200"
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-lg relative">
+              <button 
+                onClick={toggleLanguage}
+                className="p-2 hover:bg-gray-100 rounded-lg flex items-center gap-1 text-xs font-medium text-gray-600"
+                title={t.settings.language}
+              >
+                <Globe className="h-4 w-4" />
+                <span className="uppercase">{language}</span>
+              </button>
+              <button 
+                className="p-2 hover:bg-gray-100 rounded-lg relative"
+                onClick={() => navigate('/app/messages')}
+              >
                 <Bell className="h-5 w-5 text-gray-600" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
               </button>
               
               <div className="flex items-center gap-3 pl-4 border-l border-gray-200">

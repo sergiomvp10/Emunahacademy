@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { Course, Statistics, StudentProgress, ChildProgress, User } from '../types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +17,7 @@ import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, A
 export function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [courses, setCourses] = useState<Course[]>([]);
   const [statistics, setStatistics] = useState<Statistics | null>(null);
   const [progress, setProgress] = useState<StudentProgress[]>([]);
@@ -87,8 +89,8 @@ export function Dashboard() {
       {/* Welcome Banner */}
       <div className="bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl p-6 text-white relative overflow-hidden">
         <div className="relative z-10">
-          <h1 className="text-2xl font-bold mb-2">Aprende Efectivamente Con Nosotros!</h1>
-          <p className="text-teal-100 mb-4">Bienvenido a EmunahAcademy - Tu plataforma de aprendizaje</p>
+                    <h1 className="text-2xl font-bold mb-2">{t.dashboard.welcome}</h1>
+                    <p className="text-teal-100 mb-4">{t.dashboard.welcomeSubtitle}</p>
           <div className="flex gap-6">
             <div className="flex items-center gap-2">
               <div className="bg-white/20 p-2 rounded-full">
@@ -96,7 +98,7 @@ export function Dashboard() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{statistics?.total_students || courses.length * 10}+</p>
-                <p className="text-xs text-teal-100">Estudiantes</p>
+                <p className="text-xs text-teal-100">{t.dashboard.students}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -105,7 +107,7 @@ export function Dashboard() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{statistics?.total_teachers || teachers.length}+</p>
-                <p className="text-xs text-teal-100">Mentores Expertos</p>
+                <p className="text-xs text-teal-100">{t.dashboard.mentors}</p>
               </div>
             </div>
           </div>
@@ -200,10 +202,10 @@ export function Dashboard() {
           <Card>
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">Cursos Populares</CardTitle>
-                <Button variant="link" className="text-teal-600 p-0" onClick={() => navigate('/courses')}>
-                  Ver Todos
-                </Button>
+                                <CardTitle className="text-lg">{t.dashboard.popularCourses}</CardTitle>
+                                <Button variant="link" className="text-teal-600 p-0" onClick={() => navigate('/courses')}>
+                                  {t.dashboard.viewAll}
+                                </Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -220,9 +222,9 @@ export function Dashboard() {
                     <p className="font-medium text-gray-800 truncate">{course.title}</p>
                     <p className="text-xs text-gray-500">{course.teacher_name}</p>
                   </div>
-                  <Button variant="ghost" size="sm" className="text-teal-600">
-                    Ver Curso
-                  </Button>
+                                    <Button variant="ghost" size="sm" className="text-teal-600">
+                                      {t.dashboard.viewCourse}
+                                    </Button>
                 </div>
               ))}
               {courses.length === 0 && (
@@ -236,8 +238,8 @@ export function Dashboard() {
         <div className="lg:col-span-1">
           <Card className="h-full">
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Actividad Actual</CardTitle>
-              <p className="text-sm text-gray-500">Progreso Mensual</p>
+                            <CardTitle className="text-lg">{t.dashboard.currentActivity}</CardTitle>
+                            <p className="text-sm text-gray-500">{t.dashboard.monthlyProgress}</p>
             </CardHeader>
             <CardContent>
               <div className="h-48">
@@ -266,11 +268,11 @@ export function Dashboard() {
               <div className="grid grid-cols-2 gap-4 mt-4">
                 <div className="bg-amber-100 rounded-xl p-4 text-center">
                   <p className="text-2xl font-bold text-amber-600">450+</p>
-                  <p className="text-xs text-amber-700">Estudiantes Activos</p>
+                  <p className="text-xs text-amber-700">{t.dashboard.activeStudents}</p>
                 </div>
                 <div className="bg-rose-100 rounded-xl p-4 text-center">
                   <p className="text-2xl font-bold text-rose-600">200+</p>
-                  <p className="text-xs text-rose-700">Video Cursos</p>
+                  <p className="text-xs text-rose-700">{t.dashboard.videoCourses}</p>
                 </div>
               </div>
             </CardContent>
@@ -282,8 +284,8 @@ export function Dashboard() {
           <Card className="h-full">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">Mejores Instructores</CardTitle>
-                <Button variant="link" className="text-teal-600 p-0">Ver Todos</Button>
+                                <CardTitle className="text-lg">{t.dashboard.topInstructors}</CardTitle>
+                                <Button variant="link" className="text-teal-600 p-0">{t.dashboard.viewAll}</Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-3">

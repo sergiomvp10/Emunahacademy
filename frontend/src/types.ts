@@ -89,6 +89,7 @@ export interface CalendarEvent {
   start_time: string;
   end_time: string;
   course_id: number | null;
+  grade_level: GradeLevel | null;
   created_by: number;
   created_at: string;
 }
@@ -138,6 +139,9 @@ export interface Message {
   content: string;
   is_read: boolean;
   created_at: string;
+  file_url?: string | null;
+  file_name?: string | null;
+  file_type?: string | null;
 }
 
 export interface Conversation {
@@ -147,4 +151,69 @@ export interface Conversation {
   last_message: string;
   last_message_time: string;
   unread_count: number;
+}
+
+export type PaymentStatus = 'pending' | 'paid' | 'overdue' | 'cancelled';
+
+export interface Payment {
+  id: number;
+  student_id: number;
+  student_name: string;
+  parent_id: number | null;
+  parent_name: string | null;
+  amount: number;
+  month: string;
+  year: number;
+  status: PaymentStatus;
+  payment_date: string | null;
+  due_date: string;
+  notes: string | null;
+  created_at: string;
+  created_by: number;
+}
+
+export interface StudentForPayment {
+  id: number;
+  name: string;
+  grade_level: string | null;
+  parent_name: string | null;
+}
+
+export type AssignmentStatus = 'pending' | 'submitted' | 'graded' | 'late';
+
+export interface Assignment {
+  id: number;
+  title: string;
+  description: string | null;
+  course_id: number;
+  due_date: string;
+  max_score: number;
+  created_by: number;
+  created_at: string;
+  course_title: string | null;
+  creator_name: string | null;
+  submissions_count: number;
+  graded_count: number;
+}
+
+export interface AssignmentSubmission {
+  id: number;
+  assignment_id: number;
+  student_id: number;
+  student_name: string;
+  content: string | null;
+  file_url: string | null;
+  file_name: string | null;
+  status: AssignmentStatus;
+  score: number | null;
+  feedback: string | null;
+  submitted_at: string | null;
+  graded_at: string | null;
+  graded_by: number | null;
+  grader_name: string | null;
+}
+
+export interface StudentAssignment {
+  assignment: Assignment;
+  submission: AssignmentSubmission | null;
 }

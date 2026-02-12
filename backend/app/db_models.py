@@ -35,6 +35,18 @@ class GradeLevelEnum(str, enum.Enum):
     GRADE_7 = "7"
     GRADE_8 = "8"
 
+class PaymentStatusEnum(str, enum.Enum):
+    PENDING = "pending"
+    PAID = "paid"
+    OVERDUE = "overdue"
+    CANCELLED = "cancelled"
+
+class AssignmentStatusEnum(str, enum.Enum):
+    PENDING = "pending"
+    SUBMITTED = "submitted"
+    GRADED = "graded"
+    LATE = "late"
+
 class User(Base):
     __tablename__ = "users"
     
@@ -164,6 +176,7 @@ class CalendarEvent(Base):
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=False)
     course_id = Column(Integer, ForeignKey("courses.id"))
+    grade_level = Column(String(10), nullable=True)  # K, 1, 2, 3, 4, 5, 6, 7, 8 or null for "all"
     created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     
@@ -189,6 +202,67 @@ class Message(Base):
     content = Column(Text, nullable=False)
     is_read = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+    file_url = Column(String(500), nullable=True)
+    file_name = Column(String(255), nullable=True)
+    file_type = Column(String(100), nullable=True)
+    deleted_by_sender = Column(Boolean, default=False)
+    deleted_by_receiver = Column(Boolean, default=False)
     
     sender = relationship("User", foreign_keys=[sender_id], back_populates="messages_sent")
     receiver = relationship("User", foreign_keys=[receiver_id], back_populates="messages_received")
+
+class Payment(Base):
+    __tablename__ = "payments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    parent_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    amount = Column(Float, nullable=False)
+    month = Column(String(20), nullable=False)
+    year = Column(Integer, nullable=False)
+    status = Column(SQLEnum(PaymentStatusEnum), default=PaymentStatusEnum.PENDING)
+    payment_date = Column(DateTime, nullable=True)
+    due_date = Column(DateTime, nullable=False)
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    
+    student = relationship("User", foreign_keys=[student_id])
+    parent = relationship("User", foreign_keys=[parent_id])
+    creator = relationship("User", foreign_keys=[created_by])
+
+class Assignment(Base):
+    __tablename__ = "assignments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    description = Column(Text, nullable=True)
+    course_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
+    due_date = Column(DateTime, nullable=False)
+    max_score = Column(Float, default=100.0)
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    course = relationship("Course")
+    creator = relationship("User", foreign_keys=[created_by])
+    submissions = relationship("AssignmentSubmission", back_populates="assignment", cascade="all, delete-orphan")
+
+class AssignmentSubmission(Base):
+    __tablename__ = "assignment_submissions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    assignment_id = Column(Integer, ForeignKey("assignments.id"), nullable=False)
+    student_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    content = Column(Text, nullable=True)
+    file_url = Column(String(500), nullable=True)
+    file_name = Column(String(255), nullable=True)
+    status = Column(SQLEnum(AssignmentStatusEnum), default=AssignmentStatusEnum.PENDING)
+    score = Column(Float, nullable=True)
+    feedback = Column(Text, nullable=True)
+    submitted_at = Column(DateTime, nullable=True)
+    graded_at = Column(DateTime, nullable=True)
+    graded_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    
+    assignment = relationship("Assignment", back_populates="submissions")
+    student = relationship("User", foreign_keys=[student_id])
+    grader = relationship("User", foreign_keys=[graded_by])

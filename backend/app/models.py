@@ -161,6 +161,7 @@ class CalendarEventBase(BaseModel):
     start_time: datetime
     end_time: datetime
     course_id: Optional[int] = None
+    grade_level: Optional[str] = None  # K, 1, 2, 3, 4, 5, 6, 7, 8 or null for "all"
 
 class CalendarEventCreate(CalendarEventBase):
     pass
@@ -212,6 +213,9 @@ class ChildProgress(BaseModel):
 class MessageCreate(BaseModel):
     receiver_id: int
     content: str
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    file_type: Optional[str] = None
 
 class Message(BaseModel):
     id: int
@@ -222,6 +226,9 @@ class Message(BaseModel):
     content: str
     is_read: bool = False
     created_at: datetime
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    file_type: Optional[str] = None
     
     class Config:
         from_attributes = True
@@ -233,3 +240,144 @@ class Conversation(BaseModel):
     last_message: str
     last_message_time: datetime
     unread_count: int
+
+# Site Content Models
+class SiteContentUpdate(BaseModel):
+    content: dict
+
+class SiteContent(BaseModel):
+    section: str
+    content: dict
+    updated_at: datetime
+
+# Student Application Models
+class ApplicationStatus(str, Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+class StudentApplicationCreate(BaseModel):
+    student_name: str
+    student_age: int
+    grade_level: str
+    parent_name: str
+    parent_email: str
+    parent_phone: str
+    address: str
+    message: Optional[str] = None
+
+class StudentApplication(BaseModel):
+    id: int
+    student_name: str
+    student_age: int
+    grade_level: str
+    parent_name: str
+    parent_email: str
+    parent_phone: str
+    address: str
+    message: Optional[str] = None
+    status: ApplicationStatus
+    created_at: datetime
+    reviewed_at: Optional[datetime] = None
+    reviewed_by: Optional[int] = None
+
+class PaymentStatus(str, Enum):
+    PENDING = "pending"
+    PAID = "paid"
+    OVERDUE = "overdue"
+    CANCELLED = "cancelled"
+
+class AssignmentStatus(str, Enum):
+    PENDING = "pending"
+    SUBMITTED = "submitted"
+    GRADED = "graded"
+    LATE = "late"
+
+class PaymentCreate(BaseModel):
+    student_id: int
+    amount: float
+    month: str
+    year: int
+    due_date: datetime
+    notes: Optional[str] = None
+
+class PaymentUpdate(BaseModel):
+    status: PaymentStatus
+    payment_date: Optional[datetime] = None
+    notes: Optional[str] = None
+
+class Payment(BaseModel):
+    id: int
+    student_id: int
+    student_name: str
+    parent_id: Optional[int] = None
+    parent_name: Optional[str] = None
+    amount: float
+    month: str
+    year: int
+    status: PaymentStatus
+    payment_date: Optional[datetime] = None
+    due_date: datetime
+    notes: Optional[str] = None
+    created_at: datetime
+    created_by: int
+    
+    class Config:
+        from_attributes = True
+
+# Assignment Models
+class AssignmentBase(BaseModel):
+    title: str
+    description: Optional[str] = None
+    course_id: int
+    due_date: datetime
+    max_score: float = 100.0
+
+class AssignmentCreate(AssignmentBase):
+    pass
+
+class Assignment(AssignmentBase):
+    id: int
+    created_by: int
+    created_at: datetime
+    course_title: Optional[str] = None
+    creator_name: Optional[str] = None
+    submissions_count: int = 0
+    graded_count: int = 0
+    
+    class Config:
+        from_attributes = True
+
+class AssignmentSubmissionCreate(BaseModel):
+    assignment_id: int
+    content: Optional[str] = None
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+
+class AssignmentSubmissionGrade(BaseModel):
+    submission_id: int
+    score: float
+    feedback: Optional[str] = None
+
+class AssignmentSubmission(BaseModel):
+    id: int
+    assignment_id: int
+    student_id: int
+    student_name: str
+    content: Optional[str] = None
+    file_url: Optional[str] = None
+    file_name: Optional[str] = None
+    status: AssignmentStatus
+    score: Optional[float] = None
+    feedback: Optional[str] = None
+    submitted_at: Optional[datetime] = None
+    graded_at: Optional[datetime] = None
+    graded_by: Optional[int] = None
+    grader_name: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+class StudentAssignment(BaseModel):
+    assignment: Assignment
+    submission: Optional[AssignmentSubmission] = None

@@ -1,9 +1,9 @@
 from datetime import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import text
+from sqlalchemy import text, inspect
 from app.db_models import (
-    Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
-    UserRoleEnum, LessonTypeEnum, EventTypeEnum
+    Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink, Payment,
+    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum
 )
 from app.db_config import engine, SessionLocal
 
@@ -11,27 +11,54 @@ def create_tables():
     Base.metadata.create_all(bind=engine)
 
 def run_migrations():
-    """Add new columns to existing tables if they don't exist"""
+    """Add new columns to existing tables if they don't exist.
+    Uses SQLAlchemy introspection to work with both SQLite and PostgreSQL."""
+    inspector = inspect(engine)
+    
     with engine.connect() as conn:
         # Check and add grade_level column to users table
-        result = conn.execute(text("""
-            SELECT column_name FROM information_schema.columns 
-            WHERE table_name = 'users' AND column_name = 'grade_level'
-        """))
-        if not result.fetchone():
+        users_columns = [col['name'] for col in inspector.get_columns('users')]
+        if 'grade_level' not in users_columns:
             conn.execute(text("ALTER TABLE users ADD COLUMN grade_level VARCHAR(10)"))
             conn.commit()
             print("Added grade_level column to users table")
         
         # Check and add grade_level column to courses table
-        result = conn.execute(text("""
-            SELECT column_name FROM information_schema.columns 
-            WHERE table_name = 'courses' AND column_name = 'grade_level'
-        """))
-        if not result.fetchone():
+        courses_columns = [col['name'] for col in inspector.get_columns('courses')]
+        if 'grade_level' not in courses_columns:
             conn.execute(text("ALTER TABLE courses ADD COLUMN grade_level VARCHAR(10)"))
             conn.commit()
             print("Added grade_level column to courses table")
+        
+        # Check and add file columns to messages table
+        messages_columns = [col['name'] for col in inspector.get_columns('messages')]
+        if 'file_url' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN file_url VARCHAR(500)"))
+            conn.commit()
+            print("Added file_url column to messages table")
+        if 'file_name' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN file_name VARCHAR(255)"))
+            conn.commit()
+            print("Added file_name column to messages table")
+        if 'file_type' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN file_type VARCHAR(100)"))
+            conn.commit()
+            print("Added file_type column to messages table")
+        if 'deleted_by_sender' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_sender BOOLEAN DEFAULT FALSE"))
+            conn.commit()
+            print("Added deleted_by_sender column to messages table")
+        if 'deleted_by_receiver' not in messages_columns:
+            conn.execute(text("ALTER TABLE messages ADD COLUMN deleted_by_receiver BOOLEAN DEFAULT FALSE"))
+            conn.commit()
+            print("Added deleted_by_receiver column to messages table")
+        
+        # Check and add grade_level column to calendar_events table
+        calendar_events_columns = [col['name'] for col in inspector.get_columns('calendar_events')]
+        if 'grade_level' not in calendar_events_columns:
+            conn.execute(text("ALTER TABLE calendar_events ADD COLUMN grade_level VARCHAR(10)"))
+            conn.commit()
+            print("Added grade_level column to calendar_events table")
 
 def seed_sample_data(db: Session):
     existing_user = db.query(User).filter(User.email == "admin@emunahacademy.com").first()
