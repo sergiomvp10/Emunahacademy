@@ -1328,6 +1328,7 @@ async def create_application(application: StudentApplicationCreate):
         "parent_phone": application.parent_phone,
         "address": application.address,
         "message": application.message,
+        "has_esa": application.has_esa,
         "status": ApplicationStatus.PENDING,
         "created_at": datetime.now(),
         "reviewed_at": None,
