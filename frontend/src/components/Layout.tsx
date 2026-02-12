@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { 
   LayoutDashboard, BookOpen, Calendar, Users, MessageSquare, 
   LogOut, Menu, Bell, Search, ChevronDown,
-  GraduationCap, FileText, BarChart3
+  GraduationCap, FileText, BarChart3, Bot
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -32,6 +32,7 @@ export function Layout() {
             { id: 'students', label: 'Estudiantes', icon: GraduationCap },
             { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
             { id: 'progress', label: 'Progreso', icon: BarChart3 },
+            { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
           ];
         }
 
@@ -40,6 +41,7 @@ export function Layout() {
             ...baseItems,
             { id: 'users', label: 'Usuarios', icon: Users },
             { id: 'students', label: 'Estudiantes', icon: GraduationCap },
+            { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
           ];
         }
 
@@ -48,6 +50,7 @@ export function Layout() {
             ...baseItems,
             { id: 'students', label: 'Estudiantes', icon: GraduationCap },
             { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+            { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
           ];
         }
 
@@ -56,6 +59,7 @@ export function Layout() {
         ...baseItems,
         { id: 'progress', label: 'Mi Progreso', icon: BarChart3 },
         { id: 'evaluations', label: 'Evaluaciones', icon: FileText },
+        { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
       ];
     }
 
@@ -65,6 +69,7 @@ export function Layout() {
         { id: 'children', label: 'Mis Hijos', icon: Users },
         { id: 'calendar', label: 'Calendario', icon: Calendar },
         { id: 'messages', label: 'Mensajes', icon: MessageSquare },
+        { id: 'tutor-ai', label: 'Tutor AI', icon: Bot },
       ];
     }
 

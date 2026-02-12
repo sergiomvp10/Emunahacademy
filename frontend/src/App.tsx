@@ -11,6 +11,7 @@ import { Students } from './pages/Students';
 import { Evaluations } from './pages/Evaluations';
 import { ProgressPage } from './pages/Progress';
 import { Messages } from './pages/Messages';
+import { TutorAI } from './pages/TutorAI';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -74,9 +75,10 @@ function AppRoutes() {
                 <Route path="users" element={<Users />} />
                 <Route path="students" element={<Students />} />
                 <Route path="evaluations" element={<Evaluations />} />
-        <Route path="progress" element={<ProgressPage />} />
-        <Route path="children" element={<ProgressPage />} />
-        <Route path="messages" element={<Messages />} />
+                <Route path="progress" element={<ProgressPage />} />
+                <Route path="children" element={<ProgressPage />} />
+                <Route path="messages" element={<Messages />} />
+                <Route path="tutor-ai" element={<TutorAI />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
