@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { 
   GraduationCap, BookOpen, 
-  ChevronDown, ChevronUp, CheckCircle, Send, Menu, X, Globe
+  ChevronDown, ChevronUp, CheckCircle, Send, Menu, X, Globe, Bot, MessageCircle, Sparkles, Clock
 } from 'lucide-react';
 
 interface SiteContent {
@@ -270,6 +270,50 @@ export function LandingPage() {
                         </CardContent>
                       </Card>
                     </div>
+        </div>
+      </section>
+
+      {/* AI Tutor Section */}
+      <section className="py-20 bg-gradient-to-r from-purple-600 to-teal-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="text-white">
+              <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full mb-6">
+                <Sparkles className="h-5 w-5" />
+                <span className="text-sm font-medium">{language === 'es' ? 'Nueva Funcionalidad' : 'New Feature'}</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                {language === 'es' ? 'Tutor AI Personalizado' : 'Personalized AI Tutor'}
+              </h2>
+              <p className="text-lg text-white/90 mb-8">
+                {language === 'es' 
+                  ? 'Implementamos inteligencia artificial para personalizar el aprendizaje de cada estudiante. Nuestro Tutor AI esta disponible 24/7 para responder preguntas, ayudar con tareas y adaptar el contenido al nivel de cada alumno.'
+                  : 'We implement artificial intelligence to personalize each student\'s learning. Our AI Tutor is available 24/7 to answer questions, help with homework, and adapt content to each student\'s level.'}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                  <MessageCircle className="h-8 w-8 mx-auto mb-2" />
+                  <p className="text-sm font-medium">{language === 'es' ? 'Chat Interactivo' : 'Interactive Chat'}</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                  <Sparkles className="h-8 w-8 mx-auto mb-2" />
+                  <p className="text-sm font-medium">{language === 'es' ? 'Aprendizaje Adaptativo' : 'Adaptive Learning'}</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+                  <Clock className="h-8 w-8 mx-auto mb-2" />
+                  <p className="text-sm font-medium">{language === 'es' ? 'Disponible 24/7' : 'Available 24/7'}</p>
+                </div>
+              </div>
+            </div>
+            <div className="hidden md:flex justify-center">
+              <div className="relative">
+                <div className="absolute inset-0 bg-white/20 rounded-full blur-3xl"></div>
+                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+                  <Bot className="h-48 w-48 text-white/80" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
