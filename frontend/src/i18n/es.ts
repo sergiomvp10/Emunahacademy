@@ -453,6 +453,7 @@ export const es = {
       submitApplication: 'Enviar Solicitud',
       applicationSubmitted: 'Solicitud Enviada!',
       applicationReceived: 'Hemos recibido tu solicitud y te contactaremos pronto.',
+      hasEsa: 'Ya tiene E.S.A?',
     },
         footer: {
           allRightsReserved: 'Todos los derechos reservados.',

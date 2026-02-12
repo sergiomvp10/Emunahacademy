@@ -373,6 +373,7 @@ class ApiService {
     parent_phone: string;
     address?: string;
     message?: string;
+    has_esa?: boolean;
   }): Promise<StudentApplication> {
     return this.request<StudentApplication>('/api/applications', {
       method: 'POST',

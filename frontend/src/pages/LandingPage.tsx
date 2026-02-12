@@ -67,7 +67,8 @@ export function LandingPage() {
     parent_email: '',
     parent_phone: '',
     address: '',
-    message: ''
+    message: '',
+    has_esa: false
   });
 
   useEffect(() => {
@@ -97,7 +98,8 @@ export function LandingPage() {
         parent_email: formData.parent_email,
         parent_phone: formData.parent_phone,
         address: formData.address || undefined,
-        message: formData.message || undefined
+        message: formData.message || undefined,
+        has_esa: formData.has_esa
       });
       setApplicationSubmitted(true);
     } catch (error) {
@@ -485,7 +487,19 @@ export function LandingPage() {
                                           rows={3}
                                         />
                                       </div>
-                                      <Button 
+                                      <div className="flex items-center gap-3">
+                                        <input
+                                          type="checkbox"
+                                          id="has_esa"
+                                          checked={formData.has_esa}
+                                          onChange={(e) => setFormData({ ...formData, has_esa: e.target.checked })}
+                                          className="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                                        />
+                                        <Label htmlFor="has_esa" className="cursor-pointer">
+                                          {t.landing.form.hasEsa}
+                                        </Label>
+                                      </div>
+                                      <Button
                                         type="submit" 
                                         className="w-full bg-teal-500 hover:bg-teal-600"
                                         disabled={submitting || !formData.student_name || !formData.student_age || !formData.grade_level || !formData.parent_name || !formData.parent_email || !formData.parent_phone}

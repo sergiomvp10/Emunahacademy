@@ -265,6 +265,7 @@ class StudentApplicationCreate(BaseModel):
     parent_phone: str
     address: str
     message: Optional[str] = None
+    has_esa: bool = False
 
 class StudentApplication(BaseModel):
     id: int
@@ -276,6 +277,7 @@ class StudentApplication(BaseModel):
     parent_phone: str
     address: str
     message: Optional[str] = None
+    has_esa: bool = False
     status: ApplicationStatus
     created_at: datetime
     reviewed_at: Optional[datetime] = None
