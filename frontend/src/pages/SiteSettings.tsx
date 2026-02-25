@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Settings, Save, RotateCcw, Globe, Users, BookOpen, 
-  HelpCircle, Mail, CheckCircle
+  HelpCircle, Mail, CheckCircle, Upload, X
 } from 'lucide-react';
 
 interface HeroContent {
@@ -17,6 +17,7 @@ interface HeroContent {
   subtitle: string;
   cta_primary: string;
   cta_secondary: string;
+  hero_image?: string;
 }
 
 interface AboutContent {
@@ -64,8 +65,10 @@ export function SiteSettings() {
     title: '',
     subtitle: '',
     cta_primary: '',
-    cta_secondary: ''
+    cta_secondary: '',
+    hero_image: ''
   });
+  const [uploadingImage, setUploadingImage] = useState(false);
   
   const [about, setAbout] = useState<AboutContent>({
     title: '',
@@ -134,6 +137,22 @@ export function SiteSettings() {
       alert('Error saving. Please try again.');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const result = await api.uploadFile(file);
+      setHero({ ...hero, hero_image: result.file_url });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Please try again.');
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -232,6 +251,48 @@ export function SiteSettings() {
                     value={hero.cta_secondary}
                     onChange={(e) => setHero({ ...hero, cta_secondary: e.target.value })}
                   />
+                </div>
+              </div>
+              <div>
+                <Label>Hero Image</Label>
+                <div className="mt-2 space-y-3">
+                  {hero.hero_image ? (
+                    <div className="relative inline-block">
+                      <img 
+                        src={hero.hero_image} 
+                        alt="Hero preview" 
+                        className="h-32 w-32 object-cover rounded-lg border"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setHero({ ...hero, hero_image: '' })}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-4">
+                      <label className="cursor-pointer">
+                        <div className="flex items-center gap-2 px-4 py-2 border border-dashed border-gray-300 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors">
+                          <Upload className="h-5 w-5 text-gray-400" />
+                          <span className="text-sm text-gray-600">
+                            {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                          </span>
+                        </div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          disabled={uploadingImage}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  )}
+                  <p className="text-xs text-gray-500">
+                    This image will be displayed in the hero section of the landing page.
+                  </p>
                 </div>
               </div>
               <div className="flex justify-end gap-2">

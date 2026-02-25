@@ -19,6 +19,7 @@ interface SiteContent {
     subtitle: string;
     cta_primary: string;
     cta_secondary: string;
+    hero_image?: string;
   };
   about: {
     title: string;
@@ -228,9 +229,19 @@ export function LandingPage() {
             <div className="hidden md:flex justify-center">
               <div className="relative">
                 <div className="absolute inset-0 bg-white/20 rounded-full blur-3xl"></div>
-                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8">
-                  <GraduationCap className="h-48 w-48 text-white/80" />
-                </div>
+                {content.hero.hero_image ? (
+                  <div className="relative rounded-2xl overflow-hidden">
+                    <img 
+                      src={content.hero.hero_image} 
+                      alt="Hero" 
+                      className="h-64 w-64 object-cover rounded-2xl"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+                    <GraduationCap className="h-48 w-48 text-white/80" />
+                  </div>
+                )}
               </div>
             </div>
           </div>

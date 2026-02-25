@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { 
   Plus, BookOpen, Users, 
-  Edit, Trash2, CheckCircle
+  Edit, Trash2, CheckCircle, Upload, X
 } from 'lucide-react';
 
 const GRADE_LEVEL_KEYS: { value: GradeLevel; key: keyof typeof import('../i18n').es.grades }[] = [
@@ -39,6 +39,23 @@ export function Courses() {
   const [newCourse, setNewCourse] = useState({ title: '', description: '', thumbnail_url: '', grade_level: '' as GradeLevel | '' });
   const [creating, setCreating] = useState(false);
   const [filterGrade, setFilterGrade] = useState<GradeLevel | 'all'>('all');
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const result = await api.uploadFile(file);
+      setNewCourse({ ...newCourse, thumbnail_url: result.file_url });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Please try again.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   useEffect(() => {
     loadCourses();
@@ -208,13 +225,39 @@ export function Courses() {
                                     </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="thumbnail">{t.courses.imageUrl}</Label>
-                  <Input
-                    id="thumbnail"
-                    placeholder="https://..."
-                    value={newCourse.thumbnail_url}
-                    onChange={(e) => setNewCourse({ ...newCourse, thumbnail_url: e.target.value })}
-                  />
+                  <Label>{t.courses.courseImage}</Label>
+                  {newCourse.thumbnail_url ? (
+                    <div className="relative inline-block">
+                      <img 
+                        src={newCourse.thumbnail_url} 
+                        alt="Course preview" 
+                        className="w-full h-32 object-cover rounded-lg border"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setNewCourse({ ...newCourse, thumbnail_url: '' })}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="cursor-pointer block">
+                      <div className="flex items-center justify-center gap-2 px-4 py-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors">
+                        <Upload className="h-6 w-6 text-gray-400" />
+                        <span className="text-sm text-gray-600">
+                          {uploadingImage ? t.courses.uploading : t.courses.uploadImage}
+                        </span>
+                      </div>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploadingImage}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
                 </div>
                 <Button
                   className="w-full bg-teal-500 hover:bg-teal-600" 
@@ -235,12 +278,20 @@ export function Courses() {
         {filteredCourses.map((course, index) => (
           <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
             <div 
-              className={`h-32 bg-gradient-to-br ${getCourseColor(index)} relative`}
+              className={`h-40 ${course.thumbnail_url ? '' : `bg-gradient-to-br ${getCourseColor(index)}`} relative`}
               onClick={() => navigate(`/app/courses/${course.id}`)}
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <BookOpen className="h-16 w-16 text-white/30" />
-              </div>
+              {course.thumbnail_url ? (
+                <img 
+                  src={course.thumbnail_url} 
+                  alt={course.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <BookOpen className="h-16 w-16 text-white/30" />
+                </div>
+              )}
               <div className="absolute top-3 right-3 flex gap-1">
                 {course.grade_level && (
                   <Badge className="bg-blue-500">{getGradeLevelLabel(course.grade_level)}</Badge>
