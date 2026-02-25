@@ -147,7 +147,7 @@ export function SiteSettings() {
     setUploadingImage(true);
     try {
       const result = await api.uploadFile(file);
-      setHero({ ...hero, hero_image: result.url });
+      setHero({ ...hero, hero_image: result.file_url });
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Error uploading image. Please try again.');

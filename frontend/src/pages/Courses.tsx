@@ -48,7 +48,7 @@ export function Courses() {
     setUploadingImage(true);
     try {
       const result = await api.uploadFile(file);
-      setNewCourse({ ...newCourse, thumbnail_url: result.url });
+      setNewCourse({ ...newCourse, thumbnail_url: result.file_url });
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Error uploading image. Please try again.');
