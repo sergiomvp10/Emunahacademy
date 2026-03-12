@@ -320,13 +320,19 @@ export function LandingPage() {
                         <Input id="hero_student_name" value={formData.student_name} onChange={(e) => setFormData({ ...formData, student_name: e.target.value })} required className="mt-1" />
                       </div>
                       <div>
+                        <Label htmlFor="hero_student_age" className="text-sm font-semibold text-gray-700">{t.landing.form.studentAge}*</Label>
+                        <Input id="hero_student_age" type="number" min="4" max="18" value={formData.student_age} onChange={(e) => setFormData({ ...formData, student_age: e.target.value })} required className="mt-1" />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
                         <Label htmlFor="hero_parent_name" className="text-sm font-semibold text-gray-700">{t.landing.form.parentName}*</Label>
                         <Input id="hero_parent_name" value={formData.parent_name} onChange={(e) => setFormData({ ...formData, parent_name: e.target.value })} required className="mt-1" />
                       </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="hero_parent_email" className="text-sm font-semibold text-gray-700">{t.landing.form.emailAddress}*</Label>
-                      <Input id="hero_parent_email" type="email" value={formData.parent_email} onChange={(e) => setFormData({ ...formData, parent_email: e.target.value })} required className="mt-1" />
+                      <div>
+                        <Label htmlFor="hero_parent_email" className="text-sm font-semibold text-gray-700">{t.landing.form.emailAddress}*</Label>
+                        <Input id="hero_parent_email" type="email" value={formData.parent_email} onChange={(e) => setFormData({ ...formData, parent_email: e.target.value })} required className="mt-1" />
+                      </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
@@ -354,24 +360,24 @@ export function LandingPage() {
                     <Button
                       type="submit"
                       className="w-full bg-amber-600 hover:bg-amber-700 text-white text-lg py-5"
-                      disabled={submitting || !formData.student_name || !formData.parent_name || !formData.parent_email || !formData.parent_phone || !formData.grade_level}
-                    >
-                      {submitting ? (
-                        <span className="flex items-center gap-2">
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                          {t.landing.form.submitting}
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-2">
-                          <Send className="h-5 w-5" />
-                          {t.landing.form.submitApplication}
-                        </span>
-                      )}
-                    </Button>
-                  </>
-                )}
-              </form>
-            </div>
+                                  disabled={submitting || !formData.student_name || !formData.student_age || !formData.parent_name || !formData.parent_email || !formData.parent_phone || !formData.grade_level}
+                                >
+                                  {submitting ? (
+                                    <span className="flex items-center gap-2">
+                                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                      {t.landing.form.submitting}
+                                    </span>
+                                  ) : (
+                                    <span className="flex items-center gap-2">
+                                      <Send className="h-5 w-5" />
+                                      {t.landing.form.submitApplication}
+                                    </span>
+                                  )}
+                                </Button>
+                              </>
+                            )}
+                          </form>
+                        </div>
           </div>
         </div>
       </section>
