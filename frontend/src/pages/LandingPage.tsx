@@ -132,15 +132,15 @@ export function LandingPage() {
   ];
 
   const featureCards = language === 'es' ? [
-    { icon: Users, title: 'Instruccion Uno a Uno', description: 'Su hijo sera emparejado con un profesor experimentado enfocado en encontrarlo donde esta y ayudarlo a progresar.', color: 'bg-amber-600' },
+    { icon: Users, title: 'Instruccion Uno a Uno', description: 'Su hijo sera emparejado con un profesor experimentado enfocado en encontrarlo donde esta y ayudarlo a progresar.', color: 'bg-teal-500' },
     { icon: Brain, title: 'Aprendizaje Basado en Dominio', description: 'Nos aseguramos de que su hijo comprenda los conceptos y habilidades presentados en cada leccion con multiples enfoques.', color: 'bg-gray-500' },
-    { icon: BookOpen, title: 'Plan de Aprendizaje Personalizado', description: 'Nuestros planes de instruccion abordan las fortalezas y debilidades unicas de cada estudiante en cada materia.', color: 'bg-[#1B365D]' },
-    { icon: Heart, title: 'Ambiente de Apoyo y Cuidado', description: 'Queremos que su hijo desarrolle confianza en sus habilidades. Celebramos logros y fomentamos la persistencia.', color: 'bg-amber-700' },
+    { icon: BookOpen, title: 'Plan de Aprendizaje Personalizado', description: 'Nuestros planes de instruccion abordan las fortalezas y debilidades unicas de cada estudiante en cada materia.', color: 'bg-blue-600' },
+    { icon: Heart, title: 'Ambiente de Apoyo y Cuidado', description: 'Queremos que su hijo desarrolle confianza en sus habilidades. Celebramos logros y fomentamos la persistencia.', color: 'bg-teal-600' },
   ] : [
-    { icon: Users, title: 'One-to-One Instruction', description: 'Your child will be matched with an experienced teacher focused on meeting them where they are and helping them make great progress.', color: 'bg-amber-600' },
+    { icon: Users, title: 'One-to-One Instruction', description: 'Your child will be matched with an experienced teacher focused on meeting them where they are and helping them make great progress.', color: 'bg-teal-500' },
     { icon: Brain, title: 'Mastery Based Learning', description: 'We ensure your child understands the concepts and skills presented in each lesson with multiple different approaches.', color: 'bg-gray-500' },
-    { icon: BookOpen, title: 'Customized Learning Plan', description: "Our instructional plans address each student's unique strengths and weaknesses across every subject area.", color: 'bg-[#1B365D]' },
-    { icon: Heart, title: 'Nurturing, Supportive Atmosphere', description: 'We want your child to build confidence in their abilities. We celebrate wins and encourage persistence.', color: 'bg-amber-700' },
+    { icon: BookOpen, title: 'Customized Learning Plan', description: "Our instructional plans address each student's unique strengths and weaknesses across every subject area.", color: 'bg-blue-600' },
+    { icon: Heart, title: 'Nurturing, Supportive Atmosphere', description: 'We want your child to build confidence in their abilities. We celebrate wins and encourage persistence.', color: 'bg-teal-600' },
   ];
 
   const advantages = language === 'es' ? [
@@ -161,7 +161,7 @@ export function LandingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#1B365D]">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-500 to-blue-600">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
       </div>
     );
@@ -182,31 +182,31 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="bg-[#1B365D] p-2 rounded-lg">
+              <div className="bg-teal-500 p-2 rounded-lg">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
               <div>
-                <span className="font-bold text-xl text-[#1B365D]">Emunah</span>
-                <span className="font-light text-xl text-[#1B365D]"> Academy</span>
+                <span className="font-bold text-xl text-gray-800">Emunah</span>
+                <span className="font-light text-xl text-gray-800"> Academy</span>
               </div>
             </div>
 
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center gap-6">
-                          <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-[#1B365D] transition-colors">{t.landing.nav.about}</button>
-                          <button onClick={() => scrollToSection('programs')} className="text-gray-600 hover:text-[#1B365D] transition-colors">{t.landing.nav.programs}</button>
-                          <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-[#1B365D] transition-colors">{t.landing.nav.howItWorks}</button>
-                          <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-[#1B365D] transition-colors">{t.landing.nav.faq}</button>
+                          <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.about}</button>
+                          <button onClick={() => scrollToSection('programs')} className="text-gray-600                           hover:text-teal-600 transition-colors">{t.landing.nav.programs}</button>
+                                                    <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.howItWorks}</button>
+                                                    <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.faq}</button>
                           <Link to="/login">
-                            <Button variant="outline" className="border-[#1B365D] text-[#1B365D] hover:bg-[#1B365D]/5">
+                            <Button variant="outline" className="border-teal-500 text-teal-600 hover:bg-teal-50">
                               {t.landing.nav.signIn}
                             </Button>
                           </Link>
                           {content.contact.phone && (
                             <a href={`tel:${content.contact.phone}`}>
-                              <Button className="bg-amber-600 hover:bg-amber-700 text-white">
-                                <Phone className="h-4 w-4 mr-2" />
-                                {content.contact.phone}
+                              <Button className="                              bg-teal-500 hover:bg-teal-600 text-white">
+                                                              <Phone className="h-4 w-4 mr-2" />
+                                                              {content.contact.phone}
                               </Button>
                             </a>
                           )}
@@ -236,12 +236,12 @@ export function LandingPage() {
                 {mobileMenuOpen && (
                   <div className="md:hidden bg-white border-t">
                     <div className="px-4 py-4 space-y-3">
-                      <button onClick={() => scrollToSection('about')} className="block w-full text-left text-gray-600 hover:text-[#1B365D]">{t.landing.nav.about}</button>
-                      <button onClick={() => scrollToSection('programs')} className="block w-full text-left text-gray-600 hover:text-[#1B365D]">{t.landing.nav.programs}</button>
-                      <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left text-gray-600 hover:text-[#1B365D]">{t.landing.nav.howItWorks}</button>
-                      <button onClick={() => scrollToSection('faq')} className="block w-full text-left text-gray-600 hover:text-[#1B365D]">{t.landing.nav.faq}</button>
+                      <button onClick={() => scrollToSection('about')} className="block w-full text-left text-gray-600                       hover:text-teal-600">{t.landing.nav.about}</button>
+                                            <button onClick={() => scrollToSection('programs')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.programs}</button>
+                                            <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.howItWorks}</button>
+                                            <button onClick={() => scrollToSection('faq')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.faq}</button>
                       <Link to="/login" className="block">
-                        <Button variant="outline" className="w-full border-[#1B365D] text-[#1B365D]">{t.landing.nav.signIn}</Button>
+                        <Button variant="outline" className="w-full border-teal-500 text-teal-600">{t.landing.nav.signIn}</Button>
                       </Link>
                     </div>
                   </div>
@@ -250,13 +250,13 @@ export function LandingPage() {
 
       {/* Hero Section - Brightmont Style */}
       <section className="pt-16 relative overflow-hidden" style={{ minHeight: '700px' }}>
-        {/* Background gradient - amber/gold */}
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-500 via-amber-400 to-yellow-300">
+        {/* Background gradient - teal/blue */}
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-500 via-teal-600 to-blue-600">
           <div className="absolute left-0 top-0 bottom-0 w-1/3">
             <svg viewBox="0 0 400 700" className="h-full w-full opacity-20" preserveAspectRatio="xMinYMin slice">
-              <polygon points="200,50 350,125 350,275 200,350 50,275 50,125" fill="currentColor" className="text-amber-700" />
-              <polygon points="200,200 350,275 350,425 200,500 50,425 50,275" fill="currentColor" className="text-amber-800" />
-              <polygon points="200,350 350,425 350,575 200,650 50,575 50,425" fill="currentColor" className="text-amber-700" />
+              <polygon points="200,50 350,125 350,275 200,350 50,275 50,125" fill="currentColor" className="text-teal-700" />
+              <polygon points="200,200 350,275 350,425 200,500 50,425 50,275" fill="currentColor" className="text-teal-800" />
+              <polygon points="200,350 350,425 350,575 200,650 50,575 50,425" fill="currentColor" className="text-teal-700" />
             </svg>
           </div>
         </div>
@@ -274,7 +274,7 @@ export function LandingPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  className="bg-[#1B365D] text-white hover:bg-[#152a4a]"
+                  className="bg-white text-teal-600 hover:bg-teal-50"
                   onClick={() => scrollToSection('apply')}
                 >
                   {content.hero.cta_primary}
@@ -300,8 +300,8 @@ export function LandingPage() {
             </div>
 
             {/* Right side - Quick Apply Form (Brightmont style) */}
-            <div className="bg-white rounded-xl shadow-2xl p-8 border-t-4 border-amber-500">
-              <h4 className="text-2xl font-bold text-[#1B365D] mb-2">{t.landing.form.applyNow}</h4>
+            <div className="bg-white rounded-xl shadow-2xl p-8 border-t-4 border-teal-500">
+              <h4 className="text-2xl font-bold text-gray-800 mb-2">{t.landing.form.applyNow}</h4>
               <p className="text-gray-500 text-sm mb-6">{t.landing.form.fillForm}</p>
               <form onSubmit={handleSubmitApplication} className="space-y-4">
                 {applicationSubmitted ? (
@@ -359,7 +359,7 @@ export function LandingPage() {
                     </div>
                     <Button
                       type="submit"
-                      className="w-full bg-amber-600 hover:bg-amber-700 text-white text-lg py-5"
+                      className="w-full bg-teal-500 hover:bg-teal-600 text-white text-lg py-5"
                                   disabled={submitting || !formData.student_name || !formData.student_age || !formData.parent_name || !formData.parent_email || !formData.parent_phone || !formData.grade_level}
                                 >
                                   {submitting ? (
@@ -386,7 +386,7 @@ export function LandingPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1B365D] italic">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 italic">
               {language === 'es' ? 'Educacion Personalizada para Cada Estudiante' : 'Personalized Education for Every Learner'}
             </h2>
           </div>
@@ -422,14 +422,14 @@ export function LandingPage() {
               {content.hero.hero_image ? (
                 <img src={content.hero.hero_image} alt="Students learning" className="rounded-2xl shadow-xl max-h-96 object-cover" />
               ) : (
-                <div className="bg-gradient-to-br from-[#1B365D] to-amber-600 rounded-2xl p-12 flex items-center justify-center">
+                <div className="bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl p-12 flex items-center justify-center">
                   <GraduationCap className="h-40 w-40 text-white/80" />
                 </div>
               )}
             </div>
             <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-[#1B365D] mb-4">
-                {language === 'es' ? 'Empoderando a su Hijo K-8 con Aprendizaje Personalizado' : 'Empowering Your K-8 Child with Personalized Learning'}
+              <h3 className="text-3xl md:text-4xl               font-bold text-gray-800 mb-4">
+                              {language === 'es' ? 'Empoderando a su Hijo K-8 con Aprendizaje Personalizado' : 'Empowering Your K-8 Child with Personalized Learning'}
               </h3>
               <h4 className="text-lg text-gray-600 mb-8">
                 {language === 'es' ? 'Descubra las ventajas de nuestro enfoque totalmente personalizado para cada estudiante:' : 'Discover the advantages of our fully customized approach for every student:'}
@@ -437,7 +437,7 @@ export function LandingPage() {
               <ul className="space-y-4">
                 {advantages.map((advantage, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 bg-amber-600 rounded-full flex items-center justify-center mt-0.5">
+                    <div className="flex-shrink-0 w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center mt-0.5">
                       <Check className="h-4 w-4 text-white" />
                     </div>
                     <span className="text-gray-700 text-lg">{advantage}</span>
@@ -453,8 +453,8 @@ export function LandingPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-4">
-            <h3 className="text-3xl md:text-4xl font-bold text-[#1B365D]">
-              {language === 'es' ? 'Nuestro Enfoque' : 'Our Approach'}
+            <h3 className="text-3xl md:text-4xl             font-bold text-gray-800">
+                          {language === 'es' ? 'Nuestro Enfoque' : 'Our Approach'}
             </h3>
           </div>
           <p className="text-center text-gray-600 text-lg mb-12 max-w-3xl mx-auto">
@@ -462,7 +462,7 @@ export function LandingPage() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {content.impact.stats.map((stat, index) => {
-              const bgColors = ['bg-amber-600', 'bg-[#1B365D]', 'bg-gray-600', 'bg-amber-700'];
+              const bgColors = ['bg-teal-500', 'bg-blue-600', 'bg-gray-600', 'bg-teal-600'];
               return (
                 <div key={index} className={`${bgColors[index % bgColors.length]} rounded-xl p-8 text-white text-center`}>
                   <div className="text-5xl md:text-6xl font-bold mb-3">{stat.number}</div>
@@ -478,28 +478,28 @@ export function LandingPage() {
       <section id="about" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1B365D] mb-4">{content.about.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{content.about.title}</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">{content.about.description}</p>
           </div>
                     <div className="grid md:grid-cols-2 gap-8">
-                      <Card className="border-l-4 border-l-[#1B365D]">
+                      <Card className="border-l-4 border-l-teal-500">
                         <CardContent className="p-6">
                           <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 bg-[#1B365D] rounded-lg flex items-center justify-center">
-                              <Shield className="h-5 w-5 text-white" />
-                            </div>
-                            <h3 className="text-xl font-semibold text-[#1B365D]">{t.landing.sections.ourMission}</h3>
+                            <div className="w-10 h-10                             bg-teal-500 rounded-lg flex items-center justify-center">
+                                                          <Shield className="h-5 w-5 text-white" />
+                                                        </div>
+                                                        <h3 className="text-xl font-semibold text-gray-800">{t.landing.sections.ourMission}</h3>
                           </div>
                           <p className="text-gray-600">{content.about.mission}</p>
                         </CardContent>
                       </Card>
-                      <Card className="border-l-4 border-l-amber-600">
+                      <Card className="border-l-4 border-l-blue-500">
                         <CardContent className="p-6">
                           <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-                              <GraduationCap className="h-5 w-5 text-white" />
-                            </div>
-                            <h3 className="text-xl font-semibold text-[#1B365D]">{t.landing.sections.ourVision}</h3>
+                            <div className="w-10 h-10                             bg-blue-500 rounded-lg flex items-center justify-center">
+                                                          <GraduationCap className="h-5 w-5 text-white" />
+                                                        </div>
+                                                        <h3 className="text-xl font-semibold text-gray-800">{t.landing.sections.ourVision}</h3>
                           </div>
                           <p className="text-gray-600">{content.about.vision}</p>
                         </CardContent>
@@ -509,11 +509,11 @@ export function LandingPage() {
       </section>
 
       {/* AI Tutor Section */}
-      <section className="py-20 bg-gradient-to-r from-[#1B365D] to-[#2A4A7F]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-white">
-              <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full mb-6">
+      <section className="py-20 bg-gradient-to-r       from-purple-600 to-teal-500">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div className="text-white">
+                    <div className="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full mb-6">
                 <Sparkles className="h-5 w-5" />
                 <span className="text-sm font-medium">{language === 'es' ? 'Nueva Funcionalidad' : 'New Feature'}</span>
               </div>
@@ -556,15 +556,15 @@ export function LandingPage() {
       <section id="how-it-works" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1B365D] mb-4">{content.how_it_works.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{content.how_it_works.title}</h2>
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             {content.how_it_works.steps.map((step, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-[#1B365D] text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 bg-teal-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                   {step.number}
                 </div>
-                <h3 className="text-xl font-semibold text-[#1B365D] mb-2">{step.title}</h3>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">{step.title}</h3>
                 <p className="text-gray-600">{step.description}</p>
               </div>
             ))}
@@ -576,18 +576,18 @@ export function LandingPage() {
       <section id="programs" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1B365D] mb-4">{content.programs.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{content.programs.title}</h2>
             <p className="text-lg text-gray-600">{content.programs.subtitle}</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {content.programs.grades.map((grade, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-[#1B365D]/10 text-[#1B365D] rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center mb-4">
                     <BookOpen className="h-6 w-6" />
                   </div>
-                  <div className="text-sm text-amber-600 font-medium mb-1">{grade.level}</div>
-                  <h3 className="text-lg font-semibold text-[#1B365D] mb-2">{grade.name}</h3>
+                  <div className="text-sm text-teal-600 font-medium mb-1">{grade.level}</div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{grade.name}</h3>
                   <p className="text-gray-600 text-sm">{grade.description}</p>
                 </CardContent>
               </Card>
@@ -600,8 +600,8 @@ export function LandingPage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-4">
-            <h3 className="text-3xl md:text-4xl font-bold text-[#1B365D]">
-              {language === 'es' ? 'En Emunah, estamos comprometidos a ayudar a cada estudiante y cada familia - a prosperar' : "At Emunah, we're committed to helping each student and each family - thrive"}
+            <h3 className="text-3xl md:text-4xl             font-bold text-gray-800">
+                          {language === 'es' ? 'En Emunah, estamos comprometidos a ayudar a cada estudiante y cada familia - a prosperar' : "At Emunah, we're committed to helping each student and each family - thrive"}
             </h3>
           </div>
           <p className="text-center text-gray-600 italic text-lg mb-12 max-w-3xl mx-auto">
@@ -612,35 +612,35 @@ export function LandingPage() {
               {content.hero.hero_image ? (
                 <img src={content.hero.hero_image} alt="Student learning" className="rounded-2xl shadow-xl max-h-96 object-cover" />
               ) : (
-                <div className="bg-gradient-to-br from-amber-100 to-amber-50 rounded-2xl p-12 flex items-center justify-center">
-                  <GraduationCap className="h-40 w-40 text-[#1B365D]/30" />
+                <div className="bg-gradient-to-br from-teal-100 to-teal-50 rounded-2xl p-12 flex items-center justify-center">
+                  <GraduationCap className="h-40 w-40 text-teal-600/30" />
                 </div>
               )}
             </div>
             <div className="relative">
-              <div className="bg-[#1B365D] rounded-2xl p-8 md:p-10 text-white relative">
+              <div className="bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl p-8 md:p-10 text-white relative">
                 <div className="text-6xl font-serif text-white/30 absolute top-4 left-6 leading-none">&ldquo;</div>
                 <div className="mt-8">
                   <p className="text-lg md:text-xl leading-relaxed mb-6 min-h-[120px]">
                     {testimonials[testimonialIndex].text}
                   </p>
-                  <p className="text-amber-400 font-semibold">
-                    -- {testimonials[testimonialIndex].author}
+                  <p className="                  text-teal-200 font-semibold">
+                                      -- {testimonials[testimonialIndex].author}
                   </p>
                 </div>
-                <div className="absolute -bottom-4 left-16 w-8 h-8 bg-[#1B365D] rotate-45"></div>
+                <div className="absolute -bottom-4 left-16 w-8 h-8 bg-teal-500 rotate-45"></div>
               </div>
               <div className="flex items-center justify-center gap-4 mt-8">
-                <button onClick={() => setTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)} className="w-10 h-10 rounded-full border-2 border-[#1B365D] flex items-center justify-center text-[#1B365D] hover:bg-[#1B365D] hover:text-white transition-colors">
-                  <ChevronLeft className="h-5 w-5" />
+                <button onClick={() => setTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)} className="w-10 h-10 rounded-full                 border-2 border-teal-500 flex items-center justify-center text-teal-600 hover:bg-teal-500 hover:text-white transition-colors">
+                                  <ChevronLeft className="h-5 w-5" />
                 </button>
                 <div className="flex gap-2">
                   {testimonials.map((_, index) => (
-                    <button key={index} onClick={() => setTestimonialIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === testimonialIndex ? 'bg-[#1B365D]' : 'bg-gray-300'}`} />
+                    <button key={index} onClick={() => setTestimonialIndex(index)} className={`w-3 h-3 rounded-full transition-colors ${index === testimonialIndex ? 'bg-teal-500' : 'bg-gray-300'}`} />
                   ))}
                 </div>
-                <button onClick={() => setTestimonialIndex((prev) => (prev + 1) % testimonials.length)} className="w-10 h-10 rounded-full border-2 border-[#1B365D] flex items-center justify-center text-[#1B365D] hover:bg-[#1B365D] hover:text-white transition-colors">
-                  <ChevronRight className="h-5 w-5" />
+                <button onClick={() => setTestimonialIndex((prev) => (prev + 1) % testimonials.length)} className="w-10 h-10 rounded-full                 border-2 border-teal-500 flex items-center justify-center text-teal-600 hover:bg-teal-500 hover:text-white transition-colors">
+                                  <ChevronRight className="h-5 w-5" />
                 </button>
               </div>
             </div>
@@ -649,8 +649,8 @@ export function LandingPage() {
       </section>
 
       {/* Application Form */}
-      <section id="apply" className="py-20 bg-gradient-to-br from-[#1B365D] to-[#2A4A7F]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="apply" className="py-20 bg-gradient-to-br       from-teal-500 to-blue-600">
+              <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Card className="shadow-2xl">
             <CardContent className="p-8">
                             {applicationSubmitted ? (
@@ -778,7 +778,7 @@ export function LandingPage() {
                                           id="has_esa"
                                           checked={formData.has_esa}
                                           onChange={(e) => setFormData({ ...formData, has_esa: e.target.checked })}
-                                          className="h-5 w-5 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                                          className="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
                                         />
                                         <Label htmlFor="has_esa" className="cursor-pointer">
                                           {t.landing.form.hasEsa}
@@ -786,7 +786,7 @@ export function LandingPage() {
                                       </div>
                                       <Button
                                         type="submit" 
-                                        className="w-full bg-amber-600 hover:bg-amber-700"
+                                        className="w-full bg-teal-500 hover:bg-teal-600"
                                         disabled={submitting || !formData.student_name || !formData.student_age || !formData.grade_level || !formData.parent_name || !formData.parent_email || !formData.parent_phone}
                                       >
                                         {submitting ? (
@@ -813,7 +813,7 @@ export function LandingPage() {
       <section id="faq" className="py-20 bg-gray-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1B365D] mb-4">{content.faq.title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{content.faq.title}</h2>
           </div>
           <div className="space-y-4">
             {content.faq.questions.map((faq, index) => (
@@ -822,7 +822,7 @@ export function LandingPage() {
                   className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
                   onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
                 >
-                  <span className="font-medium text-[#1B365D]">{faq.question}</span>
+                  <span className="font-medium text-gray-800">{faq.question}</span>
                   {expandedFaq === index ? (
                     <ChevronUp className="h-5 w-5 text-gray-500" />
                   ) : (
@@ -841,8 +841,8 @@ export function LandingPage() {
       </section>
 
       {/* CTA Banner */}
-      <section className="py-16 bg-gradient-to-r from-[#1B365D] to-[#2A4A7F]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-16 bg-gradient-to-r       from-teal-500 to-blue-600">
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {language === 'es' ? 'Listo para comenzar el viaje educativo?' : 'Ready to start the educational journey?'}
           </h3>
@@ -850,7 +850,7 @@ export function LandingPage() {
             {language === 'es' ? 'Comuniquese con nosotros hoy y descubra como Emunah Academy puede transformar la educacion de su hijo.' : "Get in touch with us today and discover how Emunah Academy can transform your child's education."}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-amber-600 hover:bg-amber-700 text-white text-lg px-8" onClick={() => scrollToSection('apply')}>
+            <Button size="lg" className="bg-white text-teal-600 hover:bg-teal-50 text-lg px-8" onClick={() => scrollToSection('apply')}>
               <Send className="h-5 w-5 mr-2" />
               {t.landing.form.applyNow}
             </Button>
@@ -867,13 +867,13 @@ export function LandingPage() {
       </section>
 
             {/* Footer */}
-            <footer className="bg-[#0F1F36] text-white py-12">
+            <footer className="bg-gray-900 text-white py-12">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid md:grid-cols-4 gap-8">
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="bg-amber-600 p-2 rounded-lg">
-                        <GraduationCap className="h-6 w-6 text-white" />
+                      <div className="                      bg-teal-500 p-2 rounded-lg">
+                                              <GraduationCap className="h-6 w-6 text-white" />
                       </div>
                       <div>
                         <span className="font-bold text-xl">Emunah</span>
@@ -885,7 +885,7 @@ export function LandingPage() {
                     </p>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-4 text-amber-400">{t.landing.footer.quickLinks}</h4>
+                    <h4 className="font-semibold mb-4 text-teal-400">{t.landing.footer.quickLinks}</h4>
                     <ul className="space-y-2 text-gray-400">
                       <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">{t.landing.footer.aboutUs}</button></li>
                       <li><button onClick={() => scrollToSection('programs')} className="hover:text-white transition-colors">{t.landing.nav.programs}</button></li>
@@ -895,23 +895,23 @@ export function LandingPage() {
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-semibold mb-4 text-amber-400">{content.contact.title}</h4>
+                    <h4 className="font-semibold mb-4 text-teal-400">{content.contact.title}</h4>
                     <ul className="space-y-3 text-gray-400">
                       {content.contact.phone && (
                         <li className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-amber-500" />
-                          <a href={`tel:${content.contact.phone}`} className="hover:text-white transition-colors">{content.contact.phone}</a>
+                          <Phone className="h-4 w-4                           text-teal-400" />
+                                                    <a href={`tel:${content.contact.phone}`} className="hover:text-white transition-colors">{content.contact.phone}</a>
                         </li>
                       )}
                       {content.contact.email && (
                         <li className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-amber-500" />
-                          <a href={`mailto:${content.contact.email}`} className="hover:text-white transition-colors">{content.contact.email}</a>
+                          <Mail className="h-4 w-4                           text-teal-400" />
+                                                    <a href={`mailto:${content.contact.email}`} className="hover:text-white transition-colors">{content.contact.email}</a>
                         </li>
                       )}
                       {content.contact.address && (
                         <li className="flex items-start gap-2">
-                          <MapPin className="h-4 w-4 text-amber-500 mt-0.5" />
+                          <MapPin className="h-4 w-4 text-teal-400 mt-0.5" />
                           <span>{content.contact.address}</span>
                         </li>
                       )}
