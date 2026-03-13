@@ -182,9 +182,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="bg-teal-500 p-2 rounded-lg">
-                <GraduationCap className="h-6 w-6 text-white" />
-              </div>
+              <img src="/emunah-logo.png" alt="Emunah Academy" className="h-10 w-10 rounded-lg object-cover" />
               <div>
                 <span className="font-bold text-xl text-gray-800">Emunah</span>
                 <span className="font-light text-xl text-gray-800"> Academy</span>
@@ -884,9 +882,7 @@ export function LandingPage() {
                 <div className="grid md:grid-cols-4 gap-8">
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="                      bg-teal-500 p-2 rounded-lg">
-                                              <GraduationCap className="h-6 w-6 text-white" />
-                      </div>
+                      <img src="/emunah-logo.png" alt="Emunah Academy" className="h-10 w-10 rounded-lg object-cover" />
                       <div>
                         <span className="font-bold text-xl">Emunah</span>
                         <span className="font-light text-xl"> Academy</span>
