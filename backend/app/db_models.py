@@ -247,6 +247,14 @@ class Assignment(Base):
     creator = relationship("User", foreign_keys=[created_by])
     submissions = relationship("AssignmentSubmission", back_populates="assignment", cascade="all, delete-orphan")
 
+class SiteContentDB(Base):
+    __tablename__ = "site_content"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    section = Column(String(100), unique=True, nullable=False, index=True)
+    content = Column(Text, nullable=False)  # JSON string
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
 class AssignmentSubmission(Base):
     __tablename__ = "assignment_submissions"
     

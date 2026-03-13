@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text, inspect
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink, Payment,
-    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum
+    UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum, SiteContentDB
 )
+import json
 from app.db_config import engine, SessionLocal
 
 def create_tables():
@@ -124,12 +125,26 @@ def seed_sample_data(db: Session):
     
     db.commit()
 
+def seed_site_content(db: Session):
+    """Seed default site content into the database if not already present."""
+    from app.main import DEFAULT_SITE_CONTENT
+    for section, content in DEFAULT_SITE_CONTENT.items():
+        existing = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+        if not existing:
+            entry = SiteContentDB(
+                section=section,
+                content=json.dumps(content),
+            )
+            db.add(entry)
+    db.commit()
+
 def init_database():
     create_tables()
     run_migrations()  # Add new columns to existing tables
     db = SessionLocal()
     try:
         seed_sample_data(db)
+        seed_site_content(db)
     finally:
         db.close()
 
