@@ -98,7 +98,7 @@ def _build_admin_notification_html(
     p_name = html.escape(parent_name)
     p_email = html.escape(parent_email)
     p_phone = html.escape(parent_phone)
-    s_address = html.escape(address)
+    s_address = html.escape(address or "")
     message_row = ""
     if message:
         safe_msg = html.escape(message)
@@ -252,7 +252,7 @@ def send_admin_notification(
     parent_name: str,
     parent_email: str,
     parent_phone: str,
-    address: str,
+    address: Optional[str],
     message: Optional[str],
     has_esa: bool,
 ) -> bool:
