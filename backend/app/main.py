@@ -87,6 +87,12 @@ app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 async def healthz():
     return {"status": "ok"}
 
+@app.get("/api/test-smtp")
+async def test_smtp():
+    """Diagnostic endpoint to test SMTP connectivity."""
+    from app.email_service import test_smtp_connection
+    return test_smtp_connection()
+
 # ==================== AUTH ENDPOINTS ====================
 
 @app.post("/api/auth/register", response_model=Token)
