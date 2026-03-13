@@ -11,7 +11,6 @@ import {
   Settings, Save, RotateCcw, Globe, Users, BookOpen, 
   HelpCircle, Mail, CheckCircle, Upload, X, Lock, Eye, EyeOff
 } from 'lucide-react';
-import { api } from '../api';
 
 interface HeroContent {
   title: string;
