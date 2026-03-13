@@ -43,13 +43,13 @@ from app.db_config import get_db, engine
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
     QuizResult, Evaluation, EvaluationSubmission, LessonCompletion, Message, Payment,
-    Assignment, AssignmentSubmission,
+    Assignment, AssignmentSubmission, SiteContentDB,
     UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum, AssignmentStatusEnum
 )
+import json
 from app.db_init import init_database
 
-# In-memory storage for site content and applications (these don't need persistence for now)
-site_content_db = {}
+# In-memory storage for applications (site content is now persisted in the database)
 applications_db = {}
 application_counter = 0
 
@@ -1280,22 +1280,24 @@ DEFAULT_SITE_CONTENT = {
 }
 
 @app.get("/api/site-content")
-async def get_all_site_content():
+async def get_all_site_content(db: Session = Depends(get_db)):
     content = {}
     for section in DEFAULT_SITE_CONTENT.keys():
-        if section in site_content_db:
-            content[section] = site_content_db[section]["content"]
+        row = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+        if row:
+            content[section] = json.loads(row.content)
         else:
             content[section] = DEFAULT_SITE_CONTENT[section]
     return content
 
 @app.get("/api/site-content/{section}")
-async def get_site_content(section: str):
-    if section in site_content_db:
+async def get_site_content(section: str, db: Session = Depends(get_db)):
+    row = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+    if row:
         return SiteContent(
             section=section,
-            content=site_content_db[section]["content"],
-            updated_at=site_content_db[section]["updated_at"]
+            content=json.loads(row.content),
+            updated_at=row.updated_at
         )
     elif section in DEFAULT_SITE_CONTENT:
         return SiteContent(
@@ -1306,19 +1308,26 @@ async def get_site_content(section: str):
     raise HTTPException(status_code=404, detail="Section not found")
 
 @app.put("/api/site-content/{section}")
-async def update_site_content(section: str, update: SiteContentUpdate):
+async def update_site_content(section: str, update: SiteContentUpdate, db: Session = Depends(get_db)):
     if section not in DEFAULT_SITE_CONTENT:
         raise HTTPException(status_code=400, detail="Invalid section")
     
-    site_content_db[section] = {
-        "section": section,
-        "content": update.content,
-        "updated_at": datetime.now()
-    }
+    row = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+    if row:
+        row.content = json.dumps(update.content)
+        row.updated_at = datetime.now()
+    else:
+        row = SiteContentDB(
+            section=section,
+            content=json.dumps(update.content),
+        )
+        db.add(row)
+    db.commit()
+    db.refresh(row)
     return SiteContent(
         section=section,
-        content=update.content,
-        updated_at=site_content_db[section]["updated_at"]
+        content=json.loads(row.content),
+        updated_at=row.updated_at
     )
 
 # ==================== STUDENT APPLICATION ENDPOINTS ====================
