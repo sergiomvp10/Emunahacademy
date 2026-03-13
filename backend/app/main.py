@@ -17,7 +17,7 @@ UPLOAD_DIR.mkdir(exist_ok=True)
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB max file size
 
 from app.models import (
-    UserCreate, User as UserSchema, UserLogin, Token, UserRole,
+    UserCreate, User as UserSchema, UserLogin, Token, UserRole, ChangePassword,
     CourseCreate, Course as CourseSchema, LessonCreate, Lesson as LessonSchema, LessonType,
     EvaluationCreate, Evaluation as EvaluationSchema, EvaluationSubmission as EvaluationSubmissionSchema, EvaluationGrade, StudentEvaluation,
     CalendarEventCreate, CalendarEvent as CalendarEventSchema,
@@ -156,6 +156,22 @@ async def get_current_user(token: str, db: Session = Depends(get_db)):
     except (ValueError, KeyError):
         pass
     raise HTTPException(status_code=401, detail="Token invalido")
+
+@app.put("/api/auth/change-password")
+async def change_password(data: ChangePassword, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    
+    if user.password != data.current_password:
+        raise HTTPException(status_code=400, detail="Contrasena actual incorrecta")
+    
+    if len(data.new_password) < 6:
+        raise HTTPException(status_code=400, detail="La nueva contrasena debe tener al menos 6 caracteres")
+    
+    user.password = data.new_password
+    db.commit()
+    return {"message": "Contrasena actualizada exitosamente"}
 
 # ==================== USER MANAGEMENT ====================
 

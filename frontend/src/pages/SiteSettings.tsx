@@ -9,8 +9,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Settings, Save, RotateCcw, Globe, Users, BookOpen, 
-  HelpCircle, Mail, CheckCircle, Upload, X
+  HelpCircle, Mail, CheckCircle, Upload, X, Lock, Eye, EyeOff
 } from 'lucide-react';
+import { api } from '../api';
 
 interface HeroContent {
   title: string;
@@ -105,6 +106,15 @@ export function SiteSettings() {
     address: ''
   });
 
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   useEffect(() => {
     loadContent();
   }, []);
@@ -198,7 +208,7 @@ export function SiteSettings() {
       </div>
 
       <Tabs defaultValue="hero" className="space-y-6">
-        <TabsList className="grid grid-cols-7 w-full">
+        <TabsList className="grid grid-cols-8 w-full">
           <TabsTrigger value="hero">Hero</TabsTrigger>
           <TabsTrigger value="about">About</TabsTrigger>
           <TabsTrigger value="how">How It Works</TabsTrigger>
@@ -206,6 +216,7 @@ export function SiteSettings() {
           <TabsTrigger value="impact">Impact</TabsTrigger>
           <TabsTrigger value="faq">FAQ</TabsTrigger>
           <TabsTrigger value="contact">Contact</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
         </TabsList>
 
         {/* Hero Section */}
@@ -716,6 +727,123 @@ export function SiteSettings() {
                     <><CheckCircle className="h-4 w-4 mr-2" /> Saved</>
                   ) : (
                     <><Save className="h-4 w-4 mr-2" /> Save Changes</>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        {/* Security Section */}
+        <TabsContent value="security">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="h-5 w-5" />
+                Cambiar Contrasena de Administrador
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {passwordMessage && (
+                <div className={`p-3 rounded-lg text-sm ${
+                  passwordMessage.type === 'success' 
+                    ? 'bg-green-50 text-green-700 border border-green-200' 
+                    : 'bg-red-50 text-red-700 border border-red-200'
+                }`}>
+                  {passwordMessage.text}
+                </div>
+              )}
+              <div>
+                <Label htmlFor="current-password">Contrasena Actual</Label>
+                <div className="relative">
+                  <Input
+                    id="current-password"
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    placeholder="Ingrese su contrasena actual"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="new-password">Nueva Contrasena</Label>
+                <div className="relative">
+                  <Input
+                    id="new-password"
+                    type={showNewPassword ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Ingrese la nueva contrasena (minimo 6 caracteres)"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="confirm-password">Confirmar Nueva Contrasena</Label>
+                <div className="relative">
+                  <Input
+                    id="confirm-password"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirme la nueva contrasena"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  onClick={async () => {
+                    if (!currentPassword || !newPassword || !confirmPassword) {
+                      setPasswordMessage({ type: 'error', text: 'Todos los campos son obligatorios' });
+                      return;
+                    }
+                    if (newPassword.length < 6) {
+                      setPasswordMessage({ type: 'error', text: 'La nueva contrasena debe tener al menos 6 caracteres' });
+                      return;
+                    }
+                    if (newPassword !== confirmPassword) {
+                      setPasswordMessage({ type: 'error', text: 'Las contrasenas no coinciden' });
+                      return;
+                    }
+                    setChangingPassword(true);
+                    setPasswordMessage(null);
+                    try {
+                      await api.changePassword(user!.id, currentPassword, newPassword);
+                      setPasswordMessage({ type: 'success', text: 'Contrasena actualizada exitosamente' });
+                      setCurrentPassword('');
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    } catch (error) {
+                      setPasswordMessage({ type: 'error', text: error instanceof Error ? error.message : 'Error al cambiar la contrasena' });
+                    } finally {
+                      setChangingPassword(false);
+                    }
+                  }}
+                  disabled={changingPassword || !currentPassword || !newPassword || !confirmPassword}
+                >
+                  {changingPassword ? (
+                    <><div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" /> Cambiando...</>
+                  ) : (
+                    <><Lock className="h-4 w-4 mr-2" /> Cambiar Contrasena</>
                   )}
                 </Button>
               </div>
