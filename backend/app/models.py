@@ -267,7 +267,7 @@ class StudentApplicationCreate(BaseModel):
     parent_name: str
     parent_email: str
     parent_phone: str
-    address: str
+    address: Optional[str] = None
     message: Optional[str] = None
     has_esa: bool = False
 
@@ -279,7 +279,7 @@ class StudentApplication(BaseModel):
     parent_name: str
     parent_email: str
     parent_phone: str
-    address: str
+    address: Optional[str] = None
     message: Optional[str] = None
     has_esa: bool = False
     status: ApplicationStatus
