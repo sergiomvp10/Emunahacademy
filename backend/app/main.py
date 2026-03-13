@@ -1222,8 +1222,8 @@ async def mark_message_read(message_id: int, db: Session = Depends(get_db)):
 
 DEFAULT_SITE_CONTENT = {
     "hero": {
-        "title": "Empowering Vulnerable Communities Through Education",
-        "subtitle": "Emunah Academy provides free, quality education to children from underserved communities around the world. Join us in transforming lives through learning.",
+        "title": "Emunah Academy is rooted in the Torah and Devoted to Yeshua.",
+        "subtitle": "Emunah Academy is a K-12 faith-based school devoted to helping children grow in love for Yeshua and obedience to the Torah. It provides a nurturing, family-like environment where students are encouraged to develop strong character, academic excellence and a living faith. The Academy works closely with families. Teachers model a life of Emunah (faith) and help students from kindergarten through 12th grade discover their calling, serve others, and walk in the ways of Yeshua with joy and conviction.",
         "cta_primary": "Apply Now",
         "cta_secondary": "Learn More"
     },
