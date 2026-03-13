@@ -78,6 +78,13 @@ class ApiService {
     this.setToken(null);
   }
 
+  async changePassword(userId: number, currentPassword: string, newPassword: string): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`/api/auth/change-password?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+    });
+  }
+
   // Users
     async getUsers(role?: UserRole, gradeLevel?: string): Promise<User[]> {
       const params = new URLSearchParams();

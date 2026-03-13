@@ -42,6 +42,10 @@ class UserLogin(BaseModel):
     email: str
     password: str
 
+class ChangePassword(BaseModel):
+    current_password: str
+    new_password: str
+
 class Token(BaseModel):
     access_token: str
     token_type: str
