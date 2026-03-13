@@ -10,7 +10,14 @@ import json
 import os
 import uuid
 import shutil
+import logging
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+
+_email_executor = ThreadPoolExecutor(max_workers=2)
 
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
@@ -1333,6 +1340,8 @@ async def get_application(application_id: int):
 
 @app.post("/api/applications", response_model=StudentApplication)
 async def create_application(application: StudentApplicationCreate):
+    from app.email_service import send_application_confirmation, send_admin_notification
+
     app_id = get_next_application_id()
     applications_db[app_id] = {
         "id": app_id,
@@ -1350,6 +1359,28 @@ async def create_application(application: StudentApplicationCreate):
         "reviewed_at": None,
         "reviewed_by": None
     }
+
+    # Send emails in background threads so the API response is not delayed
+    _email_executor.submit(
+        send_application_confirmation,
+        parent_name=application.parent_name,
+        parent_email=application.parent_email,
+        student_name=application.student_name,
+        application_id=app_id,
+    )
+    _email_executor.submit(
+        send_admin_notification,
+        student_name=application.student_name,
+        student_age=application.student_age,
+        grade_level=application.grade_level,
+        parent_name=application.parent_name,
+        parent_email=application.parent_email,
+        parent_phone=application.parent_phone,
+        address=application.address,
+        message=application.message,
+        has_esa=application.has_esa,
+    )
+
     return StudentApplication(**applications_db[app_id])
 
 @app.put("/api/applications/{application_id}/status")
