@@ -1,3 +1,4 @@
+import html
 import smtplib
 import logging
 import os
@@ -19,6 +20,8 @@ _sent_confirmations: set[str] = set()
 
 
 def _build_parent_confirmation_html(parent_name: str, student_name: str) -> str:
+    safe_parent = html.escape(parent_name)
+    safe_student = html.escape(student_name)
     return f"""\
 <!DOCTYPE html>
 <html lang="en">
@@ -43,13 +46,13 @@ def _build_parent_confirmation_html(parent_name: str, student_name: str) -> str:
     <td style="padding:40px;">
       <h2 style="margin:0 0 24px 0;color:#1f2937;font-size:20px;">Application Received</h2>
       <p style="margin:0 0 16px 0;color:#374151;font-size:16px;line-height:1.6;">
-        Dear {parent_name},
+        Dear {safe_parent},
       </p>
       <p style="margin:0 0 16px 0;color:#374151;font-size:16px;line-height:1.6;">
         Thank you for submitting your application to Emunah Academy.
       </p>
       <p style="margin:0 0 16px 0;color:#374151;font-size:16px;line-height:1.6;">
-        We have successfully received your application for <strong>{student_name}</strong>
+        We have successfully received your application for <strong>{safe_student}</strong>
         and our admissions team will review it shortly.
       </p>
       <p style="margin:0 0 16px 0;color:#374151;font-size:16px;line-height:1.6;">
@@ -90,12 +93,19 @@ def _build_admin_notification_html(
     message: Optional[str],
     has_esa: bool,
 ) -> str:
+    s_name = html.escape(student_name)
+    s_grade = html.escape(grade_level)
+    p_name = html.escape(parent_name)
+    p_email = html.escape(parent_email)
+    p_phone = html.escape(parent_phone)
+    s_address = html.escape(address)
     message_row = ""
     if message:
+        safe_msg = html.escape(message)
         message_row = f"""
       <tr>
         <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;width:160px;">Message</td>
-        <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{message}</td>
+        <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{safe_msg}</td>
       </tr>"""
 
     return f"""\
@@ -126,7 +136,7 @@ def _build_admin_notification_html(
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;">
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;width:160px;">Student Name</td>
-          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:bold;">{student_name}</td>
+          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:bold;">{s_name}</td>
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">Student Age</td>
@@ -134,23 +144,23 @@ def _build_admin_notification_html(
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">Grade Level</td>
-          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{grade_level}</td>
+          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{s_grade}</td>
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">Parent Name</td>
-          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{parent_name}</td>
+          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{p_name}</td>
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">Parent Email</td>
-          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;"><a href="mailto:{parent_email}" style="color:#2563eb;">{parent_email}</a></td>
+          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;"><a href="mailto:{p_email}" style="color:#2563eb;">{p_email}</a></td>
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">Parent Phone</td>
-          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{parent_phone}</td>
+          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{p_phone}</td>
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">Address</td>
-          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{address}</td>
+          <td style="padding:8px 12px;color:#1f2937;font-size:14px;border-bottom:1px solid #f3f4f6;">{s_address}</td>
         </tr>
         <tr>
           <td style="padding:8px 12px;color:#6b7280;font-size:14px;border-bottom:1px solid #f3f4f6;">ESA</td>
