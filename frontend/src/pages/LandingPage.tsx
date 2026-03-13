@@ -357,6 +357,18 @@ export function LandingPage() {
                         </Select>
                       </div>
                     </div>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="checkbox"
+                        id="hero_has_esa"
+                        checked={formData.has_esa}
+                        onChange={(e) => setFormData({ ...formData, has_esa: e.target.checked })}
+                        className="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                      />
+                      <Label htmlFor="hero_has_esa" className="cursor-pointer text-sm font-semibold text-gray-700">
+                        {t.landing.form.hasEsa}
+                      </Label>
+                    </div>
                     <Button
                       type="submit"
                       className="w-full bg-teal-500 hover:bg-teal-600 text-white text-lg py-5"

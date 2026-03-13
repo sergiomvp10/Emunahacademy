@@ -245,43 +245,6 @@ def send_application_confirmation(
     return {"parent_email_sent": parent_sent, "admin_email_sent": False, "duplicate": False}
 
 
-def test_smtp_connection() -> dict:
-    """Test SMTP connectivity and return diagnostic info."""
-    result = {
-        "smtp_host": SMTP_HOST,
-        "smtp_port": SMTP_PORT,
-        "smtp_user": SMTP_USER,
-        "smtp_password_set": bool(SMTP_PASSWORD),
-        "smtp_password_length": len(SMTP_PASSWORD) if SMTP_PASSWORD else 0,
-    }
-
-    if not SMTP_PASSWORD:
-        result["status"] = "error"
-        result["error"] = "SMTP_PASSWORD not configured"
-        return result
-
-    try:
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=30) as server:
-            server.ehlo()
-            result["ehlo"] = "ok"
-            server.starttls()
-            result["starttls"] = "ok"
-            server.login(SMTP_USER, SMTP_PASSWORD)
-            result["login"] = "ok"
-            result["status"] = "success"
-    except smtplib.SMTPAuthenticationError as exc:
-        result["status"] = "auth_error"
-        result["error"] = str(exc)
-    except smtplib.SMTPException as exc:
-        result["status"] = "smtp_error"
-        result["error"] = str(exc)
-    except Exception as exc:
-        result["status"] = "connection_error"
-        result["error"] = str(exc)
-
-    return result
-
-
 def send_admin_notification(
     student_name: str,
     student_age: int,
