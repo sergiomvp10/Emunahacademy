@@ -16,8 +16,9 @@ import {
 } from '@/components/ui/select';
 import { 
   DollarSign, Search, CheckCircle, XCircle, Clock, AlertCircle,
-  Plus, Calendar, User, Trash2
+  Plus, Calendar, User, Trash2, FileText
 } from 'lucide-react';
+import { Invoice } from '../components/Invoice';
 
 const STATUS_ICONS: Record<PaymentStatus, React.ComponentType<{ className?: string }>> = {
   pending: Clock,
@@ -51,6 +52,7 @@ export function Payments() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [invoiceOpen, setInvoiceOpen] = useState(false);
 
         const [newPayment, setNewPayment] = useState<{
           student_id: number;
@@ -427,8 +429,16 @@ export function Payments() {
                               </Card>
                             </div>
 
+              <DialogFooter className="flex-col sm:flex-row gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => { setDetailsOpen(false); setInvoiceOpen(true); }}
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  {language === 'es' ? 'Ver Factura' : 'View Invoice'}
+                </Button>
               {isAdmin && (
-                <DialogFooter className="flex-col sm:flex-row gap-2">
+                <>
                   {selectedPayment.status === 'pending' && (
                     <>
                                         <Button
@@ -468,12 +478,22 @@ export function Payments() {
                                       <Trash2 className="h-4 w-4 mr-2" />
                                       {t.common.delete}
                                     </Button>
-                </DialogFooter>
+                </>
               )}
+                </DialogFooter>
             </>
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Invoice Dialog */}
+      {selectedPayment && (
+        <Invoice
+          payment={selectedPayment}
+          open={invoiceOpen}
+          onClose={() => setInvoiceOpen(false)}
+        />
+      )}
 
       {/* Create Payment Dialog */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
