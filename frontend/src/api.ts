@@ -346,16 +346,16 @@ class ApiService {
   }
 
   // Site Content
-  async getSiteContent(): Promise<Record<string, unknown>> {
-    return this.request<Record<string, unknown>>('/api/site-content');
+  async getSiteContent(lang: string = 'en'): Promise<Record<string, unknown>> {
+    return this.request<Record<string, unknown>>(`/api/site-content?lang=${lang}`);
   }
 
-  async getSiteContentSection(section: string): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
-    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}`);
+  async getSiteContentSection(section: string, lang: string = 'en'): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
+    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}?lang=${lang}`);
   }
 
-  async updateSiteContent(section: string, content: Record<string, unknown>): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
-    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}`, {
+  async updateSiteContent(section: string, content: Record<string, unknown>, lang: string = 'en'): Promise<{ section: string; content: Record<string, unknown>; updated_at: string }> {
+    return this.request<{ section: string; content: Record<string, unknown>; updated_at: string }>(`/api/site-content/${section}?lang=${lang}`, {
       method: 'PUT',
       body: JSON.stringify({ section, content }),
     });

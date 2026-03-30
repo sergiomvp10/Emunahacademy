@@ -76,11 +76,11 @@ export function LandingPage() {
 
   useEffect(() => {
     loadContent();
-  }, []);
+  }, [language]);
 
   const loadContent = async () => {
     try {
-      const data = await api.getSiteContent() as unknown as SiteContent;
+      const data = await api.getSiteContent(language) as unknown as SiteContent;
       setContent(data);
     } catch (error) {
       console.error('Error loading site content:', error);
