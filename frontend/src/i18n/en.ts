@@ -476,5 +476,63 @@ export const en = {
       grade7: '7th Grade',
       grade8: '8th Grade',
     },
+    siteContent: {
+      hero: {
+        title: 'Emunah Academy is rooted in the Torah and Devoted to Yeshua.',
+        subtitle: 'Emunah Academy is a K-12 faith-based school devoted to helping children grow in love for Yeshua and obedience to the Torah. It provides a nurturing, family-like environment where students are encouraged to develop strong character, academic excellence and a living faith. The Academy works closely with families. Teachers model a life of Emunah (faith) and help students from kindergarten through 12th grade discover their calling, serve others, and walk in the ways of Yeshua with joy and conviction.',
+        cta_primary: 'Apply Now',
+        cta_secondary: 'Learn More',
+      },
+      about: {
+        title: 'About Emunah Academy',
+        description: 'Emunah Academy is a non-profit educational organization dedicated to providing quality education to vulnerable communities around the world. Our mission is to break the cycle of poverty through education, offering comprehensive programs from Kindergarten through 8th grade.',
+        mission: 'To empower children from underserved communities with the knowledge, skills, and values they need to succeed in life.',
+        vision: 'A world where every child has access to quality education, regardless of their circumstances.',
+      },
+      how_it_works: {
+        title: 'How It Works',
+        steps: [
+          { number: '1', title: 'Apply', description: 'Complete our simple application form with your child\'s information.' },
+          { number: '2', title: 'Review', description: 'Our team reviews your application and contacts you within 48 hours.' },
+          { number: '3', title: 'Enrollment', description: 'Once approved, your child gets access to our complete learning platform.' },
+          { number: '4', title: 'Learn', description: 'Students access video lessons, interactive quizzes, and personalized support.' },
+        ],
+      },
+      programs: {
+        title: 'Our Programs',
+        subtitle: 'Comprehensive education from Kindergarten through 8th Grade',
+        grades: [
+          { level: 'K', name: 'Kindergarten', description: 'Foundational skills in reading, math, and social development' },
+          { level: '1-2', name: 'Early Elementary', description: 'Building core literacy and math skills' },
+          { level: '3-5', name: 'Upper Elementary', description: 'Expanding knowledge in science, history, and critical thinking' },
+          { level: '6-8', name: 'Middle School', description: 'Preparing students for high school with advanced subjects' },
+        ],
+      },
+      impact: {
+        title: 'Our Impact',
+        stats: [
+          { number: '500+', label: 'Students Enrolled' },
+          { number: '15+', label: 'Countries Reached' },
+          { number: '50+', label: 'Expert Teachers' },
+          { number: '95%', label: 'Completion Rate' },
+        ],
+      },
+      faq: {
+        title: 'Frequently Asked Questions',
+        questions: [
+          { question: 'Is Emunah Academy really free?', answer: 'Yes! Emunah Academy is completely free for all students. We are funded by generous donors who believe in our mission.' },
+          { question: 'What grades do you offer?', answer: 'We offer comprehensive education from Kindergarten through 8th grade, covering all major subjects.' },
+          { question: 'What technology do I need?', answer: 'Students need a device with internet access (computer, tablet, or phone) to access our online platform.' },
+          { question: 'How can I apply?', answer: 'Simply complete our application form on this page. A parent or guardian must complete the application for students under 18.' },
+          { question: 'What language are classes taught in?', answer: 'Currently, our classes are taught in English with plans to expand to Spanish and other languages.' },
+        ],
+      },
+      contact: {
+        title: 'Contact Us',
+        email: 'info@emunahacademy.org',
+        phone: '',
+        address: '',
+      },
+    },
   },
 };

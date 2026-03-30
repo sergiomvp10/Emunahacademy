@@ -476,5 +476,63 @@ export const es = {
       grade7: '7mo Grado',
       grade8: '8vo Grado',
     },
+    siteContent: {
+      hero: {
+        title: 'Emunah Academy esta enraizada en la Torah y Dedicada a Yeshua.',
+        subtitle: 'Emunah Academy es una escuela de fe K-12 dedicada a ayudar a los ninos a crecer en amor por Yeshua y obediencia a la Torah. Proporciona un ambiente familiar y acogedor donde los estudiantes son alentados a desarrollar un caracter fuerte, excelencia academica y una fe viva. La Academia trabaja estrechamente con las familias. Los maestros modelan una vida de Emunah (fe) y ayudan a los estudiantes desde kindergarten hasta el grado 12 a descubrir su llamado, servir a otros y caminar en los caminos de Yeshua con gozo y conviccion.',
+        cta_primary: 'Aplicar Ahora',
+        cta_secondary: 'Conocer Mas',
+      },
+      about: {
+        title: 'Acerca de Emunah Academy',
+        description: 'Emunah Academy es una organizacion educativa sin fines de lucro dedicada a proporcionar educacion de calidad a comunidades vulnerables en todo el mundo. Nuestra mision es romper el ciclo de pobreza a traves de la educacion, ofreciendo programas integrales desde Kindergarten hasta 8vo grado.',
+        mission: 'Empoderar a ninos de comunidades desatendidas con el conocimiento, las habilidades y los valores que necesitan para tener exito en la vida.',
+        vision: 'Un mundo donde cada nino tenga acceso a educacion de calidad, sin importar sus circunstancias.',
+      },
+      how_it_works: {
+        title: 'Como Funciona',
+        steps: [
+          { number: '1', title: 'Aplicar', description: 'Complete nuestro sencillo formulario de solicitud con la informacion de su hijo.' },
+          { number: '2', title: 'Revision', description: 'Nuestro equipo revisa su solicitud y lo contacta dentro de 48 horas.' },
+          { number: '3', title: 'Inscripcion', description: 'Una vez aprobado, su hijo obtiene acceso a nuestra plataforma de aprendizaje completa.' },
+          { number: '4', title: 'Aprender', description: 'Los estudiantes acceden a lecciones en video, cuestionarios interactivos y apoyo personalizado.' },
+        ],
+      },
+      programs: {
+        title: 'Nuestros Programas',
+        subtitle: 'Educacion integral desde Kindergarten hasta 8vo Grado',
+        grades: [
+          { level: 'K', name: 'Kindergarten', description: 'Habilidades fundamentales en lectura, matematicas y desarrollo social' },
+          { level: '1-2', name: 'Primaria Temprana', description: 'Construyendo habilidades basicas de lectoescritura y matematicas' },
+          { level: '3-5', name: 'Primaria Superior', description: 'Expandiendo conocimientos en ciencias, historia y pensamiento critico' },
+          { level: '6-8', name: 'Secundaria', description: 'Preparando estudiantes para la preparatoria con materias avanzadas' },
+        ],
+      },
+      impact: {
+        title: 'Nuestro Impacto',
+        stats: [
+          { number: '500+', label: 'Estudiantes Inscritos' },
+          { number: '15+', label: 'Paises Alcanzados' },
+          { number: '50+', label: 'Profesores Expertos' },
+          { number: '95%', label: 'Tasa de Completacion' },
+        ],
+      },
+      faq: {
+        title: 'Preguntas Frecuentes',
+        questions: [
+          { question: 'Es Emunah Academy realmente gratuita?', answer: 'Si! Emunah Academy es completamente gratuita para todos los estudiantes. Somos financiados por generosos donantes que creen en nuestra mision.' },
+          { question: 'Que grados ofrecen?', answer: 'Ofrecemos educacion integral desde Kindergarten hasta 8vo grado, cubriendo todas las materias principales.' },
+          { question: 'Que tecnologia necesito?', answer: 'Los estudiantes necesitan un dispositivo con acceso a internet (computadora, tablet o telefono) para acceder a nuestra plataforma en linea.' },
+          { question: 'Como puedo aplicar?', answer: 'Simplemente complete nuestro formulario de solicitud en esta pagina. Un padre o tutor debe completar la solicitud para estudiantes menores de 18 anos.' },
+          { question: 'En que idioma se imparten las clases?', answer: 'Actualmente, nuestras clases se imparten en ingles con planes de expandirnos al espanol y otros idiomas.' },
+        ],
+      },
+      contact: {
+        title: 'Contactenos',
+        email: 'info@emunahacademy.org',
+        phone: '',
+        address: '',
+      },
+    },
   },
 };
