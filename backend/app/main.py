@@ -1279,53 +1279,134 @@ DEFAULT_SITE_CONTENT = {
     }
 }
 
+DEFAULT_SITE_CONTENT_ES = {
+    "hero": {
+        "title": "Emunah Academy esta enraizada en la Torah y Dedicada a Yeshua.",
+        "subtitle": "Emunah Academy es una escuela de fe K-12 dedicada a ayudar a los ninos a crecer en amor por Yeshua y obediencia a la Torah. Proporciona un ambiente familiar y acogedor donde los estudiantes son alentados a desarrollar un caracter fuerte, excelencia academica y una fe viva. La Academia trabaja estrechamente con las familias. Los maestros modelan una vida de Emunah (fe) y ayudan a los estudiantes desde kindergarten hasta el grado 12 a descubrir su llamado, servir a otros y caminar en los caminos de Yeshua con gozo y conviccion.",
+        "cta_primary": "Aplicar Ahora",
+        "cta_secondary": "Conocer Mas"
+    },
+    "about": {
+        "title": "Acerca de Emunah Academy",
+        "description": "Emunah Academy es una organizacion educativa sin fines de lucro dedicada a proporcionar educacion de calidad a comunidades vulnerables en todo el mundo. Nuestra mision es romper el ciclo de pobreza a traves de la educacion, ofreciendo programas integrales desde Kindergarten hasta 8vo grado.",
+        "mission": "Empoderar a ninos de comunidades desatendidas con el conocimiento, las habilidades y los valores que necesitan para tener exito en la vida.",
+        "vision": "Un mundo donde cada nino tenga acceso a educacion de calidad, sin importar sus circunstancias."
+    },
+    "how_it_works": {
+        "title": "Como Funciona",
+        "steps": [
+            {"number": "1", "title": "Aplicar", "description": "Complete nuestro sencillo formulario de solicitud con la informacion de su hijo."},
+            {"number": "2", "title": "Revision", "description": "Nuestro equipo revisa su solicitud y lo contacta dentro de 48 horas."},
+            {"number": "3", "title": "Inscripcion", "description": "Una vez aprobado, su hijo obtiene acceso a nuestra plataforma de aprendizaje completa."},
+            {"number": "4", "title": "Aprender", "description": "Los estudiantes acceden a lecciones en video, cuestionarios interactivos y apoyo personalizado."}
+        ]
+    },
+    "programs": {
+        "title": "Nuestros Programas",
+        "subtitle": "Educacion integral desde Kindergarten hasta 8vo Grado",
+        "grades": [
+            {"level": "K", "name": "Kindergarten", "description": "Habilidades fundamentales en lectura, matematicas y desarrollo social"},
+            {"level": "1-2", "name": "Primaria Temprana", "description": "Construyendo habilidades basicas de lectoescritura y matematicas"},
+            {"level": "3-5", "name": "Primaria Superior", "description": "Expandiendo conocimientos en ciencias, historia y pensamiento critico"},
+            {"level": "6-8", "name": "Secundaria", "description": "Preparando estudiantes para la preparatoria con materias avanzadas"}
+        ]
+    },
+    "impact": {
+        "title": "Nuestro Impacto",
+        "stats": [
+            {"number": "500+", "label": "Estudiantes Inscritos"},
+            {"number": "15+", "label": "Paises Alcanzados"},
+            {"number": "50+", "label": "Profesores Expertos"},
+            {"number": "95%", "label": "Tasa de Completacion"}
+        ]
+    },
+    "faq": {
+        "title": "Preguntas Frecuentes",
+        "questions": [
+            {"question": "Es Emunah Academy realmente gratuita?", "answer": "Si! Emunah Academy es completamente gratuita para todos los estudiantes. Somos financiados por generosos donantes que creen en nuestra mision."},
+            {"question": "Que grados ofrecen?", "answer": "Ofrecemos educacion integral desde Kindergarten hasta 8vo grado, cubriendo todas las materias principales."},
+            {"question": "Que tecnologia necesito?", "answer": "Los estudiantes necesitan un dispositivo con acceso a internet (computadora, tablet o telefono) para acceder a nuestra plataforma en linea."},
+            {"question": "Como puedo aplicar?", "answer": "Simplemente complete nuestro formulario de solicitud en esta pagina. Un padre o tutor debe completar la solicitud para estudiantes menores de 18 anos."},
+            {"question": "En que idioma se imparten las clases?", "answer": "Actualmente, nuestras clases se imparten en ingles con planes de expandirnos al espanol y otros idiomas."}
+        ]
+    },
+    "contact": {
+        "title": "Contactenos",
+        "email": "info@emunahacademy.org",
+        "phone": "",
+        "address": ""
+    }
+}
+
 @app.get("/api/site-content")
-async def get_all_site_content(db: Session = Depends(get_db)):
+async def get_all_site_content(lang: str = "en", db: Session = Depends(get_db)):
+    defaults = DEFAULT_SITE_CONTENT_ES if lang == "es" else DEFAULT_SITE_CONTENT
     content = {}
     for section in DEFAULT_SITE_CONTENT.keys():
-        row = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+        section_key = f"{section}_{lang}" if lang != "en" else section
+        row = db.query(SiteContentDB).filter(SiteContentDB.section == section_key).first()
         if row:
             content[section] = json.loads(row.content)
         else:
-            content[section] = DEFAULT_SITE_CONTENT[section]
+            # Fallback: try non-lang key, then defaults
+            row_fallback = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+            if row_fallback and lang == "en":
+                content[section] = json.loads(row_fallback.content)
+            else:
+                content[section] = defaults[section]
     return content
 
 @app.get("/api/site-content/{section}")
-async def get_site_content(section: str, db: Session = Depends(get_db)):
-    row = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+async def get_site_content(section: str, lang: str = "en", db: Session = Depends(get_db)):
+    defaults = DEFAULT_SITE_CONTENT_ES if lang == "es" else DEFAULT_SITE_CONTENT
+    base_section = section.replace("_es", "").replace("_en", "")
+    section_key = f"{base_section}_{lang}" if lang != "en" else base_section
+    
+    row = db.query(SiteContentDB).filter(SiteContentDB.section == section_key).first()
     if row:
         return SiteContent(
-            section=section,
+            section=base_section,
             content=json.loads(row.content),
             updated_at=row.updated_at
         )
-    elif section in DEFAULT_SITE_CONTENT:
+    # Fallback to non-lang key for English
+    if lang == "en":
+        row_fallback = db.query(SiteContentDB).filter(SiteContentDB.section == base_section).first()
+        if row_fallback:
+            return SiteContent(
+                section=base_section,
+                content=json.loads(row_fallback.content),
+                updated_at=row_fallback.updated_at
+            )
+    if base_section in defaults:
         return SiteContent(
-            section=section,
-            content=DEFAULT_SITE_CONTENT[section],
+            section=base_section,
+            content=defaults[base_section],
             updated_at=datetime.now()
         )
     raise HTTPException(status_code=404, detail="Section not found")
 
 @app.put("/api/site-content/{section}")
-async def update_site_content(section: str, update: SiteContentUpdate, db: Session = Depends(get_db)):
-    if section not in DEFAULT_SITE_CONTENT:
+async def update_site_content(section: str, update: SiteContentUpdate, lang: str = "en", db: Session = Depends(get_db)):
+    base_section = section.replace("_es", "").replace("_en", "")
+    if base_section not in DEFAULT_SITE_CONTENT:
         raise HTTPException(status_code=400, detail="Invalid section")
     
-    row = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
+    section_key = f"{base_section}_{lang}" if lang != "en" else base_section
+    row = db.query(SiteContentDB).filter(SiteContentDB.section == section_key).first()
     if row:
         row.content = json.dumps(update.content)
         row.updated_at = datetime.now()
     else:
         row = SiteContentDB(
-            section=section,
+            section=section_key,
             content=json.dumps(update.content),
         )
         db.add(row)
     db.commit()
     db.refresh(row)
     return SiteContent(
-        section=section,
+        section=base_section,
         content=json.loads(row.content),
         updated_at=row.updated_at
     )

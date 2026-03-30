@@ -60,6 +60,7 @@ export function SiteSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savedSection, setSavedSection] = useState<string | null>(null);
+  const [editLang, setEditLang] = useState<'en' | 'es'>('en');
   
   const [hero, setHero] = useState<HeroContent>({
     title: '',
@@ -116,11 +117,11 @@ export function SiteSettings() {
 
   useEffect(() => {
     loadContent();
-  }, []);
+  }, [editLang]);
 
   const loadContent = async () => {
     try {
-      const data = await api.getSiteContent();
+      const data = await api.getSiteContent(editLang);
       setHero(data.hero as HeroContent);
       setAbout(data.about as AboutContent);
       setHowItWorks(data.how_it_works as HowItWorksContent);
@@ -138,7 +139,7 @@ export function SiteSettings() {
   const saveSection = async (section: string, content: unknown) => {
     setSaving(true);
     try {
-      await api.updateSiteContent(section, content as Record<string, unknown>);
+      await api.updateSiteContent(section, content as Record<string, unknown>, editLang);
       setSavedSection(section);
       setTimeout(() => setSavedSection(null), 2000);
     } catch (error) {
@@ -195,15 +196,35 @@ export function SiteSettings() {
           </h1>
           <p className="text-gray-500 mt-1">Manage your landing page content</p>
         </div>
-        <a 
-          href="/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-teal-600 hover:text-teal-700 flex items-center gap-1"
-        >
-          <Globe className="h-4 w-4" />
-          View Landing Page
-        </a>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+            <button
+              onClick={() => setEditLang('en')}
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                editLang === 'en' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              English
+            </button>
+            <button
+              onClick={() => setEditLang('es')}
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                editLang === 'es' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Español
+            </button>
+          </div>
+          <a 
+            href="/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-teal-600 hover:text-teal-700 flex items-center gap-1"
+          >
+            <Globe className="h-4 w-4" />
+            View Landing Page
+          </a>
+        </div>
       </div>
 
       <Tabs defaultValue="hero" className="space-y-6">
