@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Plus, BookOpen, Users, 
+  Plus, BookOpen, 
   Edit, Trash2, CheckCircle, Upload, X
 } from 'lucide-react';
 
@@ -311,11 +311,7 @@ export function Courses() {
                 {course.title}
               </h3>
               <p className="text-sm text-gray-500 mb-3 line-clamp-2">{course.description}</p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Users className="h-4 w-4" />
-                  <span>{course.teacher_name}</span>
-                </div>
+              <div className="flex items-center justify-end">
                 {canManageCourses && (user?.role === 'superuser' || course.teacher_id === user?.id) && (
                   <div className="flex gap-1">
                     {!course.is_published && (
