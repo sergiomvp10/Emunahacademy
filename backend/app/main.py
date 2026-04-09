@@ -1348,9 +1348,9 @@ async def get_all_site_content(lang: str = "en", db: Session = Depends(get_db)):
         if row:
             content[section] = json.loads(row.content)
         else:
-            # Fallback: try non-lang key, then defaults
+            # Fallback: try base (English) DB key, then defaults
             row_fallback = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
-            if row_fallback and lang == "en":
+            if row_fallback:
                 content[section] = json.loads(row_fallback.content)
             else:
                 content[section] = defaults[section]
@@ -1369,15 +1369,14 @@ async def get_site_content(section: str, lang: str = "en", db: Session = Depends
             content=json.loads(row.content),
             updated_at=row.updated_at
         )
-    # Fallback to non-lang key for English
-    if lang == "en":
-        row_fallback = db.query(SiteContentDB).filter(SiteContentDB.section == base_section).first()
-        if row_fallback:
-            return SiteContent(
-                section=base_section,
-                content=json.loads(row_fallback.content),
-                updated_at=row_fallback.updated_at
-            )
+    # Fallback to base (English) DB key for any language
+    row_fallback = db.query(SiteContentDB).filter(SiteContentDB.section == base_section).first()
+    if row_fallback:
+        return SiteContent(
+            section=base_section,
+            content=json.loads(row_fallback.content),
+            updated_at=row_fallback.updated_at
+        )
     if base_section in defaults:
         return SiteContent(
             section=base_section,
