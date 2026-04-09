@@ -13,6 +13,7 @@ import shutil
 import logging
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
+from deep_translator import GoogleTranslator
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -1385,12 +1386,42 @@ async def get_site_content(section: str, lang: str = "en", db: Session = Depends
         )
     raise HTTPException(status_code=404, detail="Section not found")
 
+def _translate_content(content: dict, source_lang: str, target_lang: str) -> dict:
+    """Recursively translate all string values in a dict."""
+    translator = GoogleTranslator(source=source_lang, target=target_lang)
+    translated = {}
+    for key, value in content.items():
+        if isinstance(value, str) and value.strip():
+            try:
+                translated[key] = translator.translate(value)
+            except Exception:
+                translated[key] = value
+        elif isinstance(value, list):
+            translated_list = []
+            for item in value:
+                if isinstance(item, dict):
+                    translated_list.append(_translate_content(item, source_lang, target_lang))
+                elif isinstance(item, str) and item.strip():
+                    try:
+                        translated_list.append(translator.translate(item))
+                    except Exception:
+                        translated_list.append(item)
+                else:
+                    translated_list.append(item)
+            translated[key] = translated_list
+        elif isinstance(value, dict):
+            translated[key] = _translate_content(value, source_lang, target_lang)
+        else:
+            translated[key] = value
+    return translated
+
 @app.put("/api/site-content/{section}")
 async def update_site_content(section: str, update: SiteContentUpdate, lang: str = "en", db: Session = Depends(get_db)):
     base_section = section.replace("_es", "").replace("_en", "")
     if base_section not in DEFAULT_SITE_CONTENT:
         raise HTTPException(status_code=400, detail="Invalid section")
     
+    # Save the content for the requested language
     section_key = f"{base_section}_{lang}" if lang != "en" else base_section
     row = db.query(SiteContentDB).filter(SiteContentDB.section == section_key).first()
     if row:
@@ -1402,6 +1433,28 @@ async def update_site_content(section: str, update: SiteContentUpdate, lang: str
             content=json.dumps(update.content),
         )
         db.add(row)
+    
+    # Auto-translate to the other language
+    try:
+        other_lang = "es" if lang == "en" else "en"
+        source = "en" if lang == "en" else "es"
+        target = "es" if lang == "en" else "en"
+        translated = _translate_content(update.content, source, target)
+        
+        other_key = f"{base_section}_{other_lang}" if other_lang != "en" else base_section
+        other_row = db.query(SiteContentDB).filter(SiteContentDB.section == other_key).first()
+        if other_row:
+            other_row.content = json.dumps(translated)
+            other_row.updated_at = datetime.now()
+        else:
+            other_row = SiteContentDB(
+                section=other_key,
+                content=json.dumps(translated),
+            )
+            db.add(other_row)
+    except Exception as e:
+        logger.warning(f"Auto-translation failed: {e}")
+    
     db.commit()
     db.refresh(row)
     return SiteContent(
