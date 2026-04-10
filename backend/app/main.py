@@ -1463,6 +1463,42 @@ async def update_site_content(section: str, update: SiteContentUpdate, lang: str
         updated_at=row.updated_at
     )
 
+@app.post("/api/site-content/translate-all")
+async def translate_all_site_content(lang: str = "en", db: Session = Depends(get_db)):
+    """Translate all existing site content sections from one language to the other."""
+    source = "en" if lang == "en" else "es"
+    target = "es" if lang == "en" else "en"
+    translated_sections = []
+    
+    for section in DEFAULT_SITE_CONTENT.keys():
+        # Get source content
+        source_key = f"{section}_{source}" if source != "en" else section
+        row = db.query(SiteContentDB).filter(SiteContentDB.section == source_key).first()
+        if not row:
+            continue
+        
+        try:
+            content = json.loads(row.content)
+            translated = _translate_content(content, source, target)
+            
+            target_key = f"{section}_{target}" if target != "en" else section
+            target_row = db.query(SiteContentDB).filter(SiteContentDB.section == target_key).first()
+            if target_row:
+                target_row.content = json.dumps(translated)
+                target_row.updated_at = datetime.now()
+            else:
+                target_row = SiteContentDB(
+                    section=target_key,
+                    content=json.dumps(translated),
+                )
+                db.add(target_row)
+            translated_sections.append(section)
+        except Exception as e:
+            logger.warning(f"Failed to translate section {section}: {e}")
+    
+    db.commit()
+    return {"translated": translated_sections, "source": source, "target": target}
+
 # ==================== STUDENT APPLICATION ENDPOINTS ====================
 
 @app.get("/api/applications", response_model=List[StudentApplication])

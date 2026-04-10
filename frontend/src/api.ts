@@ -361,6 +361,12 @@ class ApiService {
     });
   }
 
+  async translateAllSiteContent(lang: string = 'en'): Promise<{ translated: string[]; source: string; target: string }> {
+    return this.request<{ translated: string[]; source: string; target: string }>(`/api/site-content/translate-all?lang=${lang}`, {
+      method: 'POST',
+    });
+  }
+
   // Applications
   async getApplications(status?: string): Promise<StudentApplication[]> {
     const params = status ? `?status=${status}` : '';
