@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Settings, Save, RotateCcw, Globe, Users, BookOpen, 
-  HelpCircle, Mail, CheckCircle, Upload, X, Lock, Eye, EyeOff, Languages
+  HelpCircle, Mail, CheckCircle, Upload, X, Lock, Eye, EyeOff, Languages, Trash2, Plus
 } from 'lucide-react';
 
 interface HeroContent {
@@ -472,7 +472,19 @@ export function SiteSettings() {
                           setHowItWorks({ ...howItWorks, steps: newSteps });
                         }}
                         placeholder="Step title"
+                        className="flex-1"
                       />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        onClick={() => {
+                          const newSteps = howItWorks.steps.filter((_, i) => i !== index);
+                          setHowItWorks({ ...howItWorks, steps: newSteps });
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
                     <Textarea
                       value={step.description}
@@ -486,6 +498,13 @@ export function SiteSettings() {
                     />
                   </div>
                 ))}
+                <Button
+                  variant="outline"
+                  onClick={() => setHowItWorks({ ...howItWorks, steps: [...howItWorks.steps, { number: String(howItWorks.steps.length + 1), title: '', description: '' }] })}
+                  className="w-full border-dashed"
+                >
+                  <Plus className="h-4 w-4 mr-2" /> Add Step
+                </Button>
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={loadContent} disabled={saving}>
@@ -534,6 +553,19 @@ export function SiteSettings() {
                 <Label>Grade Programs</Label>
                 {programs.grades.map((grade, index) => (
                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                    <div className="flex justify-end">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-6 w-6"
+                        onClick={() => {
+                          const newGrades = programs.grades.filter((_, i) => i !== index);
+                          setPrograms({ ...programs, grades: newGrades });
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label>Level</Label>
@@ -572,6 +604,13 @@ export function SiteSettings() {
                     </div>
                   </div>
                 ))}
+                <Button
+                  variant="outline"
+                  onClick={() => setPrograms({ ...programs, grades: [...programs.grades, { level: '', name: '', description: '' }] })}
+                  className="w-full border-dashed"
+                >
+                  <Plus className="h-4 w-4 mr-2" /> Add Program
+                </Button>
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={loadContent} disabled={saving}>
@@ -613,6 +652,19 @@ export function SiteSettings() {
                 <div className="grid grid-cols-2 gap-4">
                   {impact.stats.map((stat, index) => (
                     <div key={index} className="border rounded-lg p-4 space-y-2">
+                      <div className="flex justify-end">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 h-6 w-6"
+                          onClick={() => {
+                            const newStats = impact.stats.filter((_, i) => i !== index);
+                            setImpact({ ...impact, stats: newStats });
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                       <div>
                         <Label>Number/Value</Label>
                         <Input
@@ -640,6 +692,13 @@ export function SiteSettings() {
                     </div>
                   ))}
                 </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setImpact({ ...impact, stats: [...impact.stats, { number: '', label: '' }] })}
+                  className="w-full border-dashed"
+                >
+                  <Plus className="h-4 w-4 mr-2" /> Add Stat
+                </Button>
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={loadContent} disabled={saving}>
@@ -680,6 +739,20 @@ export function SiteSettings() {
                 <Label>Questions & Answers</Label>
                 {faq.questions.map((item, index) => (
                   <div key={index} className="border rounded-lg p-4 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <Label>Question {index + 1}</Label>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-6 w-6"
+                        onClick={() => {
+                          const newQuestions = faq.questions.filter((_, i) => i !== index);
+                          setFaq({ ...faq, questions: newQuestions });
+                        }}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                     <div>
                       <Label>Question</Label>
                       <Input
@@ -705,6 +778,13 @@ export function SiteSettings() {
                     </div>
                   </div>
                 ))}
+                <Button
+                  variant="outline"
+                  onClick={() => setFaq({ ...faq, questions: [...faq.questions, { question: '', answer: '' }] })}
+                  className="w-full border-dashed"
+                >
+                  <Plus className="h-4 w-4 mr-2" /> Add Question
+                </Button>
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={loadContent} disabled={saving}>
