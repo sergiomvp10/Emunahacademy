@@ -1352,7 +1352,19 @@ async def get_all_site_content(lang: str = "en", db: Session = Depends(get_db)):
             # Fallback: try base (English) DB key, then defaults
             row_fallback = db.query(SiteContentDB).filter(SiteContentDB.section == section).first()
             if row_fallback:
-                content[section] = json.loads(row_fallback.content)
+                en_content = json.loads(row_fallback.content)
+                # Auto-translate and save for future requests
+                if lang != "en":
+                    try:
+                        translated = _translate_content(en_content, "en", lang)
+                        new_row = SiteContentDB(section=section_key, content=json.dumps(translated))
+                        db.add(new_row)
+                        db.commit()
+                        content[section] = translated
+                    except Exception:
+                        content[section] = en_content
+                else:
+                    content[section] = en_content
             else:
                 content[section] = defaults[section]
     return content
