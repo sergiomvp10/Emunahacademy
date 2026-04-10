@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Settings, Save, RotateCcw, Globe, Users, BookOpen, 
-  HelpCircle, Mail, CheckCircle, Upload, X, Lock, Eye, EyeOff
+  HelpCircle, Mail, CheckCircle, Upload, X, Lock, Eye, EyeOff, Languages
 } from 'lucide-react';
 
 interface HeroContent {
@@ -61,6 +61,8 @@ export function SiteSettings() {
   const [saving, setSaving] = useState(false);
   const [savedSection, setSavedSection] = useState<string | null>(null);
   const [editLang, setEditLang] = useState<'en' | 'es'>('en');
+  const [translating, setTranslating] = useState(false);
+  const [translateMessage, setTranslateMessage] = useState<string | null>(null);
   
   const [hero, setHero] = useState<HeroContent>({
     title: '',
@@ -150,6 +152,21 @@ export function SiteSettings() {
     }
   };
 
+  const translateAll = async () => {
+    setTranslating(true);
+    setTranslateMessage(null);
+    try {
+      const result = await api.translateAllSiteContent(editLang);
+      setTranslateMessage(`Translated ${result.translated.length} sections from ${result.source.toUpperCase()} to ${result.target.toUpperCase()}`);
+      setTimeout(() => setTranslateMessage(null), 4000);
+    } catch (error) {
+      console.error('Error translating:', error);
+      alert('Error translating. Please try again.');
+    } finally {
+      setTranslating(false);
+    }
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -215,6 +232,15 @@ export function SiteSettings() {
               Español
             </button>
           </div>
+          <Button
+            onClick={translateAll}
+            disabled={translating}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Languages className="h-4 w-4" />
+            {translating ? 'Translating...' : 'Translate All'}
+          </Button>
           <a 
             href="/" 
             target="_blank" 
@@ -226,6 +252,13 @@ export function SiteSettings() {
           </a>
         </div>
       </div>
+
+      {translateMessage && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
+          <CheckCircle className="h-4 w-4 text-green-600" />
+          <span className="text-green-700 text-sm">{translateMessage}</span>
+        </div>
+      )}
 
       <Tabs defaultValue="hero" className="space-y-6">
         <TabsList className="grid grid-cols-8 w-full">
