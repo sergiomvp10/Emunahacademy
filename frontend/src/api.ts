@@ -520,6 +520,12 @@ class ApiService {
       body: JSON.stringify({ submission_id: submissionId, score, feedback }),
     });
   }
+
+  async seedBase44Courses(teacherId: number): Promise<{ message: string; courses_created: number; lessons_created: number; courses_skipped: number }> {
+    return this.request<{ message: string; courses_created: number; lessons_created: number; courses_skipped: number }>(`/api/seed-base44-courses?teacher_id=${teacherId}`, {
+      method: 'POST',
+    });
+  }
 }
 
 export const api = new ApiService();
