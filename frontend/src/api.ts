@@ -3,7 +3,8 @@ import {
   CalendarEvent, QuizResult, StudentProgress, ChildProgress, 
   Statistics, Enrollment, UserRole, Message, Conversation,
   Payment, PaymentStatus, StudentForPayment,
-  Assignment, AssignmentSubmission, StudentAssignment
+  Assignment, AssignmentSubmission, StudentAssignment,
+  BookCategory, Book
 } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -524,6 +525,64 @@ class ApiService {
   async seedBase44Courses(teacherId: number): Promise<{ message: string; courses_created: number; lessons_created: number; courses_skipped: number }> {
     return this.request<{ message: string; courses_created: number; lessons_created: number; courses_skipped: number }>(`/api/seed-base44-courses?teacher_id=${teacherId}`, {
       method: 'POST',
+    });
+  }
+
+  // Books
+  async getBookCategories(): Promise<BookCategory[]> {
+    return this.request<BookCategory[]>('/api/book-categories');
+  }
+
+  async createBookCategory(category: { name: string; description?: string; color?: string; icon?: string }, userId: number): Promise<BookCategory> {
+    return this.request<BookCategory>(`/api/book-categories?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify(category),
+    });
+  }
+
+  async deleteBookCategory(categoryId: number, userId: number): Promise<void> {
+    return this.request<void>(`/api/book-categories/${categoryId}?user_id=${userId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getBooks(categoryId?: number, gradeLevel?: string, search?: string): Promise<Book[]> {
+    const params = new URLSearchParams();
+    if (categoryId !== undefined) params.append('category_id', categoryId.toString());
+    if (gradeLevel) params.append('grade_level', gradeLevel);
+    if (search) params.append('search', search);
+    const query = params.toString() ? `?${params.toString()}` : '';
+    return this.request<Book[]>(`/api/books${query}`);
+  }
+
+  async uploadBookFile(file: File): Promise<{ file_url: string; file_name: string; file_size: number }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const token = this.getToken();
+    const headers: Record<string, string> = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const response = await fetch(`${API_URL}/api/books/upload`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ detail: 'Upload failed' }));
+      throw new Error(error.detail || 'Upload failed');
+    }
+    return response.json();
+  }
+
+  async createBook(book: { title: string; author?: string; description?: string; category_id?: number; grade_level?: string; file_url: string; file_name: string; file_size?: number; cover_url?: string }, userId: number): Promise<Book> {
+    return this.request<Book>(`/api/books?user_id=${userId}`, {
+      method: 'POST',
+      body: JSON.stringify(book),
+    });
+  }
+
+  async deleteBook(bookId: number, userId: number): Promise<void> {
+    return this.request<void>(`/api/books/${bookId}?user_id=${userId}`, {
+      method: 'DELETE',
     });
   }
 }

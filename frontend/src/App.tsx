@@ -18,6 +18,7 @@ import { LandingPage } from './pages/LandingPage';
 import { SiteSettings } from './pages/SiteSettings';
 import { Applications } from './pages/Applications';
 import { Payments } from './pages/Payments';
+import { Books } from './pages/Books';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -94,6 +95,7 @@ function AppRoutes() {
         <Route path="site-settings" element={<SiteSettings />} />
         <Route path="applications" element={<Applications />} />
         <Route path="payments" element={<Payments />} />
+        <Route path="books" element={<Books />} />
       </Route>
       
       {/* Redirect old routes to new /app prefix */}
