@@ -6,7 +6,7 @@ import { api } from '../api';
 import { 
   LayoutDashboard, BookOpen, Calendar, Users, MessageSquare, 
   LogOut, Menu, Bell, Search, ChevronDown,
-  GraduationCap, FileText, BarChart3, Settings, ClipboardList, DollarSign, Globe, ClipboardCheck, Bot
+  GraduationCap, FileText, BarChart3, Settings, ClipboardList, DollarSign, Globe, ClipboardCheck, Bot, Library
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -47,6 +47,7 @@ export function Layout() {
       { id: 'courses', label: t.nav.courses, icon: BookOpen },
       { id: 'calendar', label: t.nav.calendar, icon: Calendar },
       { id: 'messages', label: t.nav.messages, icon: MessageSquare },
+      { id: 'books', label: t.nav.books, icon: Library },
     ];
 
     if (user?.role === 'superuser') {

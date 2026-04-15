@@ -255,6 +255,39 @@ class SiteContentDB(Base):
     content = Column(Text, nullable=False)  # JSON string
     updated_at = Column(DateTime, default=datetime.utcnow)
 
+class BookCategory(Base):
+    __tablename__ = "book_categories"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    description = Column(Text, nullable=True)
+    color = Column(String(50), default="#6366f1")  # Hex color for UI
+    icon = Column(String(50), default="folder")  # lucide icon name
+    created_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    books = relationship("Book", back_populates="category", cascade="all, delete-orphan")
+    creator = relationship("User", foreign_keys=[created_by])
+
+class Book(Base):
+    __tablename__ = "books"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    author = Column(String(255), nullable=True)
+    description = Column(Text, nullable=True)
+    cover_url = Column(String(500), nullable=True)
+    file_url = Column(String(500), nullable=False)
+    file_name = Column(String(255), nullable=False)
+    file_size = Column(Integer, nullable=True)  # in bytes
+    category_id = Column(Integer, ForeignKey("book_categories.id"), nullable=True)
+    grade_level = Column(String(10), nullable=True)
+    uploaded_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    category = relationship("BookCategory", back_populates="books")
+    uploader = relationship("User", foreign_keys=[uploaded_by])
+
 class AssignmentSubmission(Base):
     __tablename__ = "assignment_submissions"
     

@@ -217,3 +217,31 @@ export interface StudentAssignment {
   assignment: Assignment;
   submission: AssignmentSubmission | null;
 }
+
+export interface BookCategory {
+  id: number;
+  name: string;
+  description: string | null;
+  color: string;
+  icon: string;
+  created_by: number;
+  created_at: string;
+  book_count: number;
+}
+
+export interface Book {
+  id: number;
+  title: string;
+  author: string | null;
+  description: string | null;
+  cover_url: string | null;
+  file_url: string;
+  file_name: string;
+  file_size: number | null;
+  category_id: number | null;
+  grade_level: GradeLevel | null;
+  uploaded_by: number;
+  uploader_name: string;
+  category_name: string | null;
+  created_at: string;
+}

@@ -387,3 +387,49 @@ class AssignmentSubmission(BaseModel):
 class StudentAssignment(BaseModel):
     assignment: Assignment
     submission: Optional[AssignmentSubmission] = None
+
+# Book Models
+class BookCategoryBase(BaseModel):
+    name: str
+    description: Optional[str] = None
+    color: str = "#6366f1"
+    icon: str = "folder"
+
+class BookCategoryCreate(BookCategoryBase):
+    pass
+
+class BookCategory(BookCategoryBase):
+    id: int
+    created_by: int
+    created_at: datetime
+    book_count: int = 0
+    
+    class Config:
+        from_attributes = True
+
+class BookBase(BaseModel):
+    title: str
+    author: Optional[str] = None
+    description: Optional[str] = None
+    category_id: Optional[int] = None
+    grade_level: Optional[str] = None
+
+class BookCreate(BookBase):
+    file_url: str
+    file_name: str
+    file_size: Optional[int] = None
+    cover_url: Optional[str] = None
+
+class Book(BookBase):
+    id: int
+    cover_url: Optional[str] = None
+    file_url: str
+    file_name: str
+    file_size: Optional[int] = None
+    uploaded_by: int
+    uploader_name: str
+    category_name: Optional[str] = None
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True

@@ -23,6 +23,7 @@ _email_executor = ThreadPoolExecutor(max_workers=2)
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB max file size
+MAX_BOOK_FILE_SIZE = 50 * 1024 * 1024  # 50MB max for book PDFs
 
 from app.models import (
     UserCreate, User as UserSchema, UserLogin, Token, UserRole, ChangePassword,
@@ -38,13 +39,14 @@ from app.models import (
     PaymentCreate, PaymentUpdate, Payment as PaymentSchema, PaymentStatus,
     AssignmentCreate, Assignment as AssignmentSchema, AssignmentSubmissionCreate, 
     AssignmentSubmissionGrade, AssignmentSubmission as AssignmentSubmissionSchema, 
-    AssignmentStatus, StudentAssignment
+    AssignmentStatus, StudentAssignment,
+    BookCategoryCreate, BookCategory as BookCategorySchema, BookCreate, Book as BookSchema
 )
 from app.db_config import get_db, engine
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
     QuizResult, Evaluation, EvaluationSubmission, LessonCompletion, Message, Payment,
-    Assignment, AssignmentSubmission, SiteContentDB,
+    Assignment, AssignmentSubmission, SiteContentDB, BookCategory, Book,
     UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum, AssignmentStatusEnum
 )
 import json
@@ -2252,3 +2254,193 @@ async def seed_base44_courses(teacher_id: int, db: Session = Depends(get_db)):
         "lessons_created": lessons_created,
         "courses_skipped": courses_skipped
     }
+
+# ==================== BOOKS ENDPOINTS ====================
+
+@app.get("/api/book-categories", response_model=List[BookCategorySchema])
+async def get_book_categories(db: Session = Depends(get_db)):
+    categories = db.query(BookCategory).order_by(BookCategory.name).all()
+    result = []
+    for cat in categories:
+        book_count = db.query(Book).filter(Book.category_id == cat.id).count()
+        result.append(BookCategorySchema(
+            id=cat.id,
+            name=cat.name,
+            description=cat.description,
+            color=cat.color or "#6366f1",
+            icon=cat.icon or "folder",
+            created_by=cat.created_by,
+            created_at=cat.created_at,
+            book_count=book_count
+        ))
+    return result
+
+@app.post("/api/book-categories", response_model=BookCategorySchema)
+async def create_book_category(category: BookCategoryCreate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    if user.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para crear categorias")
+    
+    db_category = BookCategory(
+        name=category.name,
+        description=category.description,
+        color=category.color,
+        icon=category.icon,
+        created_by=user_id
+    )
+    db.add(db_category)
+    db.commit()
+    db.refresh(db_category)
+    
+    return BookCategorySchema(
+        id=db_category.id,
+        name=db_category.name,
+        description=db_category.description,
+        color=db_category.color or "#6366f1",
+        icon=db_category.icon or "folder",
+        created_by=db_category.created_by,
+        created_at=db_category.created_at,
+        book_count=0
+    )
+
+@app.delete("/api/book-categories/{category_id}")
+async def delete_book_category(category_id: int, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user or user.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para eliminar categorias")
+    
+    category = db.query(BookCategory).filter(BookCategory.id == category_id).first()
+    if not category:
+        raise HTTPException(status_code=404, detail="Categoria no encontrada")
+    
+    # Move books to uncategorized before deleting
+    db.query(Book).filter(Book.category_id == category_id).update({"category_id": None})
+    db.delete(category)
+    db.commit()
+    return {"message": "Categoria eliminada"}
+
+@app.get("/api/books", response_model=List[BookSchema])
+async def get_books(category_id: Optional[int] = None, grade_level: Optional[str] = None, search: Optional[str] = None, db: Session = Depends(get_db)):
+    query = db.query(Book)
+    
+    if category_id is not None:
+        query = query.filter(Book.category_id == category_id)
+    if grade_level:
+        query = query.filter(Book.grade_level == grade_level)
+    if search:
+        query = query.filter(
+            (Book.title.ilike(f"%{search}%")) | 
+            (Book.author.ilike(f"%{search}%"))
+        )
+    
+    books = query.order_by(Book.created_at.desc()).all()
+    result = []
+    for book in books:
+        uploader = db.query(User).filter(User.id == book.uploaded_by).first()
+        category = db.query(BookCategory).filter(BookCategory.id == book.category_id).first() if book.category_id else None
+        result.append(BookSchema(
+            id=book.id,
+            title=book.title,
+            author=book.author,
+            description=book.description,
+            cover_url=book.cover_url,
+            file_url=book.file_url,
+            file_name=book.file_name,
+            file_size=book.file_size,
+            category_id=book.category_id,
+            grade_level=book.grade_level,
+            uploaded_by=book.uploaded_by,
+            uploader_name=uploader.name if uploader else "Desconocido",
+            category_name=category.name if category else None,
+            created_at=book.created_at
+        ))
+    return result
+
+@app.post("/api/books/upload")
+async def upload_book_file(file: UploadFile = File(...)):
+    """Upload a PDF file for a book. Returns the file URL."""
+    file_ext = Path(file.filename).suffix.lower() if file.filename else ''
+    if file_ext != '.pdf':
+        raise HTTPException(status_code=400, detail="Solo se permiten archivos PDF")
+    
+    contents = await file.read()
+    if len(contents) > MAX_BOOK_FILE_SIZE:
+        raise HTTPException(status_code=400, detail=f"Archivo demasiado grande. Tamano maximo: {MAX_BOOK_FILE_SIZE // (1024*1024)}MB")
+    
+    unique_filename = f"books/{uuid.uuid4()}{file_ext}"
+    books_dir = UPLOAD_DIR / "books"
+    books_dir.mkdir(exist_ok=True)
+    file_path = UPLOAD_DIR / unique_filename
+    
+    with open(file_path, "wb") as f:
+        f.write(contents)
+    
+    return {
+        "file_url": f"/uploads/{unique_filename}",
+        "file_name": file.filename,
+        "file_size": len(contents)
+    }
+
+@app.post("/api/books", response_model=BookSchema)
+async def create_book(book: BookCreate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    if user.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para agregar libros")
+    
+    db_book = Book(
+        title=book.title,
+        author=book.author,
+        description=book.description,
+        cover_url=book.cover_url,
+        file_url=book.file_url,
+        file_name=book.file_name,
+        file_size=book.file_size,
+        category_id=book.category_id,
+        grade_level=book.grade_level,
+        uploaded_by=user_id
+    )
+    db.add(db_book)
+    db.commit()
+    db.refresh(db_book)
+    
+    category = db.query(BookCategory).filter(BookCategory.id == db_book.category_id).first() if db_book.category_id else None
+    
+    return BookSchema(
+        id=db_book.id,
+        title=db_book.title,
+        author=db_book.author,
+        description=db_book.description,
+        cover_url=db_book.cover_url,
+        file_url=db_book.file_url,
+        file_name=db_book.file_name,
+        file_size=db_book.file_size,
+        category_id=db_book.category_id,
+        grade_level=db_book.grade_level,
+        uploaded_by=db_book.uploaded_by,
+        uploader_name=user.name,
+        category_name=category.name if category else None,
+        created_at=db_book.created_at
+    )
+
+@app.delete("/api/books/{book_id}")
+async def delete_book(book_id: int, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user or user.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para eliminar libros")
+    
+    book = db.query(Book).filter(Book.id == book_id).first()
+    if not book:
+        raise HTTPException(status_code=404, detail="Libro no encontrado")
+    
+    # Try to delete the physical file
+    file_path = Path(book.file_url.lstrip("/")) if book.file_url else None
+    if file_path and file_path.exists():
+        file_path.unlink(missing_ok=True)
+    
+    db.delete(book)
+    db.commit()
+    return {"message": "Libro eliminado"}
