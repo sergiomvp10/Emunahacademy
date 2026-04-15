@@ -14,7 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { 
   Plus, BookOpen, 
-  Edit, Trash2, CheckCircle, Upload, X
+  Edit, Trash2, CheckCircle, Upload, X, Download
 } from 'lucide-react';
 
 const GRADE_LEVEL_KEYS: { value: GradeLevel; key: keyof typeof import('../i18n').es.grades }[] = [
@@ -40,6 +40,7 @@ export function Courses() {
   const [creating, setCreating] = useState(false);
   const [filterGrade, setFilterGrade] = useState<GradeLevel | 'all'>('all');
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [importingBase44, setImportingBase44] = useState(false);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -141,6 +142,22 @@ export function Courses() {
     return colors[index % colors.length];
   };
 
+  const handleImportBase44 = async () => {
+    if (!user) return;
+    if (!confirm(t.courses.importBase44 + '? (25 cursos, 250 lecciones)')) return;
+    setImportingBase44(true);
+    try {
+      const result = await api.seedBase44Courses(user.id);
+      alert(result.message);
+      loadCourses();
+    } catch (error) {
+      console.error('Error importing Base44 courses:', error);
+      alert(t.courses.importError);
+    } finally {
+      setImportingBase44(false);
+    }
+  };
+
   const canManageCourses = user?.role === 'superuser' || user?.role === 'director' || user?.role === 'teacher';
 
   if (loading) {
@@ -175,6 +192,17 @@ export function Courses() {
                             ))}
             </SelectContent>
           </Select>
+        {canManageCourses && (
+          <Button 
+            variant="outline" 
+            className="border-purple-500 text-purple-600 hover:bg-purple-50"
+            onClick={handleImportBase44}
+            disabled={importingBase44}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            {importingBase44 ? t.courses.importing : t.courses.importBase44}
+          </Button>
+        )}
         {canManageCourses && (
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>

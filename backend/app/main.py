@@ -2181,3 +2181,74 @@ async def grade_assignment(grade: AssignmentSubmissionGrade, user_id: int, db: S
         graded_by=submission.graded_by,
         grader_name=user.name
     )
+
+# ==================== BASE44 COURSE SEED ENDPOINT ====================
+
+@app.post("/api/seed-base44-courses")
+async def seed_base44_courses(teacher_id: int, db: Session = Depends(get_db)):
+    """Import courses from Base44 MathModules seed data.
+    
+    Creates 25 courses (5 subjects x 5 grade levels) with 250 total lessons.
+    Requires a teacher_id to assign as the course creator.
+    Skips courses that already exist (matched by title).
+    """
+    teacher = db.query(User).filter(User.id == teacher_id).first()
+    if not teacher:
+        raise HTTPException(status_code=404, detail="Profesor no encontrado")
+    
+    if teacher.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="Solo profesores/directores/superusuarios pueden importar cursos")
+    
+    # Load seed data
+    seed_path = Path(__file__).parent / "base44_seed_data.json"
+    if not seed_path.exists():
+        raise HTTPException(status_code=500, detail="Archivo de datos Base44 no encontrado")
+    
+    with open(seed_path, "r", encoding="utf-8") as f:
+        seed_data = json.load(f)
+    
+    courses_created = 0
+    lessons_created = 0
+    courses_skipped = 0
+    
+    for course_data in seed_data["courses"]:
+        # Check if course already exists
+        existing = db.query(Course).filter(Course.title == course_data["title"]).first()
+        if existing:
+            courses_skipped += 1
+            continue
+        
+        # Create course
+        db_course = Course(
+            title=course_data["title"],
+            description=course_data["description"],
+            thumbnail_url=None,
+            grade_level=course_data.get("grade_level"),
+            teacher_id=teacher_id,
+            is_published=True
+        )
+        db.add(db_course)
+        db.flush()  # Get the course ID
+        
+        # Create lessons for this course
+        for lesson_data in course_data["lessons"]:
+            db_lesson = Lesson(
+                course_id=db_course.id,
+                title=lesson_data["title"],
+                lesson_type=LessonTypeEnum.TEXT,
+                content=lesson_data["content"],
+                order=lesson_data["order"]
+            )
+            db.add(db_lesson)
+            lessons_created += 1
+        
+        courses_created += 1
+    
+    db.commit()
+    
+    return {
+        "message": f"Importacion completada: {courses_created} cursos creados, {lessons_created} lecciones creadas, {courses_skipped} cursos omitidos (ya existian)",
+        "courses_created": courses_created,
+        "lessons_created": lessons_created,
+        "courses_skipped": courses_skipped
+    }

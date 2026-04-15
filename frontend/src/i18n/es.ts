@@ -131,6 +131,10 @@ export const es = {
     confirmDelete: 'Estas seguro de eliminar este curso?',
     createFirst: 'Crea tu primer curso para comenzar',
     comingSoon: 'Los cursos estaran disponibles pronto',
+    importBase44: 'Importar Cursos Base44',
+    importing: 'Importando...',
+    importSuccess: 'Cursos importados exitosamente',
+    importError: 'Error al importar cursos',
   },
   grades: {
     kindergarten: 'Kindergarten',
