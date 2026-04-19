@@ -456,6 +456,13 @@ export const en = {
     confirmDeleteCategory: 'Are you sure you want to delete this category? Associated books will become uncategorized.',
     read: 'Read',
     download: 'Download',
+    coverImage: 'Cover image',
+    addCover: 'Add cover',
+    changeCover: 'Change cover',
+    optional: 'optional',
+    onlyImages: 'Only image files are allowed (JPG, PNG, GIF)',
+    coverTooLarge: 'Image is too large. Maximum size: 5MB',
+    uploadingCover: 'Uploading cover...',
   },
   landing: {
     nav: {

@@ -456,6 +456,13 @@ export const es = {
     confirmDeleteCategory: 'Estas seguro de eliminar esta categoria? Los libros asociados quedaran sin categoria.',
     read: 'Leer',
     download: 'Descargar',
+    coverImage: 'Imagen de portada',
+    addCover: 'Agregar portada',
+    changeCover: 'Cambiar portada',
+    optional: 'opcional',
+    onlyImages: 'Solo se permiten archivos de imagen (JPG, PNG, GIF)',
+    coverTooLarge: 'La imagen es demasiado grande. Tamano maximo: 5MB',
+    uploadingCover: 'Subiendo portada...',
   },
   landing: {
     nav: {
