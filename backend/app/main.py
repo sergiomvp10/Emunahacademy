@@ -20,8 +20,8 @@ logging.basicConfig(level=logging.INFO)
 
 _email_executor = ThreadPoolExecutor(max_workers=2)
 
-UPLOAD_DIR = Path("uploads")
-UPLOAD_DIR.mkdir(exist_ok=True)
+UPLOAD_DIR = Path(os.environ.get("UPLOAD_DIR", "uploads"))
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB max file size
 MAX_BOOK_FILE_SIZE = 50 * 1024 * 1024  # 50MB max for book PDFs
 
