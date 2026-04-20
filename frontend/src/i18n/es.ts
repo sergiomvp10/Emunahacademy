@@ -463,6 +463,8 @@ export const es = {
     onlyImages: 'Solo se permiten archivos de imagen (JPG, PNG, GIF)',
     coverTooLarge: 'La imagen es demasiado grande. Tamano maximo: 5MB',
     uploadingCover: 'Subiendo portada...',
+    editBook: 'Editar Libro',
+    moveToCategory: 'Categoría',
   },
   landing: {
     nav: {

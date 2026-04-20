@@ -420,6 +420,13 @@ class BookCreate(BookBase):
     file_size: Optional[int] = None
     cover_url: Optional[str] = None
 
+class BookUpdate(BaseModel):
+    title: Optional[str] = None
+    author: Optional[str] = None
+    description: Optional[str] = None
+    category_id: Optional[int] = None
+    grade_level: Optional[str] = None
+
 class Book(BookBase):
     id: int
     cover_url: Optional[str] = None
