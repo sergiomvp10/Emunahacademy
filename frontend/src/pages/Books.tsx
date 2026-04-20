@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   Search, Upload, FileText, Trash2, 
   FolderPlus, BookOpen, Download, Grid3X3, List,
-  Tag, X, ImagePlus, Camera
+  Tag, X, ImagePlus, Camera, Pencil, Check
 } from 'lucide-react';
 
 const CATEGORY_COLORS = [
@@ -42,6 +42,11 @@ export function Books() {
   // Cover update for existing books
   const existingCoverInputRef = useRef<HTMLInputElement>(null);
   const [updatingCoverId, setUpdatingCoverId] = useState<number | null>(null);
+  
+  // Edit book dialog state
+  const [editingBook, setEditingBook] = useState<Book | null>(null);
+  const [editForm, setEditForm] = useState({ title: '', author: '', description: '', category_id: '', grade_level: '' });
+  const [saving, setSaving] = useState(false);
   
   // Category dialog state
   const [showCategoryDialog, setShowCategoryDialog] = useState(false);
@@ -200,6 +205,37 @@ export function Books() {
       loadData();
     } catch (error) {
       console.error('Error creating category:', error);
+    }
+  };
+
+  const handleEditBook = (book: Book) => {
+    setEditingBook(book);
+    setEditForm({
+      title: book.title,
+      author: book.author || '',
+      description: book.description || '',
+      category_id: book.category_id ? String(book.category_id) : '',
+      grade_level: book.grade_level || '',
+    });
+  };
+
+  const handleSaveEdit = async () => {
+    if (!user || !editingBook || !editForm.title.trim()) return;
+    setSaving(true);
+    try {
+      await api.updateBook(editingBook.id, {
+        title: editForm.title.trim(),
+        author: editForm.author.trim() || undefined,
+        description: editForm.description.trim() || undefined,
+        category_id: editForm.category_id ? parseInt(editForm.category_id) : 0,
+        grade_level: editForm.grade_level || undefined,
+      }, user.id);
+      setEditingBook(null);
+      loadData();
+    } catch (error) {
+      console.error('Error updating book:', error);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -553,6 +589,13 @@ export function Books() {
                   {canManage && (
                     <>
                       <button
+                        onClick={() => handleEditBook(book)}
+                        className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
+                      >
+                        <Pencil className="h-3 w-3" />
+                        {t.books.editBook}
+                      </button>
+                      <button
                         onClick={() => { setUpdatingCoverId(book.id); existingCoverInputRef.current?.click(); }}
                         className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
                       >
@@ -642,18 +685,85 @@ export function Books() {
                   <Download className="h-4 w-4" />
                 </a>
                 {canManage && (
-                  <button
-                    onClick={() => handleDeleteBook(book.id)}
-                    className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  <>
+                    <button
+                      onClick={() => handleEditBook(book)}
+                      className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
+                      title={t.books.editBook}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteBook(book.id)}
+                      className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </>
                 )}
               </div>
             </div>
           ))}
         </div>
       )}
+
+      {/* Edit Book Dialog */}
+      <Dialog open={!!editingBook} onOpenChange={(open) => { if (!open) setEditingBook(null); }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{t.books.editBook}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-2">
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">{t.books.bookTitle}</label>
+              <Input
+                value={editForm.title}
+                onChange={(e) => setEditForm(prev => ({ ...prev, title: e.target.value }))}
+                placeholder={t.books.bookTitle}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">{t.books.bookAuthor}</label>
+              <Input
+                value={editForm.author}
+                onChange={(e) => setEditForm(prev => ({ ...prev, author: e.target.value }))}
+                placeholder={t.books.bookAuthor}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">{t.books.bookDescription}</label>
+              <Input
+                value={editForm.description}
+                onChange={(e) => setEditForm(prev => ({ ...prev, description: e.target.value }))}
+                placeholder={t.books.bookDescription}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-1 block">{t.books.moveToCategory}</label>
+              <select
+                value={editForm.category_id}
+                onChange={(e) => setEditForm(prev => ({ ...prev, category_id: e.target.value }))}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">{t.books.noCategory}</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="outline" onClick={() => setEditingBook(null)}>{t.common.cancel}</Button>
+              <Button onClick={handleSaveEdit} disabled={saving || !editForm.title.trim()} className="bg-indigo-600 hover:bg-indigo-700">
+                {saving ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                ) : (
+                  <><Check className="h-4 w-4 mr-1" />{t.common.save}</>
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Hidden file input for updating existing book covers */}
       <input

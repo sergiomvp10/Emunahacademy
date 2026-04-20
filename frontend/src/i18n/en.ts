@@ -463,6 +463,8 @@ export const en = {
     onlyImages: 'Only image files are allowed (JPG, PNG, GIF)',
     coverTooLarge: 'Image is too large. Maximum size: 5MB',
     uploadingCover: 'Uploading cover...',
+    editBook: 'Edit Book',
+    moveToCategory: 'Category',
   },
   landing: {
     nav: {

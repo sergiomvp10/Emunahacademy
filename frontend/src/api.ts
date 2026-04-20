@@ -580,6 +580,13 @@ class ApiService {
     });
   }
 
+  async updateBook(bookId: number, updates: { title?: string; author?: string; description?: string; category_id?: number; grade_level?: string }, userId: number): Promise<Book> {
+    return this.request<Book>(`/api/books/${bookId}?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
+  }
+
   async updateBookCover(bookId: number, coverUrl: string, userId: number): Promise<Book> {
     return this.request<Book>(`/api/books/${bookId}/cover?user_id=${userId}&cover_url=${encodeURIComponent(coverUrl)}`, {
       method: 'PUT',
