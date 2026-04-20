@@ -2426,6 +2426,41 @@ async def create_book(book: BookCreate, user_id: int, db: Session = Depends(get_
         created_at=db_book.created_at
     )
 
+@app.put("/api/books/{book_id}/cover", response_model=BookSchema)
+async def update_book_cover(book_id: int, user_id: int, cover_url: str, db: Session = Depends(get_db)):
+    """Update a book's cover image URL."""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user or user.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para editar libros")
+    
+    book = db.query(Book).filter(Book.id == book_id).first()
+    if not book:
+        raise HTTPException(status_code=404, detail="Libro no encontrado")
+    
+    book.cover_url = cover_url
+    db.commit()
+    db.refresh(book)
+    
+    uploader = db.query(User).filter(User.id == book.uploaded_by).first()
+    category = db.query(BookCategory).filter(BookCategory.id == book.category_id).first() if book.category_id else None
+    
+    return BookSchema(
+        id=book.id,
+        title=book.title,
+        author=book.author,
+        description=book.description,
+        cover_url=book.cover_url,
+        file_url=book.file_url,
+        file_name=book.file_name,
+        file_size=book.file_size,
+        category_id=book.category_id,
+        grade_level=book.grade_level,
+        uploaded_by=book.uploaded_by,
+        uploader_name=uploader.name if uploader else "Desconocido",
+        category_name=category.name if category else None,
+        created_at=book.created_at
+    )
+
 @app.delete("/api/books/{book_id}")
 async def delete_book(book_id: int, user_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()

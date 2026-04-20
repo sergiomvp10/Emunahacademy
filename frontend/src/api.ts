@@ -580,6 +580,12 @@ class ApiService {
     });
   }
 
+  async updateBookCover(bookId: number, coverUrl: string, userId: number): Promise<Book> {
+    return this.request<Book>(`/api/books/${bookId}/cover?user_id=${userId}&cover_url=${encodeURIComponent(coverUrl)}`, {
+      method: 'PUT',
+    });
+  }
+
   async deleteBook(bookId: number, userId: number): Promise<void> {
     return this.request<void>(`/api/books/${bookId}?user_id=${userId}`, {
       method: 'DELETE',

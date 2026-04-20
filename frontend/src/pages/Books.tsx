@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   Search, Upload, FileText, Trash2, 
   FolderPlus, BookOpen, Download, Grid3X3, List,
-  Tag, X
+  Tag, X, ImagePlus, Camera
 } from 'lucide-react';
 
 const CATEGORY_COLORS = [
@@ -35,6 +35,13 @@ export function Books() {
   const [newBook, setNewBook] = useState({ title: '', author: '', description: '', category_id: '', grade_level: '' });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+  const [selectedCover, setSelectedCover] = useState<File | null>(null);
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  
+  // Cover update for existing books
+  const existingCoverInputRef = useRef<HTMLInputElement>(null);
+  const [updatingCoverId, setUpdatingCoverId] = useState<number | null>(null);
   
   // Category dialog state
   const [showCategoryDialog, setShowCategoryDialog] = useState(false);
@@ -97,6 +104,45 @@ export function Books() {
     }
   };
 
+  const handleCoverSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        alert(t.books.onlyImages);
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        alert(t.books.coverTooLarge);
+        return;
+      }
+      setSelectedCover(file);
+      const reader = new FileReader();
+      reader.onload = (ev) => setCoverPreview(ev.target?.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleExistingCoverSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user || !updatingCoverId) return;
+    if (!file.type.startsWith('image/')) {
+      alert(t.books.onlyImages);
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert(t.books.coverTooLarge);
+      return;
+    }
+    try {
+      const uploadResult = await api.uploadFile(file);
+      await api.updateBookCover(updatingCoverId, uploadResult.file_url, user.id);
+      setUpdatingCoverId(null);
+      loadData();
+    } catch (error) {
+      console.error('Error updating cover:', error);
+    }
+  };
+
   const handleUploadBook = async () => {
     if (!user || !selectedFile) return;
     setUploading(true);
@@ -104,6 +150,14 @@ export function Books() {
     
     try {
       const uploadResult = await api.uploadBookFile(selectedFile);
+      
+      let coverUrl: string | undefined;
+      if (selectedCover) {
+        setUploadProgress(t.books.uploadingCover);
+        const coverResult = await api.uploadFile(selectedCover);
+        coverUrl = coverResult.file_url;
+      }
+      
       setUploadProgress(t.books.savingBook);
       
       await api.createBook({
@@ -115,11 +169,14 @@ export function Books() {
         file_url: uploadResult.file_url,
         file_name: uploadResult.file_name,
         file_size: uploadResult.file_size,
+        cover_url: coverUrl,
       }, user.id);
       
       setShowUploadDialog(false);
       setNewBook({ title: '', author: '', description: '', category_id: '', grade_level: '' });
       setSelectedFile(null);
+      setSelectedCover(null);
+      setCoverPreview(null);
       loadData();
     } catch (error) {
       console.error('Error uploading book:', error);
@@ -282,6 +339,41 @@ export function Books() {
                       />
                     </div>
 
+                    {/* Cover image upload */}
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">{t.books.coverImage}</label>
+                      <div
+                        onClick={() => coverInputRef.current?.click()}
+                        className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/30 transition-all"
+                      >
+                        {coverPreview ? (
+                          <div className="flex items-center justify-center gap-3">
+                            <img src={coverPreview} alt="Cover preview" className="h-20 w-14 object-cover rounded-lg shadow" />
+                            <div className="text-left">
+                              <p className="text-sm font-medium text-gray-900">{selectedCover?.name}</p>
+                              <p className="text-xs text-gray-500">{formatFileSize(selectedCover?.size ?? null)}</p>
+                            </div>
+                            <button onClick={(e) => { e.stopPropagation(); setSelectedCover(null); setCoverPreview(null); }} className="ml-2 p-1 hover:bg-gray-200 rounded">
+                              <X className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center gap-2 py-1">
+                            <ImagePlus className="h-5 w-5 text-gray-400" />
+                            <span className="text-sm text-gray-500">{t.books.addCover}</span>
+                            <span className="text-xs text-gray-400">({t.books.optional})</span>
+                          </div>
+                        )}
+                        <input
+                          ref={coverInputRef}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleCoverSelect}
+                        />
+                      </div>
+                    </div>
+
                     <Input
                       placeholder={t.books.bookTitle}
                       value={newBook.title}
@@ -431,7 +523,7 @@ export function Books() {
               {/* Book cover */}
               <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg group-hover:shadow-xl transition-all group-hover:-translate-y-1 cursor-pointer">
                 {book.cover_url ? (
-                  <img src={book.cover_url} alt={book.title} className="w-full h-full object-cover" />
+                  <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}${book.cover_url}`} alt={book.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center p-4 text-white">
                     <FileText className="h-12 w-12 mb-3 opacity-80" />
@@ -459,13 +551,22 @@ export function Books() {
                     {t.books.download}
                   </a>
                   {canManage && (
-                    <button
-                      onClick={() => handleDeleteBook(book.id)}
-                      className="text-red-300 text-xs flex items-center gap-1 hover:text-red-200"
-                    >
-                      <Trash2 className="h-3 w-3" />
-                      {t.common.delete}
-                    </button>
+                    <>
+                      <button
+                        onClick={() => { setUpdatingCoverId(book.id); existingCoverInputRef.current?.click(); }}
+                        className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
+                      >
+                        <Camera className="h-3 w-3" />
+                        {book.cover_url ? t.books.changeCover : t.books.addCover}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteBook(book.id)}
+                        className="text-red-300 text-xs flex items-center gap-1 hover:text-red-200"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                        {t.common.delete}
+                      </button>
+                    </>
                   )}
                 </div>
 
@@ -481,7 +582,7 @@ export function Books() {
 
               {/* Book info */}
               <div className="mt-3 px-1">
-                <h3 className="font-semibold text-sm text-gray-900 line-clamp-1">{book.title}</h3>
+                <h3 className="font-semibold text-sm text-gray-900 line-clamp-1" title={book.title}>{book.title}</h3>
                 {book.author && (
                   <p className="text-xs text-gray-500 mt-0.5">{book.author}</p>
                 )}
@@ -553,6 +654,15 @@ export function Books() {
           ))}
         </div>
       )}
+
+      {/* Hidden file input for updating existing book covers */}
+      <input
+        ref={existingCoverInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleExistingCoverSelect}
+      />
     </div>
   );
 }
