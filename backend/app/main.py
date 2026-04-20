@@ -2516,10 +2516,14 @@ async def delete_book(book_id: int, user_id: int, db: Session = Depends(get_db))
     if not book:
         raise HTTPException(status_code=404, detail="Libro no encontrado")
     
-    # Try to delete the physical file
-    file_path = Path(book.file_url.lstrip("/")) if book.file_url else None
-    if file_path and file_path.exists():
-        file_path.unlink(missing_ok=True)
+    # Try to delete the physical file from the upload directory.
+    # book.file_url is stored as "/uploads/books/<uuid>.pdf"; resolve it
+    # relative to UPLOAD_DIR so it works with the persistent disk mount.
+    if book.file_url and book.file_url.startswith("/uploads/"):
+        relative = book.file_url[len("/uploads/"):]
+        file_path = UPLOAD_DIR / relative
+        if file_path.exists():
+            file_path.unlink(missing_ok=True)
     
     db.delete(book)
     db.commit()
