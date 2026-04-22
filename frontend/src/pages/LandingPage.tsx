@@ -195,9 +195,14 @@ export function LandingPage() {
                           <button onClick={() => scrollToSection('programs')} className="text-gray-600                           hover:text-teal-600 transition-colors">{t.landing.nav.programs}</button>
                                                     <button onClick={() => scrollToSection('how-it-works')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.howItWorks}</button>
                                                     <button onClick={() => scrollToSection('faq')} className="text-gray-600 hover:text-teal-600 transition-colors">{t.landing.nav.faq}</button>
-                          <Link to="/login">
-                            <Button variant="outline" className="border-teal-500 text-teal-600 hover:bg-teal-50">
-                              {t.landing.nav.signIn}
+                          <Link to="/login?role=parent">
+                            <Button className="rounded-full px-5 bg-sky-500 hover:bg-sky-600 text-white shadow-md font-semibold tracking-wide">
+                              {t.landing.nav.parentSignIn}
+                            </Button>
+                          </Link>
+                          <Link to="/login?role=student">
+                            <Button className="rounded-full px-5 bg-emerald-500 hover:bg-emerald-600 text-white shadow-md font-semibold tracking-wide">
+                              {t.landing.nav.studentSignIn}
                             </Button>
                           </Link>
                           {content.contact.phone && (
@@ -238,8 +243,11 @@ export function LandingPage() {
                                             <button onClick={() => scrollToSection('programs')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.programs}</button>
                                             <button onClick={() => scrollToSection('how-it-works')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.howItWorks}</button>
                                             <button onClick={() => scrollToSection('faq')} className="block w-full text-left text-gray-600 hover:text-teal-600">{t.landing.nav.faq}</button>
-                      <Link to="/login" className="block">
-                        <Button variant="outline" className="w-full border-teal-500 text-teal-600">{t.landing.nav.signIn}</Button>
+                      <Link to="/login?role=parent" className="block">
+                        <Button className="w-full rounded-full bg-sky-500 hover:bg-sky-600 text-white font-semibold">{t.landing.nav.parentSignIn}</Button>
+                      </Link>
+                      <Link to="/login?role=student" className="block">
+                        <Button className="w-full rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold">{t.landing.nav.studentSignIn}</Button>
                       </Link>
                     </div>
                   </div>
