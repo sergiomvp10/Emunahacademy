@@ -475,6 +475,7 @@ export const es = {
       signIn: 'Iniciar Sesion',
       parentSignIn: 'Ingreso Padres',
       studentSignIn: 'Ingreso Estudiantes',
+      enrollNow: 'Inscribete',
     },
     sections: {
       ourMission: 'Nuestra Mision',

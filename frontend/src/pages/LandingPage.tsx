@@ -205,6 +205,12 @@ export function LandingPage() {
                               {t.landing.nav.studentSignIn}
                             </Button>
                           </Link>
+                          <Button
+                            onClick={() => scrollToSection('apply')}
+                            className="rounded-full px-5 bg-amber-500 hover:bg-amber-600 text-white shadow-md font-semibold tracking-wide"
+                          >
+                            {t.landing.nav.enrollNow}
+                          </Button>
                           {content.contact.phone && (
                             <a href={`tel:${content.contact.phone}`}>
                               <Button className="                              bg-teal-500 hover:bg-teal-600 text-white">
@@ -249,6 +255,12 @@ export function LandingPage() {
                       <Link to="/login?role=student" className="block">
                         <Button className="w-full rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold">{t.landing.nav.studentSignIn}</Button>
                       </Link>
+                      <Button
+                        onClick={() => { setMobileMenuOpen(false); scrollToSection('apply'); }}
+                        className="w-full rounded-full bg-amber-500 hover:bg-amber-600 text-white font-semibold"
+                      >
+                        {t.landing.nav.enrollNow}
+                      </Button>
                     </div>
                   </div>
                 )}

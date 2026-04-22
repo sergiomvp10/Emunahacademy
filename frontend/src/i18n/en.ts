@@ -475,6 +475,7 @@ export const en = {
       signIn: 'Sign In',
       parentSignIn: 'Parent Sign-In',
       studentSignIn: 'Student Sign-In',
+      enrollNow: 'Enroll Now',
     },
     sections: {
       ourMission: 'Our Mission',
