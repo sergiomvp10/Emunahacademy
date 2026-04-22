@@ -6,11 +6,10 @@ import { Book, BookCategory } from '../types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
 import { 
   Search, Upload, FileText, Trash2, 
-  FolderPlus, BookOpen, Download, Grid3X3, List,
-  Tag, X, ImagePlus, Camera, Pencil, Check
+  FolderPlus, BookOpen, Download,
+  X, ImagePlus, Camera, Pencil, Check
 } from 'lucide-react';
 
 const CATEGORY_COLORS = [
@@ -24,9 +23,7 @@ export function Books() {
   const [books, setBooks] = useState<Book[]>([]);
   const [categories, setCategories] = useState<BookCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
   // Upload dialog state
   const [showUploadDialog, setShowUploadDialog] = useState(false);
@@ -77,7 +74,7 @@ export function Books() {
   const loadBooks = async () => {
     try {
       const data = await api.getBooks(
-        selectedCategory ?? undefined,
+        undefined,
         undefined,
         searchQuery || undefined
       );
@@ -89,7 +86,7 @@ export function Books() {
 
   useEffect(() => {
     loadBooks();
-  }, [selectedCategory, searchQuery]);
+  }, [searchQuery]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -253,7 +250,6 @@ export function Books() {
     if (!user || !confirm(t.books.confirmDeleteCategory)) return;
     try {
       await api.deleteBookCategory(categoryId, user.id);
-      setSelectedCategory(null);
       loadData();
     } catch (error) {
       console.error('Error deleting category:', error);
@@ -268,7 +264,114 @@ export function Books() {
   };
 
   const filteredBooks = books;
-  const allCount = books.length;
+  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+  const groupedBooks = categories
+    .map(cat => ({
+      category: cat,
+      items: filteredBooks.filter(b => b.category_id === cat.id),
+    }))
+    .filter(g => g.items.length > 0);
+  const uncategorizedBooks = filteredBooks.filter(b => !b.category_id);
+
+  const getAuthorInitial = (book: Book) => {
+    const source = (book.author || book.title || '?').trim();
+    return source.charAt(0).toUpperCase() || '?';
+  };
+
+  const renderBookCard = (book: Book, categoryColor: string) => (
+    <div key={book.id} className="flex-shrink-0 w-60 sm:w-64 group">
+      {/* Cover (landscape) */}
+      <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md group-hover:shadow-xl transition-all group-hover:-translate-y-0.5">
+        {book.cover_url ? (
+          <img
+            src={`${apiBaseUrl}${book.cover_url}`}
+            alt={book.title}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center p-4 text-white">
+            <FileText className="h-10 w-10 mb-2 opacity-80" />
+            <p className="text-xs font-medium text-center opacity-90 line-clamp-2">
+              {book.title}
+            </p>
+          </div>
+        )}
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+          <a
+            href={`${apiBaseUrl}${book.file_url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-gray-900 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-gray-100 transition-colors"
+          >
+            <BookOpen className="h-4 w-4" />
+            {t.books.read}
+          </a>
+          <a
+            href={`${apiBaseUrl}${book.file_url}`}
+            download={book.file_name}
+            className="text-white text-xs flex items-center gap-1 hover:underline"
+          >
+            <Download className="h-3 w-3" />
+            {t.books.download}
+          </a>
+          {canManage && (
+            <div className="flex items-center gap-3 mt-1">
+              <button
+                onClick={() => handleEditBook(book)}
+                className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
+              >
+                <Pencil className="h-3 w-3" />
+                {t.books.editBook}
+              </button>
+              <button
+                onClick={() => {
+                  setUpdatingCoverId(book.id);
+                  existingCoverInputRef.current?.click();
+                }}
+                className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
+              >
+                <Camera className="h-3 w-3" />
+                {book.cover_url ? t.books.changeCover : t.books.addCover}
+              </button>
+              <button
+                onClick={() => handleDeleteBook(book.id)}
+                className="text-red-300 text-xs flex items-center gap-1 hover:text-red-200"
+              >
+                <Trash2 className="h-3 w-3" />
+                {t.common.delete}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Author avatar + title + author name */}
+      <div className="mt-3 flex items-start gap-3">
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold shadow-sm flex-shrink-0"
+          style={{ backgroundColor: categoryColor }}
+        >
+          {getAuthorInitial(book)}
+        </div>
+        <div className="min-w-0 pt-0.5">
+          <h3
+            className="text-sm font-semibold text-gray-900 truncate"
+            title={book.title}
+          >
+            {book.title}
+          </h3>
+          {book.author && (
+            <p className="text-xs text-gray-500 truncate">
+              {t.books.by} {book.author}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 
   if (loading) {
     return (
@@ -286,7 +389,16 @@ export function Books() {
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{t.books.title}</h1>
           <p className="text-gray-500 mt-1">{t.books.subtitle}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              placeholder={t.books.searchBooks}
+              className="pl-10 bg-white rounded-full border-gray-200 shadow-sm"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
           {canManage && (
             <>
               <Dialog open={showCategoryDialog} onOpenChange={setShowCategoryDialog}>
@@ -470,73 +582,7 @@ export function Books() {
         </div>
       </div>
 
-      {/* Categories strip */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-        <button
-          onClick={() => setSelectedCategory(null)}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-            selectedCategory === null
-              ? 'bg-gray-900 text-white shadow-lg'
-              : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-          }`}
-        >
-          <BookOpen className="h-4 w-4" />
-          {t.books.allBooks} ({allCount})
-        </button>
-        {categories.map(cat => (
-          <div key={cat.id} className="relative group">
-            <button
-              onClick={() => setSelectedCategory(selectedCategory === cat.id ? null : cat.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                selectedCategory === cat.id
-                  ? 'text-white shadow-lg'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-              }`}
-              style={selectedCategory === cat.id ? { backgroundColor: cat.color } : {}}
-            >
-              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
-              {cat.name} ({cat.book_count})
-            </button>
-            {canManage && (
-              <button
-                onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat.id); }}
-                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Search and view toggle */}
-      <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder={t.books.searchBooks}
-            className="pl-10 bg-white"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <div className="flex items-center bg-white border border-gray-200 rounded-lg p-1">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`p-2 rounded ${viewMode === 'grid' ? 'bg-gray-100 text-gray-900' : 'text-gray-400'}`}
-          >
-            <Grid3X3 className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-2 rounded ${viewMode === 'list' ? 'bg-gray-100 text-gray-900' : 'text-gray-400'}`}
-          >
-            <List className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
-
-      {/* Books display */}
+      {/* Category Rows */}
       {filteredBooks.length === 0 ? (
         <div className="text-center py-20">
           <div className="bg-indigo-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
@@ -551,161 +597,41 @@ export function Books() {
             </Button>
           )}
         </div>
-      ) : viewMode === 'grid' ? (
-        /* Grid View - Apple Books style */
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-          {filteredBooks.map(book => (
-            <div key={book.id} className="group relative">
-              {/* Book cover */}
-              <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg group-hover:shadow-xl transition-all group-hover:-translate-y-1 cursor-pointer">
-                {book.cover_url ? (
-                  <img src={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}${book.cover_url}`} alt={book.title} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-4 text-white">
-                    <FileText className="h-12 w-12 mb-3 opacity-80" />
-                    <p className="text-xs font-medium text-center opacity-90 line-clamp-3">{book.title}</p>
-                  </div>
-                )}
-                
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
-                  <a
-                    href={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}${book.file_url}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white text-gray-900 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-gray-100 transition-colors"
-                  >
-                    <BookOpen className="h-4 w-4" />
-                    {t.books.read}
-                  </a>
-                  <a
-                    href={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}${book.file_url}`}
-                    download={book.file_name}
-                    className="text-white text-xs flex items-center gap-1 hover:underline"
-                  >
-                    <Download className="h-3 w-3" />
-                    {t.books.download}
-                  </a>
-                  {canManage && (
-                    <>
-                      <button
-                        onClick={() => handleEditBook(book)}
-                        className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
-                      >
-                        <Pencil className="h-3 w-3" />
-                        {t.books.editBook}
-                      </button>
-                      <button
-                        onClick={() => { setUpdatingCoverId(book.id); existingCoverInputRef.current?.click(); }}
-                        className="text-white/80 text-xs flex items-center gap-1 hover:text-white"
-                      >
-                        <Camera className="h-3 w-3" />
-                        {book.cover_url ? t.books.changeCover : t.books.addCover}
-                      </button>
-                      <button
-                        onClick={() => handleDeleteBook(book.id)}
-                        className="text-red-300 text-xs flex items-center gap-1 hover:text-red-200"
-                      >
-                        <Trash2 className="h-3 w-3" />
-                        {t.common.delete}
-                      </button>
-                    </>
-                  )}
-                </div>
-
-                {/* Category badge */}
-                {book.category_name && (
-                  <div className="absolute top-2 left-2">
-                    <Badge variant="secondary" className="bg-white/90 text-gray-700 text-[10px] backdrop-blur-sm">
-                      {book.category_name}
-                    </Badge>
-                  </div>
-                )}
-              </div>
-
-              {/* Book info */}
-              <div className="mt-3 px-1">
-                <h3 className="font-semibold text-sm text-gray-900 line-clamp-1" title={book.title}>{book.title}</h3>
-                {book.author && (
-                  <p className="text-xs text-gray-500 mt-0.5">{book.author}</p>
-                )}
-                {book.file_size && (
-                  <p className="text-[10px] text-gray-400 mt-1">{formatFileSize(book.file_size)}</p>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
       ) : (
-        /* List View */
-        <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
-          {filteredBooks.map(book => (
-            <div key={book.id} className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors group">
-              {/* Mini cover */}
-              <div className="w-12 h-16 rounded-lg overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 flex-shrink-0 flex items-center justify-center">
-                {book.cover_url ? (
-                  <img src={book.cover_url} alt={book.title} className="w-full h-full object-cover" />
-                ) : (
-                  <FileText className="h-6 w-6 text-white opacity-80" />
-                )}
-              </div>
-              
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900 truncate">{book.title}</h3>
-                <div className="flex items-center gap-3 mt-1">
-                  {book.author && <span className="text-sm text-gray-500">{book.author}</span>}
-                  {book.category_name && (
-                    <Badge variant="secondary" className="text-[10px]">
-                      <Tag className="h-2.5 w-2.5 mr-1" />
-                      {book.category_name}
-                    </Badge>
-                  )}
-                  {book.file_size && (
-                    <span className="text-xs text-gray-400">{formatFileSize(book.file_size)}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <a
-                  href={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}${book.file_url}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 transition-colors"
-                >
-                  <BookOpen className="h-4 w-4" />
-                </a>
-                <a
-                  href={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}${book.file_url}`}
-                  download={book.file_name}
-                  className="p-2 bg-gray-50 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <Download className="h-4 w-4" />
-                </a>
+        <div className="space-y-10">
+          {groupedBooks.map(({ category, items }) => (
+            <section key={category.id}>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">{category.name}</h2>
                 {canManage && (
-                  <>
-                    <button
-                      onClick={() => handleEditBook(book)}
-                      className="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-100 transition-colors"
-                      title={t.books.editBook}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDeleteBook(book.id)}
-                      className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </>
+                  <button
+                    onClick={() => handleDeleteCategory(category.id)}
+                    className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
+                    title={t.common.delete}
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
                 )}
               </div>
-            </div>
+              <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
+                {items.map(book => renderBookCard(book, category.color || '#6366f1'))}
+              </div>
+            </section>
           ))}
+
+          {uncategorizedBooks.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-gray-900">{t.books.uncategorized}</h2>
+              </div>
+              <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
+                {uncategorizedBooks.map(book => renderBookCard(book, '#9ca3af'))}
+              </div>
+            </section>
+          )}
         </div>
       )}
+
 
       {/* Edit Book Dialog */}
       <Dialog open={!!editingBook} onOpenChange={(open) => { if (!open) setEditingBook(null); }}>

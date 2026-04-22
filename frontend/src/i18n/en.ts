@@ -465,6 +465,8 @@ export const en = {
     uploadingCover: 'Uploading cover...',
     editBook: 'Edit Book',
     moveToCategory: 'Category',
+    by: 'By',
+    uncategorized: 'Uncategorized',
   },
   landing: {
     nav: {

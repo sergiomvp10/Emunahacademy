@@ -465,6 +465,8 @@ export const es = {
     uploadingCover: 'Subiendo portada...',
     editBook: 'Editar Libro',
     moveToCategory: 'Categoría',
+    by: 'Por',
+    uncategorized: 'Sin categoría',
   },
   landing: {
     nav: {
