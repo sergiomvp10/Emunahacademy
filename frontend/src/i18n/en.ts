@@ -473,6 +473,9 @@ export const en = {
       howItWorks: 'How It Works',
       faq: 'FAQ',
       signIn: 'Sign In',
+      parentSignIn: 'Parent Sign-In',
+      studentSignIn: 'Student Sign-In',
+      enrollNow: 'Enroll Now',
     },
     sections: {
       ourMission: 'Our Mission',

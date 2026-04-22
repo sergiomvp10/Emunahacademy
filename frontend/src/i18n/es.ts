@@ -473,6 +473,9 @@ export const es = {
       howItWorks: 'Como Funciona',
       faq: 'Preguntas',
       signIn: 'Iniciar Sesion',
+      parentSignIn: 'Ingreso Padres',
+      studentSignIn: 'Ingreso Estudiantes',
+      enrollNow: 'Inscribete',
     },
     sections: {
       ourMission: 'Nuestra Mision',
