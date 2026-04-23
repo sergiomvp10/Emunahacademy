@@ -1,0 +1,297 @@
+[
+  {
+    "grade": "6",
+    "order": 1,
+    "title": "Analyzing Literary Texts",
+    "description": "Analyze literary texts for plot, character, theme, and author's craft.",
+    "objectives": [
+      "Analyze how plot elements develop theme",
+      "Examine character motivation and change",
+      "Identify author's craft decisions"
+    ],
+    "lessons": [
+      {
+        "title": "Plot and Theme",
+        "content": "Plot events are chosen deliberately to develop theme.",
+        "examples": [
+          "Conflict drives the protagonist toward change — that change reveals theme",
+          "Rising action builds tension; the climax is the turning point"
+        ]
+      },
+      {
+        "title": "Character Analysis",
+        "content": "Examine what characters say, do, think, and how others react to them.",
+        "examples": [
+          "Direct characterization: 'She was ruthlessly ambitious'",
+          "Indirect: show through dialogue, actions, others' reactions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 2,
+    "title": "Argument and Evidence",
+    "description": "Identify and evaluate arguments in informational texts.",
+    "objectives": [
+      "Identify claims, reasons, and evidence",
+      "Evaluate the relevance and sufficiency of evidence",
+      "Distinguish facts from opinions"
+    ],
+    "lessons": [
+      {
+        "title": "Argument Structure",
+        "content": "An argument has a claim (position) supported by reasons and evidence.",
+        "examples": [
+          "Claim: 'Social media is harmful to teens'",
+          "Reason: 'It increases anxiety'",
+          "Evidence: 'Studies show teens who use social media 3+ hours/day are 60% more likely to report depression'"
+        ]
+      },
+      {
+        "title": "Evaluating Evidence",
+        "content": "Ask: Is evidence relevant? Sufficient? Credible?",
+        "examples": [
+          "One anecdote does not prove a trend",
+          "Statistics from peer-reviewed studies are stronger than personal opinions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 3,
+    "title": "Vocabulary in Context",
+    "description": "Determine word meaning from context; study word relationships.",
+    "objectives": [
+      "Use context clues to infer word meaning",
+      "Recognize denotation vs. connotation",
+      "Understand word relationships (synonyms, antonyms, analogies)"
+    ],
+    "lessons": [
+      {
+        "title": "Context Clues",
+        "content": "Words and sentences surrounding an unknown word can help you infer its meaning.",
+        "examples": [
+          "'The arid, bone-dry desert offered no water' → arid = dry",
+          "'She was obstinate — no matter what we said, she refused to change' → obstinate = stubborn"
+        ]
+      },
+      {
+        "title": "Connotation",
+        "content": "Words have literal meanings (denotation) and emotional associations (connotation).",
+        "examples": [
+          "Slender (positive) vs. scrawny (negative) — both mean thin",
+          "Assertive (positive) vs. aggressive (negative) — similar actions, different implications"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 4,
+    "title": "Informational Writing — Research Essay",
+    "description": "Plan and write a researched informational essay with proper citations.",
+    "objectives": [
+      "Develop a research question",
+      "Synthesize multiple sources",
+      "Write with proper citations (MLA basic format)"
+    ],
+    "lessons": [
+      {
+        "title": "Research Process",
+        "content": "Good research essays go through stages: question → sources → notes → draft → revise.",
+        "examples": [
+          "Narrow your topic: not 'climate change' but 'how climate change affects coral reefs'",
+          "Use 3+ sources; look for consensus among credible sources"
+        ]
+      },
+      {
+        "title": "Citations",
+        "content": "Give credit to sources within the text and in a works cited list.",
+        "examples": [
+          "In-text: (National Geographic, 2022)",
+          "Works cited: Author Last, First. 'Article Title.' Source, Date."
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 5,
+    "title": "Narrative Writing",
+    "description": "Write a narrative with a well-developed plot, vivid description, and authentic dialogue.",
+    "objectives": [
+      "Use narrative techniques: pacing, description, dialogue",
+      "Establish a clear conflict and resolution",
+      "Write with a consistent point of view"
+    ],
+    "lessons": [
+      {
+        "title": "Narrative Techniques",
+        "content": "Strong narrative writing uses specific techniques to engage readers.",
+        "examples": [
+          "Show, don't tell: 'Her hands trembled as she reached for the envelope' (not: 'She was nervous')",
+          "Pacing: slow down during important scenes; speed up through transitions",
+          "Dialogue reveals character and advances plot"
+        ]
+      },
+      {
+        "title": "Strong Beginnings",
+        "content": "The opening line should hook the reader immediately.",
+        "examples": [
+          "In medias res: begin in the middle of action",
+          "Intriguing question or statement",
+          "Vivid description that sets the scene"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 6,
+    "title": "Grammar — Complex Sentences",
+    "description": "Write and punctuate complex sentences using subordinating conjunctions.",
+    "objectives": [
+      "Identify independent and dependent clauses",
+      "Use subordinating conjunctions correctly",
+      "Punctuate complex sentences properly"
+    ],
+    "lessons": [
+      {
+        "title": "Complex Sentences",
+        "content": "A complex sentence has one independent clause and at least one dependent clause.",
+        "examples": [
+          "'Although it was raining, we played outside.' (dependent clause first → comma)",
+          "'We played outside although it was raining.' (independent first → no comma)",
+          "Subordinating conjunctions: although, because, since, while, unless, whenever"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 7,
+    "title": "Reading Poetry — Analyzing Sound and Meaning",
+    "description": "Analyze how sound devices and structure contribute to a poem's meaning.",
+    "objectives": [
+      "Identify alliteration, assonance, consonance",
+      "Analyze the effect of rhyme and rhythm",
+      "Interpret the meaning of a poem"
+    ],
+    "lessons": [
+      {
+        "title": "Sound Devices",
+        "content": "Poets use sound to create mood and reinforce meaning.",
+        "examples": [
+          "Alliteration: 'Peter Piper picked a peck of pickled peppers'",
+          "Assonance: 'The rain in Spain stays mainly in the plain' (long 'a' sounds)",
+          "Consonance: 'the luck of the duck in the muck'"
+        ]
+      },
+      {
+        "title": "Close Reading of Poetry",
+        "content": "Read a poem multiple times; each reading reveals more.",
+        "examples": [
+          "First read: overall impression",
+          "Second read: identify structure, rhyme, sound devices",
+          "Third read: connect structure to meaning"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 8,
+    "title": "Media Literacy",
+    "description": "Analyze how media presents information and shapes perception.",
+    "objectives": [
+      "Identify purpose and audience of media",
+      "Recognize bias and persuasive techniques",
+      "Evaluate credibility of online sources"
+    ],
+    "lessons": [
+      {
+        "title": "Media Purpose",
+        "content": "Every media message has a purpose: inform, persuade, entertain, or sell.",
+        "examples": [
+          "News article: inform (ideally objective)",
+          "Advertisement: persuade and sell",
+          "Satirical news: entertain while commenting on current events"
+        ]
+      },
+      {
+        "title": "Evaluating Sources — SIFT",
+        "content": "SIFT method: Stop, Investigate, Find better coverage, Trace claims.",
+        "examples": [
+          "Stop before sharing — check if it's credible",
+          "Investigate the source: who created it and why?",
+          "Find other sources covering the same story",
+          "Trace quotes to originals to check context"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 9,
+    "title": "Shakespeare Introduction",
+    "description": "Introduction to Shakespeare's language, themes, and historical context.",
+    "objectives": [
+      "Understand basic facts about Shakespeare and his era",
+      "Read and interpret Elizabethan language",
+      "Analyze a scene for character and theme"
+    ],
+    "lessons": [
+      {
+        "title": "Shakespeare's World",
+        "content": "Shakespeare wrote in Elizabethan England during a cultural golden age.",
+        "examples": [
+          "Born in Stratford-upon-Avon, 1564; died 1616",
+          "Wrote 37 plays and 154 sonnets",
+          "The Globe Theatre: outdoor amphitheater; audiences stood or sat around the stage"
+        ]
+      },
+      {
+        "title": "Reading Shakespeare",
+        "content": "Break down thee/thou/dost language; use the context to infer meaning.",
+        "examples": [
+          "'Thou' = you (informal), 'thee' = you (object)",
+          "'Dost' = do/does: 'What dost thou think?' = 'What do you think?'",
+          "Read for meaning first, then worry about every word"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 10,
+    "title": "Speaking and Listening — Presentations",
+    "description": "Plan and deliver an organized oral presentation with visual support.",
+    "objectives": [
+      "Organize a presentation with a clear structure",
+      "Use evidence and visual aids effectively",
+      "Practice effective speaking techniques"
+    ],
+    "lessons": [
+      {
+        "title": "Organizing a Presentation",
+        "content": "Structure: hook → main points (2-3) → conclusion. Each point needs evidence.",
+        "examples": [
+          "Opening hook: striking statistic, question, or story",
+          "Each slide should have one main idea with minimal text",
+          "End with a memorable takeaway or call to action"
+        ]
+      },
+      {
+        "title": "Delivery Techniques",
+        "content": "How you say it matters as much as what you say.",
+        "examples": [
+          "Maintain eye contact with the audience (not the screen)",
+          "Vary pace and volume for emphasis",
+          "Practice enough times that you don't need to read from notes"
+        ]
+      }
+    ]
+  }
+]

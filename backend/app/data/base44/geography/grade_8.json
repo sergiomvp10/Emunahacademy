@@ -1,0 +1,290 @@
+[
+  {
+    "grade": "8",
+    "order": 1,
+    "title": "Advanced Cartography and Spatial Analysis",
+    "description": "Master advanced cartographic and spatial analysis skills.",
+    "objectives": [
+      "Create and interpret choropleth and other thematic maps",
+      "Apply spatial analysis using data",
+      "Evaluate cartographic choices and their biases"
+    ],
+    "lessons": [
+      {
+        "title": "Cartographic Choices and Bias",
+        "content": "Every map reflects choices — and those choices shape how we see the world.",
+        "examples": [
+          "Mercator projection: standard for navigation but makes tropical countries look small",
+          "'North up' convention: arbitrary but makes northern hemisphere seem 'on top' psychologically",
+          "Color choices: sequential (light→dark) vs. diverging (two colors from center) scales imply different things"
+        ]
+      },
+      {
+        "title": "Spatial Analysis",
+        "content": "Spatial analysis finds patterns and relationships in geographic data.",
+        "examples": [
+          "Spatial autocorrelation: are nearby things more similar than distant things? (Tobler's First Law: everything is related, but nearby things more so)",
+          "Hotspot analysis: cluster of high values surrounded by other high values",
+          "Spatial interpolation: estimate values between measured points (e.g., rainfall between weather stations)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 2,
+    "title": "Physical Geography — Advanced Systems",
+    "description": "Advanced study of Earth's physical systems and their interactions.",
+    "objectives": [
+      "Analyze feedback loops in Earth's climate system",
+      "Apply systems thinking to physical geography",
+      "Model a geographic process"
+    ],
+    "lessons": [
+      {
+        "title": "Climate Feedback Loops",
+        "content": "Feedback loops amplify or dampen climate change.",
+        "examples": [
+          "Ice-albedo feedback: warming melts ice → less white surface to reflect sunlight → more warming (positive/amplifying feedback)",
+          "Water vapor feedback: warming → more evaporation → more water vapor (greenhouse gas) → more warming",
+          "Permafrost feedback: warming → permafrost thaws → releases methane → more warming",
+          "Only major negative feedback: more clouds might increase reflection, but this is uncertain"
+        ]
+      },
+      {
+        "title": "Earth as a System",
+        "content": "All of Earth's systems are interconnected in complex ways.",
+        "examples": [
+          "The carbon cycle links the lithosphere (rock weathering), hydrosphere (ocean absorption), biosphere (photosynthesis), and atmosphere (CO₂)",
+          "ENSO connects Pacific Ocean temperatures to rainfall on six continents",
+          "A forest can create its own rainfall through transpiration — clear the forest and the rainfall may stop (Amazon tipping point)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 3,
+    "title": "Human-Environment Interaction — Deep Analysis",
+    "description": "Analyze human-environment interactions across history and into the future.",
+    "objectives": [
+      "Apply the concept of the Anthropocene",
+      "Analyze planetary boundaries",
+      "Evaluate the transition to sustainable development"
+    ],
+    "lessons": [
+      {
+        "title": "The Anthropocene",
+        "content": "Geologists propose we have entered a new epoch defined by human impact on Earth's systems.",
+        "examples": [
+          "Proposed start: 1950s (nuclear bomb testing left permanent radioactive markers in rock)",
+          "Signatures: plastics in ocean sediments, atmospheric CO₂, mass extinction, novel ecosystems",
+          "Humans now move more rock and sediment annually than all natural geological processes combined"
+        ]
+      },
+      {
+        "title": "Planetary Boundaries",
+        "content": "Scientists have identified nine boundaries; crossing them risks catastrophic, irreversible change.",
+        "examples": [
+          "Boundaries already crossed: climate change, biodiversity loss, land-system change, novel entities (chemicals/plastics)",
+          "Boundaries at risk: freshwater, ocean acidification, nitrogen cycle",
+          "Still within safe range: ozone, aerosol loading, atmospheric aerosols"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 4,
+    "title": "Geopolitics — Advanced",
+    "description": "Advanced study of geopolitics, international relations, and geographic power.",
+    "objectives": [
+      "Apply major geopolitical theories",
+      "Analyze contemporary geopolitical conflicts",
+      "Evaluate the future of the international order"
+    ],
+    "lessons": [
+      {
+        "title": "Geopolitical Theories",
+        "content": "Geographic theories help explain international power dynamics.",
+        "examples": [
+          "Mackinder's Heartland (1904): control central Eurasia → control the world; influenced Cold War strategy",
+          "Spykman's Rimland (1942): Eurasia's coastal 'rim' is more important than the interior — influenced NATO strategy",
+          "Brzezinski's Grand Chessboard (1997): Eurasia is the 'grand chessboard' for 21st-century power"
+        ]
+      },
+      {
+        "title": "Contemporary Geopolitics",
+        "content": "The post-Cold War unipolar moment is ending; a multipolar world is emerging.",
+        "examples": [
+          "China's rise: 'Indo-Pacific' replacing 'Asia-Pacific' in U.S. strategic thinking",
+          "BRICS expansion: Brazil, Russia, India, China, South Africa + Egypt, Ethiopia, Iran, UAE, Saudi Arabia",
+          "Arctic geopolitics: Russia has most Arctic territory; Canada, Norway, Denmark, U.S. also claim — importance growing as ice melts"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 5,
+    "title": "Economic Geography — Globalization and Finance",
+    "description": "Analyze the financial geography of globalization and the future of work.",
+    "objectives": [
+      "Map global financial flows",
+      "Analyze the geography of offshore finance",
+      "Evaluate the future of work in a globalized economy"
+    ],
+    "lessons": [
+      {
+        "title": "Financial Geography",
+        "content": "Finance is highly concentrated but globally connected.",
+        "examples": [
+          "Global financial centers: New York (1), London (2), Singapore (3), Hong Kong (4)",
+          "Offshore finance: Cayman Islands, British Virgin Islands, Luxembourg — trillions held to minimize tax",
+          "Global remittances: migrants send $800 billion/year to home countries — exceeds global foreign aid"
+        ]
+      },
+      {
+        "title": "Future of Work",
+        "content": "Globalization and automation are restructuring the geography of work.",
+        "examples": [
+          "Offshoring: jobs moved to low-wage countries (manufacturing to China; call centers to India, Philippines)",
+          "Reshoring: rising wages in China + automation + supply chain concerns → some manufacturing returning",
+          "AI automation: repetitive white-collar work (accounting, legal research, data entry) increasingly automated",
+          "Remote work: COVID showed many knowledge workers can work from anywhere — changing geography of cities"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 6,
+    "title": "Environmental Geography — Advanced",
+    "description": "Advanced analysis of environmental geography and the transition to sustainability.",
+    "objectives": [
+      "Apply political ecology to environmental issues",
+      "Analyze environmental justice cases",
+      "Evaluate pathways to sustainable development"
+    ],
+    "lessons": [
+      {
+        "title": "Political Ecology",
+        "content": "Environmental problems reflect power relationships — who decides who bears environmental burdens?",
+        "examples": [
+          "Environmental justice: communities of color and low-income communities bear disproportionate pollution burdens (e.g., Cancer Alley, Louisiana)",
+          "Climate justice: countries that emitted least (Pacific Islands, sub-Saharan Africa) suffer most from climate change",
+          "Water privatization: when water is sold to the highest bidder, the poor lose access"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 7,
+    "title": "Urban Geography — Global Cities",
+    "description": "Study global city systems, urban inequality, and future urban challenges.",
+    "objectives": [
+      "Apply global city theory",
+      "Analyze urban inequality using the Gini coefficient",
+      "Evaluate smart city and urban resilience strategies"
+    ],
+    "lessons": [
+      {
+        "title": "Global City Theory",
+        "content": "Certain cities function as command centers of the global economy.",
+        "examples": [
+          "Saskia Sassen's 'global cities' (1991): New York, London, Tokyo — where global finance, law, and consulting are concentrated",
+          "Alpha++ cities (GaWC ranking): London and New York lead",
+          "Global cities attract talent and capital but generate extreme inequality"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 8,
+    "title": "Regional Geography — Europe and Russia",
+    "description": "Advanced study of European and Russian geography.",
+    "objectives": [
+      "Analyze Russia's geography and geopolitical behavior",
+      "Describe post-communist transformation of Eastern Europe",
+      "Evaluate EU geography and politics"
+    ],
+    "lessons": [
+      {
+        "title": "Russia's Geography",
+        "content": "Russia's vast geography shapes its history, economy, and geopolitics.",
+        "examples": [
+          "Largest country by area (17 million km²); spans 11 time zones",
+          "Landlocked problem: limited warm-water port access drives historic expansion toward Black Sea, Baltic, Pacific",
+          "Resource wealth: world's largest natural gas reserves; top oil producer; huge mineral wealth",
+          "Harsh climate: 65% of territory is permafrost; growing season limited to a few months"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 9,
+    "title": "Geography of Conflict and Peacebuilding",
+    "description": "Apply geographic analysis to understand conflict and peacebuilding.",
+    "objectives": [
+      "Map current global conflicts and their geographic causes",
+      "Analyze geographic factors in post-conflict reconstruction",
+      "Evaluate geographic approaches to peacebuilding"
+    ],
+    "lessons": [
+      {
+        "title": "Geography of Conflict",
+        "content": "Most conflicts have geographic roots.",
+        "examples": [
+          "Resource wars: DRC (coltan, gold, diamonds), South Sudan (oil), Niger Delta (oil) — resource wealth funds and incentivizes conflict",
+          "Border disputes: South China Sea (overlapping maritime claims), Kashmir (three nuclear powers)",
+          "Climate-conflict link: research shows each 1°C of warming increases risk of civil conflict by ~6%"
+        ]
+      },
+      {
+        "title": "Peacebuilding Geography",
+        "content": "Durable peace requires geographic solutions.",
+        "examples": [
+          "Divided cities: Nicosia (Cyprus) — last divided capital in Europe; Mostar (Bosnia); Belfast (Northern Ireland)",
+          "Post-conflict resource management: Liberia's timber ban removed the economic motive for conflict",
+          "Cross-border cooperation: transboundary water management (Mekong River Commission) can build peace or trigger conflict"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 10,
+    "title": "Geography of the Future",
+    "description": "Apply geographic thinking to anticipate and shape the future world.",
+    "objectives": [
+      "Develop scenarios for future geographic change",
+      "Evaluate the geographic dimensions of emerging technologies",
+      "Apply geographic reasoning to long-term challenges"
+    ],
+    "lessons": [
+      {
+        "title": "Future Scenarios",
+        "content": "Geographers use scenario planning to prepare for different futures.",
+        "examples": [
+          "Climate scenario RCP 8.5 (business as usual): ~4°C warming by 2100 — most of tropics become uninhabitable in summer",
+          "RCP 2.6 (aggressive action): ~1.5°C warming — still serious but manageable",
+          "Population scenarios: UN medium scenario: 10.4 billion by 2100; high scenario: 15.9 billion",
+          "The world you inherit in 2050 depends largely on decisions made in the next 10 years"
+        ]
+      },
+      {
+        "title": "Your Geographic Agency",
+        "content": "Geography is not destiny — you can shape the future.",
+        "examples": [
+          "Vote in local elections — zoning, transportation, and land use are decided locally",
+          "Consumer choices: where things are made and how they're transported has geographic consequences",
+          "Career: geography-related careers growing: GIS analyst, urban planner, climate scientist, development economist, epidemiologist",
+          "The world's greatest challenges (climate, inequality, conflict, pandemics) are fundamentally geographic problems that need geographically-informed solutions"
+        ]
+      }
+    ]
+  }
+]

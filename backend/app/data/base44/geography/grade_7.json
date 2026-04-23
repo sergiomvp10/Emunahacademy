@@ -1,0 +1,303 @@
+[
+  {
+    "grade": "7",
+    "order": 1,
+    "title": "Foundations of Geographic Thought",
+    "description": "Explore the history of geographic thought and major theories.",
+    "objectives": [
+      "Trace the history of geography as a discipline",
+      "Understand environmental determinism vs. possibilism",
+      "Apply geographic theories to real cases"
+    ],
+    "lessons": [
+      {
+        "title": "History of Geography",
+        "content": "Geography as a systematic discipline dates to ancient Greece.",
+        "examples": [
+          "Eratosthenes (276–194 BCE): first to calculate Earth's circumference accurately — was off by only ~2%",
+          "Ibn Battuta (1304–1368): greatest pre-modern traveler; 120,000 km across Africa, Middle East, Asia, Europe",
+          "Humboldt and Ritter (19th c.): founded modern systematic geography",
+          "Mackinder's Heartland Theory (1904): whoever controls central Eurasia controls the world"
+        ]
+      },
+      {
+        "title": "Environmental Determinism vs. Possibilism",
+        "content": "Two contrasting views on how geography affects human society.",
+        "examples": [
+          "Determinism: climate and geography determine culture and economic development (now discredited as often used to justify racism)",
+          "Possibilism: geography creates constraints and opportunities, but human agency determines outcomes",
+          "Example: Netherlands — coastal lowlands are a disadvantage, but the Dutch built the world's most advanced flood management system"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 2,
+    "title": "Geomorphology — Earth's Landforms",
+    "description": "Study the processes that create and shape Earth's landforms.",
+    "objectives": [
+      "Explain tectonic forces that build landforms",
+      "Describe gradational forces that erode landforms",
+      "Analyze coastal geography"
+    ],
+    "lessons": [
+      {
+        "title": "Tectonic and Volcanic Landforms",
+        "content": "Internal Earth forces create dramatic landforms.",
+        "examples": [
+          "Fold mountains: Himalayas, Alps — plates collide, crust crumples upward",
+          "Rift valleys: East African Rift — plates pull apart; eventually will flood, creating new ocean",
+          "Volcanic island chains: Hawaii — hotspot in the mantle burns through moving plate, creating island chain"
+        ]
+      },
+      {
+        "title": "Coastal Geography",
+        "content": "Coastlines are among Earth's most dynamic landforms.",
+        "examples": [
+          "Beaches: wave deposition; beach drift moves sand along the coast",
+          "Sea caves, arches, stacks: wave erosion carved into cliffs",
+          "Coral reefs: biogenic (built by living organisms); require warm, clear, shallow water",
+          "Mangroves: tropical coastal forests that protect coastlines and serve as fish nurseries"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 3,
+    "title": "Climatology — Advanced",
+    "description": "Advanced study of climate systems, Koppen classification, and climate change projections.",
+    "objectives": [
+      "Apply the Koppen climate classification system",
+      "Explain ENSO (El Niño/La Niña) and other oscillations",
+      "Interpret climate projection maps"
+    ],
+    "lessons": [
+      {
+        "title": "Koppen Climate Classification",
+        "content": "The Koppen system classifies climates into five major groups based on temperature and precipitation.",
+        "examples": [
+          "A (tropical): hot all year, high rainfall — Amazon, Congo, Southeast Asia",
+          "B (dry): precipitation < evapotranspiration — Sahara, Gobi, Atacama",
+          "C (temperate): mild winters — most of Europe, eastern US, China coast",
+          "D (continental): cold winters — interior North America, Russia",
+          "E (polar): average temperature below 10°C even in warmest month — Greenland, Antarctica"
+        ]
+      },
+      {
+        "title": "ENSO and Climate Variability",
+        "content": "El Niño Southern Oscillation is the world's most powerful year-to-year climate driver.",
+        "examples": [
+          "El Niño: warm water in central Pacific → drought in Australia/Southeast Asia, flooding in South America, warmer U.S. winters",
+          "La Niña: opposite pattern",
+          "ENSO affects 2+ billion people's food and water security annually",
+          "Record strong El Niño (2015–16): contributed to global temperature record"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 4,
+    "title": "Political Geography — Nation-States and Boundaries",
+    "description": "Analyze political geography — how power is organized in space.",
+    "objectives": [
+      "Distinguish nation, state, and nation-state",
+      "Analyze types of boundaries",
+      "Evaluate centripetal and centrifugal forces"
+    ],
+    "lessons": [
+      {
+        "title": "States and Nations",
+        "content": "'State' (political territory) and 'nation' (shared identity) are often confused but distinct.",
+        "examples": [
+          "Nation-state: state where political and national boundaries align (Japan, Iceland)",
+          "Multinational state: state with multiple nations (Nigeria: 250+ ethnic groups; India: 2,000+ ethnic groups)",
+          "Stateless nations: Kurds (~40 million people; no state of their own), Palestinians, Catalans"
+        ]
+      },
+      {
+        "title": "Boundaries",
+        "content": "Boundaries organize political space; their location and type matters enormously.",
+        "examples": [
+          "Natural boundaries: rivers (Rhine, Rio Grande), mountain ranges (Pyrenees, Himalayas)",
+          "Geometric boundaries: straight lines — often colonial relics (Africa, Middle East, American West)",
+          "Relic boundaries: former boundaries that still influence culture (old Iron Curtain, former East/West Germany divisions)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 5,
+    "title": "Population Geography — Advanced",
+    "description": "Advanced study of population geography — distribution, growth, and demographic theory.",
+    "objectives": [
+      "Apply the Demographic Transition Model",
+      "Analyze population pyramids",
+      "Evaluate population policies"
+    ],
+    "lessons": [
+      {
+        "title": "Demographic Transition Model",
+        "content": "The DTM describes how birth and death rates change as societies develop.",
+        "examples": [
+          "Stage 1: high birth and death rates — stable, low population (pre-industrial)",
+          "Stage 2: death rates fall, birth rates still high — rapid population growth (early industrial)",
+          "Stage 3: birth rates begin to fall — growth slows (industrializing)",
+          "Stage 4: low birth and death rates — stable or slow growth (developed)",
+          "Stage 5 (proposed): birth rates below death rates — population shrinks (Japan, Germany)"
+        ]
+      },
+      {
+        "title": "Population Pyramids",
+        "content": "Population pyramids show the age-sex structure of a population.",
+        "examples": [
+          "Wide base: young, growing population (Nigeria, Afghanistan)",
+          "Narrow base: aging population (Japan, Italy, Germany)",
+          "Bulge: baby boom generation moving through middle age (U.S., Europe)",
+          "Policy implications: wide base → need for schools and jobs; narrow base → need for elder care and immigration"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 6,
+    "title": "Economic Geography — Development and Trade",
+    "description": "Advanced study of economic geography — development models and global trade patterns.",
+    "objectives": [
+      "Apply Rostow's Stages of Development",
+      "Analyze core-periphery theory",
+      "Evaluate globalization's geographic effects"
+    ],
+    "lessons": [
+      {
+        "title": "Development Models",
+        "content": "Theorists have proposed models to explain why some countries are rich and others poor.",
+        "examples": [
+          "Rostow's Stages (1960): traditional → preconditions → takeoff → drive to maturity → mass consumption",
+          "Critique: Rostow assumed all countries would follow Western path; ignores colonial history",
+          "Wallerstein's World Systems Theory: 'core' (rich) countries exploit 'periphery' (poor) through trade — inequality is structural"
+        ]
+      },
+      {
+        "title": "Global Trade Patterns",
+        "content": "Global trade is geographically concentrated and reflects power relationships.",
+        "examples": [
+          "BRICS (Brazil, Russia, India, China, South Africa): emerging economic powers challenging Western dominance",
+          "Global value chains: components made in many countries; China assembles iPhones but captures only ~$8 of $1,000 iPhone value",
+          "Trade wars: U.S.-China tariffs reshaped supply chains — companies moving to Vietnam, India, Mexico"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 7,
+    "title": "Urban Geography — Advanced",
+    "description": "Advanced study of urban systems, urban structure, and urban challenges.",
+    "objectives": [
+      "Apply urban structure models (Burgess, Hoyt, Harris-Ullman)",
+      "Analyze gentrification and its effects",
+      "Evaluate sustainable urban planning"
+    ],
+    "lessons": [
+      {
+        "title": "Urban Structure Models",
+        "content": "Geographers have developed models to explain urban land use patterns.",
+        "examples": [
+          "Burgess Concentric Ring Model (1925): CBD → factory zone → working-class housing → middle-class → commuters",
+          "Hoyt Sector Model (1939): cities grow in wedge-shaped sectors along transportation routes",
+          "Harris-Ullman Multiple Nuclei Model (1945): cities have multiple centers (e.g., different ethnic neighborhoods)"
+        ]
+      },
+      {
+        "title": "Gentrification and Planning",
+        "content": "Gentrification transforms urban neighborhoods — with benefits and costs.",
+        "examples": [
+          "Gentrification: investment in previously disinvested neighborhood → rising property values → displacement of long-term residents",
+          "Brooklyn (NYC), Hackney (London), Kreuzberg (Berlin): transformed in 20 years",
+          "Inclusive planning: community land trusts, affordable housing mandates, anti-displacement policies"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 8,
+    "title": "Geographic Hazards and Risk",
+    "description": "Analyze the geographic dimensions of natural and human-made hazards.",
+    "objectives": [
+      "Apply the hazard-risk-vulnerability framework",
+      "Compare hazard risk across countries",
+      "Evaluate disaster risk reduction strategies"
+    ],
+    "lessons": [
+      {
+        "title": "Hazard, Risk, and Vulnerability",
+        "content": "The same hazard creates very different risks depending on vulnerability.",
+        "examples": [
+          "Hazard: earthquake. Risk = hazard × exposure × vulnerability",
+          "Chile vs. Haiti 2010 earthquake: both ~7.0 magnitude; Chile (wealthy, strict building codes, preparedness): ~500 deaths; Haiti (poor, weak infrastructure): 200,000+ deaths",
+          "Vulnerability: physical (building quality), social (inequality, governance), economic (insurance, reserves)"
+        ]
+      },
+      {
+        "title": "Disaster Risk Reduction",
+        "content": "Investment in DRR before disasters saves lives and money.",
+        "examples": [
+          "Bangladesh cyclone early warning: deaths reduced from 500,000 (1970) to <10,000 (2007) with same-intensity storms",
+          "Sendai Framework (2015): global plan to reduce disaster risk",
+          "Every $1 spent on DRR saves $4–7 in disaster response"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 9,
+    "title": "Geography of Health",
+    "description": "Apply geographic analysis to understand global patterns of health and disease.",
+    "objectives": [
+      "Map global disease patterns",
+      "Explain geographic factors affecting health outcomes",
+      "Evaluate health inequalities"
+    ],
+    "lessons": [
+      {
+        "title": "Disease Geography",
+        "content": "Disease distribution follows geographic patterns related to climate, poverty, and infrastructure.",
+        "examples": [
+          "Malaria: tropical belt between 30°N and 30°S; endemic in 87 countries",
+          "COVID-19 spread: followed airline routes and urban density, then income patterns (richer countries could vaccinate faster)",
+          "Geography of NCDs: non-communicable diseases (heart disease, diabetes, cancer) are rising fastest in middle-income countries"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 10,
+    "title": "Applied Geography — Problem Solving",
+    "description": "Apply geographic tools and thinking to solve real-world problems.",
+    "objectives": [
+      "Use geographic methods to analyze a local issue",
+      "Propose evidence-based geographic solutions",
+      "Present geographic findings effectively"
+    ],
+    "lessons": [
+      {
+        "title": "Applied Geography Projects",
+        "content": "Geography provides powerful tools for real-world problem-solving.",
+        "examples": [
+          "Crime mapping: police use GIS to identify hotspots and allocate resources",
+          "Epidemiology: trace disease sources geographically (John Snow mapped 1854 cholera outbreak to a water pump)",
+          "Urban heat islands: map temperature variations in cities to guide tree planting and cool roof programs",
+          "Food desert mapping: identify areas without grocery stores to prioritize new markets or transport routes"
+        ]
+      }
+    ]
+  }
+]

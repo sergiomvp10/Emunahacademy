@@ -1,0 +1,321 @@
+[
+  {
+    "grade": "8",
+    "order": 1,
+    "title": "Origins of Democracy and Republic",
+    "description": "Trace democratic ideas from Athens and Rome through the Enlightenment to modern democracy.",
+    "objectives": [
+      "Analyze Athenian democracy's strengths and limits",
+      "Trace the development of republican government",
+      "Connect historical governance to today's systems"
+    ],
+    "lessons": [
+      {
+        "title": "Athens and Rome",
+        "content": "Ancient Athens and Rome created enduring models of self-governance.",
+        "examples": [
+          "Athens (Cleisthenes, ~508 BCE): direct democracy; 30,000 male citizens could vote; excluded women, slaves, foreigners",
+          "Pericles' Funeral Oration: 'power in the hands of the many, not the few'",
+          "Roman Republic: SPQR (Senatus Populusque Romanus); Senate, consuls, tribunes; model for the U.S. Constitution"
+        ]
+      },
+      {
+        "title": "Magna Carta to Enlightenment",
+        "content": "English constitutional tradition slowly expanded rights and limited royal power.",
+        "examples": [
+          "Magna Carta (1215): 'no taxation without representation' principle; habeas corpus",
+          "English Civil War and Glorious Revolution (1688): Parliamentary supremacy established",
+          "Locke, Montesquieu, Rousseau: Enlightenment thinkers who directly influenced the American Founders"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 2,
+    "title": "U.S. History — The Gilded Age to WWI",
+    "description": "Examine America's rise to world power from Reconstruction's end through WWI.",
+    "objectives": [
+      "Describe the Gilded Age economy and its contradictions",
+      "Analyze American imperialism in Cuba, Philippines, and Panama",
+      "Explain U.S. entry into WWI"
+    ],
+    "lessons": [
+      {
+        "title": "Gilded Age and Robber Barons",
+        "content": "The Gilded Age (1870–1900) saw explosive economic growth alongside staggering inequality.",
+        "examples": [
+          "Cornelius Vanderbilt (railroads), Andrew Carnegie (steel), John D. Rockefeller (oil): built monopolies worth hundreds of billions in today's dollars",
+          "Sherman Antitrust Act (1890): first attempt to regulate monopolies — largely unenforced",
+          "Workers formed unions: Knights of Labor, AFL; Homestead Strike (1892) and Pullman Strike (1894) crushed by force"
+        ]
+      },
+      {
+        "title": "American Imperialism",
+        "content": "At the turn of the 20th century, the U.S. became an imperial power.",
+        "examples": [
+          "Spanish-American War (1898): U.S. gained Guam, Puerto Rico, Philippines",
+          "Panama Canal (1904–1914): U.S. backed Panamanian independence from Colombia to secure canal rights",
+          "Yellow journalism (Hearst, Pulitzer): sensationalist coverage inflamed public opinion toward war"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 3,
+    "title": "U.S. History — WWII Through Cold War",
+    "description": "Examine the United States from WWII mobilization through the Cold War era.",
+    "objectives": [
+      "Describe total war mobilization on the home front",
+      "Evaluate the decision to use atomic bombs",
+      "Analyze the domestic Cold War: McCarthyism and civil defense"
+    ],
+    "lessons": [
+      {
+        "title": "WWII Home Front",
+        "content": "WWII required the mobilization of the entire American economy and society.",
+        "examples": [
+          "War Production Board: converted factories from consumer goods to weapons virtually overnight",
+          "6 million women entered the workforce ('Rosie the Riveter')",
+          "Japanese American internment: Executive Order 9066; 120,000 Japanese Americans sent to camps; later ruled unconstitutional",
+          "African American 'Double V' campaign: victory against fascism abroad AND Jim Crow at home"
+        ]
+      },
+      {
+        "title": "Atomic Bomb and Cold War",
+        "content": "The atomic bomb ended WWII but began a new era of existential threat.",
+        "examples": [
+          "Truman's decision: estimated 500,000–1 million U.S. casualties to invade Japan; actual deaths from bombs ~200,000",
+          "USSR tests atomic bomb (1949) → nuclear arms race",
+          "McCarthyism (1950–54): Senator McCarthy accused hundreds of communism with little evidence; damaged civil liberties"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 4,
+    "title": "The Civil Rights Movement — Depth Study",
+    "description": "Examine the Civil Rights Movement in depth, from its roots to its legislative victories.",
+    "objectives": [
+      "Trace the legal and political strategy of the NAACP",
+      "Analyze key events and turning points",
+      "Evaluate the unfinished work of the movement"
+    ],
+    "lessons": [
+      {
+        "title": "Legal Strategy — NAACP",
+        "content": "The NAACP systematically challenged segregation through the courts.",
+        "examples": [
+          "Thurgood Marshall argued 32 cases before the Supreme Court; won 29",
+          "Brown v. Board of Education (1954): overturned Plessy v. Ferguson (1896)",
+          "Strategy: challenge the 'separate but equal' doctrine by proving separate was inherently unequal"
+        ]
+      },
+      {
+        "title": "Street-Level Activism",
+        "content": "Mass direct action combined with legal strategy to win legislative victories.",
+        "examples": [
+          "Montgomery Bus Boycott (1955–56): 381 days; MIA organized carpools; Supreme Court ruled bus segregation unconstitutional",
+          "Birmingham Campaign (1963): Bull Connor's fire hoses and police dogs broadcast nationally → shocked the nation",
+          "March on Washington (August 28, 1963): 250,000 attended; MLK's 'I Have a Dream' speech",
+          "Selma to Montgomery March (1965) → Voting Rights Act (1965)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 5,
+    "title": "Social Movements of the 1960s–70s",
+    "description": "Examine the major social movements that transformed American society in the 1960s–70s.",
+    "objectives": [
+      "Describe the women's liberation movement",
+      "Analyze the environmental movement's origins",
+      "Evaluate the legacy of these movements"
+    ],
+    "lessons": [
+      {
+        "title": "Women's Liberation Movement",
+        "content": "Second-wave feminism challenged gender discrimination in law and culture.",
+        "examples": [
+          "Betty Friedan's The Feminine Mystique (1963): gave voice to educated women's dissatisfaction",
+          "NOW (National Organization for Women, 1966): lobbied for legal equality",
+          "Title IX (1972): banned sex discrimination in education → transformed women's athletics",
+          "Roe v. Wade (1973): abortion rights; remained law until overturned by Dobbs (2022)"
+        ]
+      },
+      {
+        "title": "Environmental Movement",
+        "content": "The environmental movement transformed American law and consciousness.",
+        "examples": [
+          "Rachel Carson's Silent Spring (1962): documented pesticide dangers; sparked the environmental movement",
+          "Cuyahoga River fire (1969): burning river in Cleveland shocked the nation",
+          "Earth Day (April 22, 1970): 20 million Americans participated",
+          "EPA established (1970); Clean Air Act (1970); Clean Water Act (1972)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 6,
+    "title": "America from Reagan to Obama",
+    "description": "Survey American history from the Reagan Revolution through the Obama era.",
+    "objectives": [
+      "Explain Reagan's political and economic philosophy",
+      "Describe post-Cold War American foreign policy",
+      "Analyze the significance of Obama's election"
+    ],
+    "lessons": [
+      {
+        "title": "The Reagan Revolution",
+        "content": "Ronald Reagan's presidency (1981–1989) shifted American politics rightward.",
+        "examples": [
+          "Supply-side economics ('Reaganomics'): cut taxes especially for wealthy; deregulate business",
+          "'Evil Empire' speech: escalated Cold War rhetoric against USSR; Soviet economy couldn't keep up",
+          "Iran-Contra affair: administration secretly sold arms to Iran, used proceeds to fund Nicaraguan Contras (illegal)"
+        ]
+      },
+      {
+        "title": "Post-Cold War to Obama",
+        "content": "Post-Cold War America faced new challenges and historic milestones.",
+        "examples": [
+          "1st Gulf War (1991): U.S. led coalition expelled Iraq from Kuwait",
+          "Clinton era: longest peacetime expansion; NAFTA; welfare reform; scandal and impeachment",
+          "9/11 and 'War on Terror': transformed foreign policy, civil liberties, and national psychology",
+          "Obama (2008): first Black president; ACA ('Obamacare'); 2009 Nobel Peace Prize; economy recovery from Great Recession"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 7,
+    "title": "Global History — 20th Century Atrocities",
+    "description": "Study 20th-century genocides and crimes against humanity and the international response.",
+    "objectives": [
+      "Study the Armenian Genocide as a forerunner of the Holocaust",
+      "Analyze the Rwandan Genocide",
+      "Evaluate the effectiveness of 'Never Again'"
+    ],
+    "lessons": [
+      {
+        "title": "Defining Genocide",
+        "content": "Genocide is the deliberate destruction of a national, ethnic, racial, or religious group.",
+        "examples": [
+          "Coined by Raphael Lemkin (1944) who lost 49 family members in the Holocaust",
+          "UN Genocide Convention (1948): first international law defining and prohibiting genocide",
+          "'Never Again': promise made after the Holocaust — but genocide has continued"
+        ]
+      },
+      {
+        "title": "Rwandan Genocide (1994)",
+        "content": "800,000 Tutsi were killed in 100 days while the world watched.",
+        "examples": [
+          "Colonial Belgium had institutionalized Hutu-Tutsi distinction, exacerbating tensions",
+          "Radio broadcasts (RTLM) called Tutsi 'cockroaches' and incited killing",
+          "U.S. and UN explicitly avoided using the word 'genocide' to avoid obligation to intervene",
+          "International Criminal Tribunal for Rwanda: held perpetrators accountable; established precedents for international justice"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 8,
+    "title": "Globalization and its Discontents",
+    "description": "Analyze globalization — its economic benefits, cultural impacts, and growing backlash.",
+    "objectives": [
+      "Define economic globalization",
+      "Evaluate who benefits and who loses",
+      "Analyze the backlash to globalization"
+    ],
+    "lessons": [
+      {
+        "title": "Economic Globalization",
+        "content": "Since 1991, economic integration has accelerated dramatically.",
+        "examples": [
+          "World trade tripled between 1990 and 2020",
+          "Global extreme poverty dropped from ~36% (1990) to ~10% (2015) — largely due to China's growth",
+          "Multinational corporations: Apple, Amazon, and Walmart each have revenues larger than most countries' GDPs"
+        ]
+      },
+      {
+        "title": "Globalization's Discontents",
+        "content": "Globalization has created winners and losers — and fueled political backlash.",
+        "examples": [
+          "Deindustrialization: manufacturing jobs moved to low-wage countries → rust belt economies in U.S., UK, France",
+          "'Race to the bottom': competition for jobs leads countries to weaken labor and environmental standards",
+          "Brexit (2016), Trump (2016), nationalism in France, Hungary: political backlash against globalization",
+          "Inequality within countries has grown even as inequality between countries shrinks"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 9,
+    "title": "Technology and History",
+    "description": "Analyze how transformative technologies have shaped historical change.",
+    "objectives": [
+      "Identify key technologies that changed history",
+      "Analyze the printing press, industrial machinery, and the internet",
+      "Evaluate the current digital revolution"
+    ],
+    "lessons": [
+      {
+        "title": "Technologies That Changed History",
+        "content": "Certain inventions fundamentally altered the course of human history.",
+        "examples": [
+          "Printing press (1440): enabled Reformation, Scientific Revolution, American Revolution — made ideas unstoppable",
+          "Steam engine (1769): Industrial Revolution; transformed work, cities, and global power",
+          "Internet (1991, public): democratized information; connected the world; enabled social media and disinformation"
+        ]
+      },
+      {
+        "title": "The Digital Revolution",
+        "content": "We are living through a transformation as significant as the Industrial Revolution.",
+        "examples": [
+          "AI revolution: automation threatens white-collar as well as blue-collar jobs",
+          "Social media: Arab Spring; Cambridge Analytica; social isolation; democracy under pressure",
+          "Big data and surveillance: governments and corporations can track behavior at unprecedented scale",
+          "The choices made in the next decade about AI and digital rights will shape the 21st century"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 10,
+    "title": "Historiography — How We Know History",
+    "description": "Study how history is written, interpreted, and contested.",
+    "objectives": [
+      "Define historiography",
+      "Analyze how interpretations of history change over time",
+      "Evaluate primary sources for bias and context"
+    ],
+    "lessons": [
+      {
+        "title": "What is Historiography?",
+        "content": "Historiography is the study of how history is written and how interpretations change.",
+        "examples": [
+          "The same event can be interpreted very differently by different historians",
+          "'History is written by the victors' — whose perspective is missing?",
+          "Revisionist history: when new evidence or perspectives change the accepted narrative (not a bad thing — it's how history improves)"
+        ]
+      },
+      {
+        "title": "Evaluating Sources",
+        "content": "All historical sources have a perspective, audience, and purpose.",
+        "examples": [
+          "HAPP analysis: Historical context, Audience, Purpose, Perspective",
+          "Primary source: letter from a Civil War soldier — invaluable but represents one person's limited view",
+          "The Diary of Anne Frank: extraordinary primary source, but unrepresentative of most Holocaust victims' experience",
+          "'Silences' in the archive: whose voices are missing? Why? What does that tell us?"
+        ]
+      }
+    ]
+  }
+]

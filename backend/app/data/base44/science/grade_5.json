@@ -1,0 +1,309 @@
+[
+  {
+    "grade": "5",
+    "order": 1,
+    "title": "Matter — Properties and Changes",
+    "description": "Explore physical and chemical properties of matter and how matter changes.",
+    "objectives": [
+      "Distinguish physical from chemical properties",
+      "Identify physical and chemical changes",
+      "Understand conservation of mass"
+    ],
+    "lessons": [
+      {
+        "title": "Properties of Matter",
+        "content": "Matter has physical properties (observable without changing the substance) and chemical properties (how it reacts).",
+        "examples": [
+          "Physical: color, density, melting point, conductivity",
+          "Chemical: flammability, reactivity with acid, tendency to rust"
+        ]
+      },
+      {
+        "title": "Physical vs. Chemical Changes",
+        "content": "Physical changes don't create new substances; chemical changes do.",
+        "examples": [
+          "Physical: ice melting, tearing paper, dissolving salt",
+          "Chemical: burning wood, rusting iron, baking a cake",
+          "Evidence of chemical change: color change, gas production, heat/light, precipitate"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 2,
+    "title": "Mixtures and Solutions",
+    "description": "Understand mixtures, solutions, and methods of separation.",
+    "objectives": [
+      "Distinguish heterogeneous from homogeneous mixtures",
+      "Understand what affects solubility",
+      "Identify separation methods"
+    ],
+    "lessons": [
+      {
+        "title": "Mixtures vs. Solutions",
+        "content": "A mixture combines substances physically; a solution is a uniform mixture.",
+        "examples": [
+          "Heterogeneous mixture: trail mix, salad, soil",
+          "Homogeneous mixture (solution): salt water, lemonade, air"
+        ]
+      },
+      {
+        "title": "Separation Methods",
+        "content": "Mixtures can be separated using physical methods.",
+        "examples": [
+          "Filtration: separates solids from liquids",
+          "Evaporation: removes water to leave dissolved solids",
+          "Magnetism: separate iron filings from sand",
+          "Distillation: separate liquids with different boiling points"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 3,
+    "title": "Force and Motion",
+    "description": "Investigate forces and their effects on motion.",
+    "objectives": [
+      "Define force and describe its types",
+      "Explain Newton's First and Second Laws",
+      "Calculate force, mass, and acceleration"
+    ],
+    "lessons": [
+      {
+        "title": "Types of Forces",
+        "content": "Forces are pushes or pulls that can change an object's motion.",
+        "examples": [
+          "Contact forces: friction, tension, normal force",
+          "Non-contact forces: gravity, magnetism, electrostatic force"
+        ]
+      },
+      {
+        "title": "Newton's Laws",
+        "content": "Newton's laws describe how forces affect motion.",
+        "examples": [
+          "First Law: Objects in motion stay in motion unless acted on by a net force (inertia)",
+          "Second Law: F = ma (force = mass × acceleration)",
+          "Third Law: For every action there is an equal and opposite reaction"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 4,
+    "title": "Ecosystems and Food Webs",
+    "description": "Explore ecosystems, energy flow, and the impact of humans on ecosystems.",
+    "objectives": [
+      "Explain energy flow through trophic levels",
+      "Distinguish predator-prey relationships",
+      "Describe human impact on ecosystems"
+    ],
+    "lessons": [
+      {
+        "title": "Food Chains and Webs",
+        "content": "Energy flows from producers to consumers in a food chain; food webs show complex relationships.",
+        "examples": [
+          "Grass → rabbit → fox → decomposer",
+          "Producers make their own food (photosynthesis); consumers eat others",
+          "Apex predators are at the top of the food chain"
+        ]
+      },
+      {
+        "title": "Ecosystem Disruption",
+        "content": "Removing or adding species can cascade through the whole ecosystem.",
+        "examples": [
+          "Wolf reintroduction in Yellowstone: changed deer behavior → restored plants → changed rivers",
+          "Invasive species: cane toads in Australia wiped out native predators"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 5,
+    "title": "Earth's Systems — Water Cycle",
+    "description": "Trace water through the hydrological cycle and explain its importance.",
+    "objectives": [
+      "Describe each stage of the water cycle",
+      "Explain how the water cycle distributes fresh water",
+      "Connect the water cycle to weather patterns"
+    ],
+    "lessons": [
+      {
+        "title": "The Water Cycle",
+        "content": "Water continuously moves between Earth's surface and atmosphere.",
+        "examples": [
+          "Evaporation: liquid water becomes water vapor",
+          "Condensation: water vapor becomes liquid (clouds)",
+          "Precipitation: water falls as rain, snow, sleet, or hail",
+          "Transpiration: plants release water vapor through leaves"
+        ]
+      },
+      {
+        "title": "Freshwater Distribution",
+        "content": "Most of Earth's water is unusable; the water cycle is vital for freshwater supply.",
+        "examples": [
+          "Only ~3% of Earth's water is fresh; most is frozen",
+          "Groundwater replenishment depends on precipitation infiltrating the soil"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 6,
+    "title": "Earth's Layers and Plate Tectonics",
+    "description": "Describe Earth's interior structure and the theory of plate tectonics.",
+    "objectives": [
+      "Name and describe Earth's layers",
+      "Explain plate movement and its consequences",
+      "Identify evidence for plate tectonics"
+    ],
+    "lessons": [
+      {
+        "title": "Earth's Layers",
+        "content": "Earth has four main layers with different compositions and properties.",
+        "examples": [
+          "Crust: thin outer layer of rock (5–70 km)",
+          "Mantle: thick layer of semi-solid rock (~2,900 km)",
+          "Outer core: liquid iron and nickel",
+          "Inner core: solid iron and nickel (temperatures ~5,400°C)"
+        ]
+      },
+      {
+        "title": "Plate Tectonics",
+        "content": "Earth's crust is divided into moving plates that interact at boundaries.",
+        "examples": [
+          "Convergent: plates collide → mountains or subduction zones",
+          "Divergent: plates separate → rift valleys or mid-ocean ridges",
+          "Transform: plates slide past → earthquakes (San Andreas Fault)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 7,
+    "title": "Energy Transformations",
+    "description": "Identify types of energy and how energy transforms from one form to another.",
+    "objectives": [
+      "Identify kinetic and potential energy",
+      "Trace energy transformations",
+      "Apply conservation of energy"
+    ],
+    "lessons": [
+      {
+        "title": "Types of Energy",
+        "content": "Energy exists in many forms and can transfer between them.",
+        "examples": [
+          "Kinetic: energy of motion",
+          "Potential: stored energy (gravitational, elastic, chemical)",
+          "Thermal, electromagnetic, nuclear, sound energy"
+        ]
+      },
+      {
+        "title": "Energy Transformations",
+        "content": "Energy changes form but is never created or destroyed.",
+        "examples": [
+          "Light bulb: electrical → light + thermal",
+          "Car: chemical (fuel) → mechanical (motion) + thermal",
+          "Solar panel: light → electrical"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 8,
+    "title": "Human Body Systems",
+    "description": "Explore the major human body systems and how they interact.",
+    "objectives": [
+      "Name and describe major body systems",
+      "Explain how systems work together",
+      "Connect lifestyle choices to body system health"
+    ],
+    "lessons": [
+      {
+        "title": "Body Systems",
+        "content": "The body has 11 organ systems that work together.",
+        "examples": [
+          "Circulatory: heart, blood vessels, blood — transports nutrients and oxygen",
+          "Respiratory: lungs — oxygen/CO2 exchange",
+          "Digestive: breaks down food into nutrients",
+          "Nervous: brain, spinal cord, nerves — control and communication"
+        ]
+      },
+      {
+        "title": "System Interactions",
+        "content": "No system works alone; they are all interdependent.",
+        "examples": [
+          "Running: respiratory (more O2), circulatory (faster heart), muscular, nervous, skeletal — all involved simultaneously"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 9,
+    "title": "Genetics — Traits and Heredity",
+    "description": "Understand how traits are inherited from parents to offspring.",
+    "objectives": [
+      "Define gene, chromosome, DNA, and trait",
+      "Distinguish dominant from recessive traits",
+      "Predict offspring traits using a Punnett square"
+    ],
+    "lessons": [
+      {
+        "title": "DNA and Genes",
+        "content": "DNA is the molecule that carries genetic information in every living cell.",
+        "examples": [
+          "DNA is organized into chromosomes; humans have 46 (23 pairs)",
+          "A gene is a section of DNA that codes for a trait",
+          "You inherit one copy of each gene from each parent"
+        ]
+      },
+      {
+        "title": "Dominant and Recessive Traits",
+        "content": "Some alleles are dominant (always expressed if present); others are recessive (only expressed when two copies are present).",
+        "examples": [
+          "Brown eyes (B) dominant over blue eyes (b)",
+          "BB or Bb → brown eyes; bb → blue eyes",
+          "Punnett square: cross Bb × Bb → 25% BB, 50% Bb, 25% bb"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 10,
+    "title": "Environmental Science — Sustainability",
+    "description": "Explore sustainability, environmental challenges, and solutions.",
+    "objectives": [
+      "Define sustainability",
+      "Describe major environmental challenges",
+      "Identify solutions and evaluate trade-offs"
+    ],
+    "lessons": [
+      {
+        "title": "Environmental Challenges",
+        "content": "Human activity has created major environmental problems.",
+        "examples": [
+          "Deforestation: loss of biodiversity, carbon release, disrupted water cycle",
+          "Ocean plastic: over 8 million tonnes enter oceans each year",
+          "Climate change: warming temperatures, extreme weather, sea level rise"
+        ]
+      },
+      {
+        "title": "Sustainable Solutions",
+        "content": "Sustainability means meeting today's needs without compromising the future.",
+        "examples": [
+          "Renewable energy: solar, wind, hydroelectric replaces fossil fuels",
+          "Circular economy: design products to be reused/recycled",
+          "Rewilding: restoring natural ecosystems"
+        ]
+      }
+    ]
+  }
+]
