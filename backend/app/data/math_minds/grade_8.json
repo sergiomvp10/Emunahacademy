@@ -1,0 +1,301 @@
+[
+  {
+    "grade": "8",
+    "order": 1,
+    "title": "Linear Equations — One Variable",
+    "description": "Solve linear equations with one variable, including those requiring multiple steps.",
+    "objectives": [
+      "Solve multi-step equations",
+      "Recognize equations with one, no, or infinitely many solutions",
+      "Apply equations to real-world problems"
+    ],
+    "lessons": [
+      {
+        "title": "Multi-Step Equations",
+        "content": "Combine like terms, distribute, then isolate the variable.",
+        "examples": [
+          "2(3x − 1) + 4 = 18 → 6x − 2 + 4 = 18 → 6x = 16 → x = 8/3",
+          "5x + 3 = 3x + 11 → 2x = 8 → x = 4"
+        ]
+      },
+      {
+        "title": "Special Cases",
+        "content": "Some equations have no solution or infinitely many solutions.",
+        "examples": [
+          "3x + 5 = 3x + 9 → 5 = 9 (impossible) → no solution",
+          "2(x + 3) = 2x + 6 → 0 = 0 (always true) → infinitely many solutions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 2,
+    "title": "Linear Equations — Two Variables",
+    "description": "Graph and interpret linear equations in two variables.",
+    "objectives": [
+      "Graph a line using slope and y-intercept",
+      "Rewrite equations in slope-intercept form",
+      "Interpret slope as rate of change"
+    ],
+    "lessons": [
+      {
+        "title": "Slope-Intercept Form",
+        "content": "y = mx + b, where m is slope and b is y-intercept.",
+        "examples": [
+          "y = 2x + 3: slope = 2, y-intercept = 3",
+          "y = −x + 5: falls 1 for every 1 moved right",
+          "Rewrite 2x + y = 7 → y = −2x + 7"
+        ]
+      },
+      {
+        "title": "Slope as Rate of Change",
+        "content": "Slope = rise/run = (y₂−y₁)/(x₂−x₁)",
+        "examples": [
+          "Points (1,3) and (4,9): slope = (9−3)/(4−1) = 6/3 = 2",
+          "A line through (0,0) and (5,−10): slope = −2"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 3,
+    "title": "Systems of Equations",
+    "description": "Solve systems of two linear equations by graphing, substitution, and elimination.",
+    "objectives": [
+      "Solve systems by graphing",
+      "Solve by substitution",
+      "Solve by elimination"
+    ],
+    "lessons": [
+      {
+        "title": "Graphing Method",
+        "content": "Graph both lines; the intersection is the solution.",
+        "examples": [
+          "y = 2x and y = −x + 6 intersect at (2, 4)",
+          "Parallel lines: no solution; same line: infinitely many solutions"
+        ]
+      },
+      {
+        "title": "Substitution and Elimination",
+        "content": "Algebraic methods give exact solutions.",
+        "examples": [
+          "y = x + 1 and y = 2x − 3 → x + 1 = 2x − 3 → x = 4, y = 5",
+          "3x + 2y = 12 and x − 2y = 0 → add: 4x = 12 → x = 3, y = 3/2"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 4,
+    "title": "Functions",
+    "description": "Understand functions as input-output rules; compare linear and nonlinear functions.",
+    "objectives": [
+      "Define a function; identify from tables and graphs",
+      "Compare linear and nonlinear functions",
+      "Write functions to model relationships"
+    ],
+    "lessons": [
+      {
+        "title": "What is a Function?",
+        "content": "A function assigns exactly one output to each input.",
+        "examples": [
+          "(1,2),(2,4),(3,6) → function",
+          "(1,2),(1,5),(2,3) → NOT a function (1 maps to two outputs)",
+          "Vertical line test: if a vertical line crosses the graph twice, not a function"
+        ]
+      },
+      {
+        "title": "Linear vs. Nonlinear",
+        "content": "Linear functions form straight lines; nonlinear do not.",
+        "examples": [
+          "y = 3x − 2: linear (constant slope)",
+          "y = x²: nonlinear (parabola)",
+          "y = 2^x: nonlinear (exponential)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 5,
+    "title": "Exponents and Scientific Notation",
+    "description": "Apply properties of exponents; express very large/small numbers in scientific notation.",
+    "objectives": [
+      "Apply product, quotient, and power rules for exponents",
+      "Convert to and from scientific notation",
+      "Compute with scientific notation"
+    ],
+    "lessons": [
+      {
+        "title": "Exponent Rules",
+        "content": "Laws of exponents simplify expressions.",
+        "examples": [
+          "xᵃ · xᵇ = xᵃ⁺ᵇ: x³ · x⁴ = x⁷",
+          "xᵃ ÷ xᵇ = xᵃ⁻ᵇ: x⁶ ÷ x² = x⁴",
+          "(xᵃ)ᵇ = xᵃᵇ: (x²)³ = x⁶",
+          "x⁰ = 1; x⁻² = 1/x²"
+        ]
+      },
+      {
+        "title": "Scientific Notation",
+        "content": "Write as a × 10ⁿ where 1 ≤ a < 10.",
+        "examples": [
+          "93,000,000 = 9.3 × 10⁷",
+          "0.000045 = 4.5 × 10⁻⁵",
+          "(3 × 10⁴)(2 × 10³) = 6 × 10⁷"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 6,
+    "title": "Geometry — Transformations",
+    "description": "Perform and describe transformations: translations, rotations, reflections, dilations.",
+    "objectives": [
+      "Translate, rotate, and reflect figures on the coordinate plane",
+      "Identify congruence and similarity through transformations",
+      "Perform dilations using scale factors"
+    ],
+    "lessons": [
+      {
+        "title": "Rigid Transformations",
+        "content": "Congruence-preserving transformations: translations, rotations, reflections.",
+        "examples": [
+          "Translate (3,2) by vector (−1,4) → (2,6)",
+          "Reflect (3,−2) over x-axis → (3, 2)",
+          "Rotate (2,0) 90° counterclockwise → (0,2)"
+        ]
+      },
+      {
+        "title": "Dilations",
+        "content": "Dilations change size but not shape (similarity transformation).",
+        "examples": [
+          "Triangle (1,1),(3,1),(2,3) scaled by factor 2 → (2,2),(6,2),(4,6)",
+          "Scale factor > 1: enlargement; between 0 and 1: reduction"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 7,
+    "title": "Pythagorean Theorem",
+    "description": "Understand and apply the Pythagorean Theorem in 2D and 3D.",
+    "objectives": [
+      "State and prove the Pythagorean Theorem",
+      "Find missing side lengths",
+      "Apply to distance and 3D problems"
+    ],
+    "lessons": [
+      {
+        "title": "The Theorem",
+        "content": "In a right triangle: a² + b² = c² (c is the hypotenuse).",
+        "examples": [
+          "3² + 4² = 5² → 9 + 16 = 25 ✓",
+          "Find c: 5² + 12² = c² → c = 13",
+          "Find b: 10² + b² = 26² → b = 24"
+        ]
+      },
+      {
+        "title": "Distance Formula",
+        "content": "Distance between two points = √((x₂−x₁)² + (y₂−y₁)²)",
+        "examples": [
+          "Distance from (1,2) to (4,6) = √(9+16) = √25 = 5",
+          "Distance from (0,0) to (3,4) = 5"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 8,
+    "title": "Volume of Curved Solids",
+    "description": "Calculate volume of cylinders, cones, and spheres.",
+    "objectives": [
+      "Use volume formulas for cylinders, cones, and spheres",
+      "Compare volumes",
+      "Solve real-world problems"
+    ],
+    "lessons": [
+      {
+        "title": "Cylinder and Cone",
+        "content": "Cylinder: V = πr²h. Cone: V = ⅓πr²h (one-third of cylinder).",
+        "examples": [
+          "Cylinder r=4, h=9: V = 144π ≈ 452",
+          "Cone r=3, h=8: V = ⅓(9π)(8) = 24π ≈ 75.4"
+        ]
+      },
+      {
+        "title": "Sphere",
+        "content": "V = (4/3)πr³",
+        "examples": [
+          "r = 6: V = (4/3)π(216) = 288π ≈ 904",
+          "Basketball r ≈ 12 cm: V ≈ 7,238 cm³"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 9,
+    "title": "Statistics — Bivariate Data",
+    "description": "Analyze relationships between two variables using scatter plots and linear models.",
+    "objectives": [
+      "Construct and interpret scatter plots",
+      "Identify correlation and trend lines",
+      "Predict using a line of best fit"
+    ],
+    "lessons": [
+      {
+        "title": "Scatter Plots",
+        "content": "Plot paired data (x, y); look for patterns.",
+        "examples": [
+          "Hours studied vs. test score: positive correlation",
+          "Temperature vs. hot chocolate sales: negative correlation",
+          "No pattern: positive correlation, negative correlation, or no correlation"
+        ]
+      },
+      {
+        "title": "Line of Best Fit",
+        "content": "A trend line models the relationship; use it to predict.",
+        "examples": [
+          "Line: y = 5x + 60; predict score for 8 hours: y = 5(8) + 60 = 100",
+          "Extrapolation (predicting beyond data range) can be unreliable"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 10,
+    "title": "Introduction to Algebra — Quadratics Preview",
+    "description": "Explore quadratic patterns and prepare for high school algebra.",
+    "objectives": [
+      "Recognize quadratic patterns from tables and graphs",
+      "Understand the shape of a parabola",
+      "Evaluate quadratic expressions"
+    ],
+    "lessons": [
+      {
+        "title": "Quadratic Patterns",
+        "content": "Quadratic functions grow faster than linear; their graphs are parabolas.",
+        "examples": [
+          "y = x²: (0,0),(1,1),(2,4),(3,9),(4,16)",
+          "Compare linear y=2x to quadratic y=x²: quadratic overtakes linear quickly"
+        ]
+      },
+      {
+        "title": "Evaluating Quadratics",
+        "content": "Substitute x values to find y values for y = ax² + bx + c.",
+        "examples": [
+          "y = x² − 3x + 2, x=4: 16−12+2 = 6",
+          "y = 2x² + x for x=−1: 2(1)+(−1) = 1"
+        ]
+      }
+    ]
+  }
+]

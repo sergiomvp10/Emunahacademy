@@ -1,0 +1,303 @@
+[
+  {
+    "grade": "6",
+    "order": 1,
+    "title": "Ratios and Proportional Relationships",
+    "description": "Understand ratios and unit rates; use them to solve problems.",
+    "objectives": [
+      "Write and simplify ratios",
+      "Calculate unit rates",
+      "Solve proportion problems"
+    ],
+    "lessons": [
+      {
+        "title": "Ratios and Unit Rates",
+        "content": "A unit rate has a denominator of 1 and is useful for comparisons.",
+        "examples": [
+          "60 miles in 2 hours = 30 miles per hour",
+          "$7.50 for 5 apples = $1.50 per apple"
+        ]
+      },
+      {
+        "title": "Solving Proportions",
+        "content": "Set up equal ratios and solve using cross-multiplication.",
+        "examples": [
+          "3/4 = x/12 → 3 × 12 = 4x → x = 9",
+          "If 5 notebooks cost $8.75, how much do 8 cost? 5/8.75 = 8/x → x = $14"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 2,
+    "title": "Percent",
+    "description": "Understand percent as a ratio out of 100; apply to real-world problems.",
+    "objectives": [
+      "Convert between fractions, decimals, and percents",
+      "Calculate percent of a number",
+      "Find percent increase and decrease"
+    ],
+    "lessons": [
+      {
+        "title": "Percent Conversions",
+        "content": "Percent means 'per hundred'. Convert by moving the decimal or dividing by 100.",
+        "examples": [
+          "75% = 0.75 = 3/4",
+          "0.4 = 40%",
+          "3/5 = 0.6 = 60%"
+        ]
+      },
+      {
+        "title": "Percent of a Number",
+        "content": "Multiply the decimal form of the percent by the number.",
+        "examples": [
+          "20% of 50 = 0.20 × 50 = 10",
+          "15% tip on $40 = 0.15 × 40 = $6",
+          "30% off $80: 0.30 × 80 = $24 discount; final price = $56"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 3,
+    "title": "Integers and the Number Line",
+    "description": "Understand negative numbers; compare, order, and use absolute value.",
+    "objectives": [
+      "Represent integers on a number line",
+      "Compare and order integers",
+      "Find and apply absolute value"
+    ],
+    "lessons": [
+      {
+        "title": "Negative Numbers",
+        "content": "Integers extend the number line below zero.",
+        "examples": [
+          "−5 < −2 < 0 < 3 < 7",
+          "Temperature −10°F is colder than −3°F",
+          "Elevation: Death Valley is −282 ft below sea level"
+        ]
+      },
+      {
+        "title": "Absolute Value",
+        "content": "Absolute value is the distance from zero; it is always positive.",
+        "examples": [
+          "|−7| = 7",
+          "|5| = 5",
+          "|−12| = 12; 12 > |-9| = 9"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 4,
+    "title": "Operations with Integers",
+    "description": "Add, subtract, multiply, and divide positive and negative integers.",
+    "objectives": [
+      "Add and subtract integers using rules",
+      "Multiply and divide integers",
+      "Solve real-world problems with integers"
+    ],
+    "lessons": [
+      {
+        "title": "Adding and Subtracting Integers",
+        "content": "Same signs: add and keep the sign. Different signs: subtract and take the sign of the larger absolute value.",
+        "examples": [
+          "−4 + (−3) = −7",
+          "−8 + 5 = −3",
+          "6 − (−4) = 6 + 4 = 10"
+        ]
+      },
+      {
+        "title": "Multiplying and Dividing Integers",
+        "content": "Same signs give positive; different signs give negative.",
+        "examples": [
+          "(−3)(−4) = 12",
+          "(−6)(5) = −30",
+          "(−20) ÷ (−4) = 5",
+          "18 ÷ (−3) = −6"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 5,
+    "title": "Expressions and Variables",
+    "description": "Write, evaluate, and simplify algebraic expressions.",
+    "objectives": [
+      "Write expressions from word problems",
+      "Evaluate expressions by substituting values",
+      "Simplify by combining like terms"
+    ],
+    "lessons": [
+      {
+        "title": "Writing Expressions",
+        "content": "Use variables to represent unknown quantities.",
+        "examples": [
+          "'5 more than a number n' = n + 5",
+          "'3 times a number decreased by 2' = 3n − 2",
+          "'Half of x plus 7' = x/2 + 7"
+        ]
+      },
+      {
+        "title": "Evaluating and Simplifying",
+        "content": "Substitute values to evaluate; combine like terms to simplify.",
+        "examples": [
+          "3n + 2n − 4 = 5n − 4",
+          "Evaluate 2x² − 3x for x = 4: 2(16) − 12 = 20"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 6,
+    "title": "Equations and Inequalities",
+    "description": "Write and solve one-step equations and inequalities.",
+    "objectives": [
+      "Write equations from problem situations",
+      "Solve one-step equations",
+      "Graph and interpret inequalities on a number line"
+    ],
+    "lessons": [
+      {
+        "title": "One-Step Equations",
+        "content": "Use inverse operations to isolate the variable.",
+        "examples": [
+          "x + 7 = 15 → x = 8",
+          "3n = 27 → n = 9",
+          "y ÷ 4 = 6 → y = 24"
+        ]
+      },
+      {
+        "title": "Inequalities",
+        "content": "An inequality has a range of solutions; graph with an open or closed circle.",
+        "examples": [
+          "x > 3: open circle at 3, arrow right",
+          "x ≤ −2: closed circle at −2, arrow left",
+          "2x < 10 → x < 5"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 7,
+    "title": "Area, Surface Area, and Volume",
+    "description": "Calculate area of complex shapes; find surface area and volume of 3D figures.",
+    "objectives": [
+      "Find area of triangles, parallelograms, and trapezoids",
+      "Calculate surface area of prisms",
+      "Calculate volume of prisms"
+    ],
+    "lessons": [
+      {
+        "title": "Area Formulas",
+        "content": "Different shapes have specific area formulas.",
+        "examples": [
+          "Triangle: A = ½bh",
+          "Parallelogram: A = bh",
+          "Trapezoid: A = ½(b₁ + b₂)h"
+        ]
+      },
+      {
+        "title": "Surface Area and Volume",
+        "content": "Surface area is the total area of all faces; volume is interior space.",
+        "examples": [
+          "Rectangular prism: SA = 2(lw + lh + wh)",
+          "V = lwh: a box 4×3×2 has V = 24 units³"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 8,
+    "title": "Statistics — Distributions",
+    "description": "Summarize data using measures of center and variability.",
+    "objectives": [
+      "Find mean, median, mode, and range",
+      "Understand mean absolute deviation (MAD)",
+      "Create and interpret box plots and histograms"
+    ],
+    "lessons": [
+      {
+        "title": "Measures of Center and Spread",
+        "content": "Summarize a data set with one typical value and a measure of how spread out it is.",
+        "examples": [
+          "Data: 4,5,5,7,9. Mean=6, Median=5, Mode=5, Range=5",
+          "Box plot: shows minimum, Q1, median, Q3, maximum"
+        ]
+      },
+      {
+        "title": "Mean Absolute Deviation",
+        "content": "MAD measures the average distance of each data point from the mean.",
+        "examples": [
+          "Data: 2,4,6,8,10. Mean=6. Distances: 4,2,0,2,4. MAD = 12/5 = 2.4"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 9,
+    "title": "Geometry — Coordinate Plane",
+    "description": "Use all four quadrants of the coordinate plane to solve problems.",
+    "objectives": [
+      "Plot points in all four quadrants",
+      "Find distances between points",
+      "Reflect points across axes"
+    ],
+    "lessons": [
+      {
+        "title": "Four Quadrants",
+        "content": "The axes divide the coordinate plane into four quadrants.",
+        "examples": [
+          "Q1: (+,+), Q2: (−,+), Q3: (−,−), Q4: (+,−)",
+          "Plot (−3, 4) and (3, 4): they are reflections across the y-axis"
+        ]
+      },
+      {
+        "title": "Distance Between Points",
+        "content": "Find horizontal or vertical distance by taking the absolute difference of the same coordinate.",
+        "examples": [
+          "Distance from (−2, 5) to (4, 5) = |−2−4| = 6",
+          "Distance from (3,−1) to (3, 7) = |−1−7| = 8"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 10,
+    "title": "Probability — Introduction",
+    "description": "Understand basic probability concepts and calculate simple probabilities.",
+    "objectives": [
+      "Define probability as a number from 0 to 1",
+      "Calculate theoretical probability",
+      "Find the complement of an event"
+    ],
+    "lessons": [
+      {
+        "title": "Theoretical Probability",
+        "content": "P(event) = (favorable outcomes) ÷ (total outcomes)",
+        "examples": [
+          "P(rolling a 3 on a die) = 1/6",
+          "P(flipping heads) = 1/2",
+          "P(drawing a red card) = 26/52 = 1/2"
+        ]
+      },
+      {
+        "title": "Complement",
+        "content": "The complement is everything that is NOT the event. P(not A) = 1 − P(A)",
+        "examples": [
+          "P(not rolling 3) = 1 − 1/6 = 5/6",
+          "P(not raining) = 1 − 0.35 = 0.65"
+        ]
+      }
+    ]
+  }
+]

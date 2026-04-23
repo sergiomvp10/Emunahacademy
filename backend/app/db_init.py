@@ -145,6 +145,8 @@ def init_database():
     try:
         seed_sample_data(db)
         seed_site_content(db)
+        from app.seed_math_content import seed_math_minds_content
+        seed_math_minds_content(db)
     finally:
         db.close()
 
