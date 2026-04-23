@@ -48,6 +48,7 @@ export function Books() {
   // Category dialog state
   const [showCategoryDialog, setShowCategoryDialog] = useState(false);
   const [newCategory, setNewCategory] = useState({ name: '', description: '', color: '#6366f1' });
+  const [creatingCategory, setCreatingCategory] = useState(false);
 
   const canManage = user?.role === 'superuser' || user?.role === 'director' || user?.role === 'teacher';
 
@@ -190,18 +191,23 @@ export function Books() {
   };
 
   const handleCreateCategory = async () => {
-    if (!user || !newCategory.name) return;
+    if (!user || !newCategory.name.trim()) return;
+    setCreatingCategory(true);
     try {
       await api.createBookCategory({
-        name: newCategory.name,
-        description: newCategory.description || undefined,
+        name: newCategory.name.trim(),
+        description: newCategory.description.trim() || undefined,
         color: newCategory.color,
       }, user.id);
       setShowCategoryDialog(false);
       setNewCategory({ name: '', description: '', color: '#6366f1' });
-      loadData();
+      await loadData();
     } catch (error) {
       console.error('Error creating category:', error);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      alert(`${t.books.createCategory}: ${message}`);
+    } finally {
+      setCreatingCategory(false);
     }
   };
 
@@ -428,8 +434,12 @@ export function Books() {
                         ))}
                       </div>
                     </div>
-                    <Button onClick={handleCreateCategory} disabled={!newCategory.name} className="w-full bg-indigo-600 hover:bg-indigo-700">
-                      {t.books.createCategory}
+                    <Button
+                      onClick={handleCreateCategory}
+                      disabled={!newCategory.name.trim() || creatingCategory}
+                      className="w-full bg-indigo-600 hover:bg-indigo-700"
+                    >
+                      {creatingCategory ? '...' : t.books.createCategory}
                     </Button>
                   </div>
                 </DialogContent>
