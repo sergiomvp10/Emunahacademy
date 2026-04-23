@@ -1,4 +1,6 @@
+import os
 from datetime import datetime
+from pathlib import Path
 from sqlalchemy.orm import Session
 from sqlalchemy import text, inspect
 from app.db_models import (
@@ -138,6 +140,32 @@ def seed_site_content(db: Session):
             db.add(entry)
     db.commit()
 
+def cleanup_missing_uploads(db: Session):
+    """Null out Course.thumbnail_url entries whose file no longer exists on disk.
+
+    Covers were lost for any upload done before the Render persistent disk was
+    provisioned (see PR #51). Leaving the stale URL makes cards render a broken
+    image; clearing it lets the UI fall back to the gradient placeholder so
+    admins can re-upload cleanly.
+    """
+    upload_dir = Path(os.environ.get("UPLOAD_DIR", "uploads"))
+    stale = (
+        db.query(Course)
+        .filter(Course.thumbnail_url.isnot(None))
+        .filter(Course.thumbnail_url.like("/uploads/%"))
+        .all()
+    )
+    cleared = 0
+    for course in stale:
+        relative = course.thumbnail_url[len("/uploads/"):]
+        if not (upload_dir / relative).exists():
+            course.thumbnail_url = None
+            cleared += 1
+    if cleared:
+        db.commit()
+        print(f"[cleanup_missing_uploads] cleared {cleared} stale course thumbnail(s)")
+
+
 def init_database():
     create_tables()
     run_migrations()  # Add new columns to existing tables
@@ -147,6 +175,7 @@ def init_database():
         seed_site_content(db)
         from app.seed_base44_content import seed_base44_content
         seed_base44_content(db)
+        cleanup_missing_uploads(db)
     finally:
         db.close()
 
