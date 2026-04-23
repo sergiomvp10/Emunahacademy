@@ -17,6 +17,14 @@ import {
   Edit, Trash2, CheckCircle, Upload, X, Download
 } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+const resolveUploadUrl = (url?: string | null): string | undefined => {
+  if (!url) return undefined;
+  if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) return url;
+  return `${API_BASE}${url.startsWith('/') ? '' : '/'}${url}`;
+};
+
 const GRADE_LEVEL_KEYS: { value: GradeLevel; key: keyof typeof import('../i18n').es.grades }[] = [
   { value: 'K', key: 'kindergarten' },
   { value: '1', key: 'grade1' },
@@ -306,7 +314,7 @@ export function Courses() {
                   {newCourse.thumbnail_url ? (
                     <div className="relative inline-block">
                       <img 
-                        src={newCourse.thumbnail_url} 
+                        src={resolveUploadUrl(newCourse.thumbnail_url)} 
                         alt="Course preview" 
                         className="w-full h-32 object-cover rounded-lg border"
                       />
@@ -360,7 +368,7 @@ export function Courses() {
             >
               {course.thumbnail_url ? (
                 <img 
-                  src={course.thumbnail_url} 
+                  src={resolveUploadUrl(course.thumbnail_url)} 
                   alt={course.title}
                   className="w-full h-full object-cover"
                 />
@@ -478,7 +486,7 @@ export function Courses() {
               {editDraft.thumbnail_url ? (
                 <div className="relative inline-block">
                   <img
-                    src={editDraft.thumbnail_url}
+                    src={resolveUploadUrl(editDraft.thumbnail_url)}
                     alt="Course preview"
                     className="w-full h-32 object-cover rounded-lg border"
                   />
