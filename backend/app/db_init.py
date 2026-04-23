@@ -141,14 +141,17 @@ def seed_site_content(db: Session):
     db.commit()
 
 def cleanup_missing_uploads(db: Session):
-    """Null out Course.thumbnail_url entries whose file no longer exists on disk.
+    """Null out Course.thumbnail_url entries whose underlying file is gone.
 
-    Covers were lost for any upload done before the Render persistent disk was
-    provisioned (see PR #51). Leaving the stale URL makes cards render a broken
-    image; clearing it lets the UI fall back to the gradient placeholder so
-    admins can re-upload cleanly.
+    Covers referenced by the database but not reachable on the configured
+    storage backend (Render disk or Cloudflare R2) make cards render a broken
+    image. Clearing the URL lets the UI fall back to the gradient placeholder
+    so admins can re-upload cleanly. Only touches local ``/uploads/...`` URLs
+    to avoid accidentally wiping entries that point to R2 or other backends
+    we can't probe cheaply during boot.
     """
-    upload_dir = Path(os.environ.get("UPLOAD_DIR", "uploads"))
+    from app.storage import file_exists as storage_file_exists
+
     stale = (
         db.query(Course)
         .filter(Course.thumbnail_url.isnot(None))
@@ -157,13 +160,63 @@ def cleanup_missing_uploads(db: Session):
     )
     cleared = 0
     for course in stale:
-        relative = course.thumbnail_url[len("/uploads/"):]
-        if not (upload_dir / relative).exists():
+        if not storage_file_exists(course.thumbnail_url):
             course.thumbnail_url = None
             cleared += 1
     if cleared:
         db.commit()
         print(f"[cleanup_missing_uploads] cleared {cleared} stale course thumbnail(s)")
+
+
+def migrate_local_uploads_to_r2(db: Session):
+    """Copy existing ``/uploads/...`` files from the local disk to R2 and
+    rewrite the DB URLs to the R2 public URL.
+
+    Runs only when R2 is configured. Idempotent: each call only migrates the
+    rows that still point to ``/uploads/...`` and whose file is still on disk.
+    """
+    from app.storage import (
+        is_r2_enabled,
+        save_file as storage_save_file,
+        UPLOAD_DIR,
+    )
+    from app.db_models import Book
+
+    if not is_r2_enabled():
+        return
+
+    targets: list[tuple[object, str, str]] = []
+    # (row, attribute, current_url)
+    for course in db.query(Course).filter(Course.thumbnail_url.like("/uploads/%")).all():
+        targets.append((course, "thumbnail_url", course.thumbnail_url))
+    for book in db.query(Book).filter(Book.file_url.like("/uploads/%")).all():
+        targets.append((book, "file_url", book.file_url))
+    for book in db.query(Book).filter(Book.cover_url.like("/uploads/%")).all():
+        targets.append((book, "cover_url", book.cover_url))
+
+    migrated = 0
+    skipped_missing = 0
+    failed = 0
+    for row, attr, url in targets:
+        relative = url[len("/uploads/"):]
+        path = UPLOAD_DIR / relative
+        if not path.exists():
+            skipped_missing += 1
+            continue
+        try:
+            with path.open("rb") as fh:
+                new_url = storage_save_file(key=relative, data=fh)
+            setattr(row, attr, new_url)
+            migrated += 1
+        except Exception as exc:
+            print(f"[migrate_to_r2] failed to migrate {url}: {exc}")
+            failed += 1
+
+    if migrated or skipped_missing or failed:
+        db.commit()
+        print(
+            f"[migrate_to_r2] migrated={migrated} missing={skipped_missing} failed={failed}"
+        )
 
 
 def init_database():
@@ -175,6 +228,7 @@ def init_database():
         seed_site_content(db)
         from app.seed_base44_content import seed_base44_content
         seed_base44_content(db)
+        migrate_local_uploads_to_r2(db)
         cleanup_missing_uploads(db)
     finally:
         db.close()

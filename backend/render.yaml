@@ -24,3 +24,15 @@ services:
           property: connectionString
       - key: PYTHON_VERSION
         value: "3.12"
+      # Cloudflare R2 object storage (primary file backend once set).
+      # Leaving any of these empty falls back to the local persistent disk.
+      - key: R2_ENDPOINT
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_PUBLIC_URL
+        sync: false
