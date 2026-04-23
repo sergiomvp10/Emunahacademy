@@ -143,6 +143,12 @@ export function Messages() {
     return import.meta.env.VITE_API_URL || 'http://localhost:8000';
   };
 
+  const resolveFileUrl = (url?: string | null): string | undefined => {
+    if (!url) return undefined;
+    if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) return url;
+    return `${getBackendUrl()}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
   const handleSelectConversation = (conv: Conversation) => {
     setSelectedUser({ id: conv.user_id, name: conv.user_name });
   };
@@ -369,13 +375,13 @@ export function Messages() {
                       >
                         {msg.file_url && msg.file_type === 'image' && (
                           <a 
-                            href={`${getBackendUrl()}${msg.file_url}`} 
+                            href={resolveFileUrl(msg.file_url)} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="block mb-2"
                           >
                             <img 
-                              src={`${getBackendUrl()}${msg.file_url}`} 
+                              src={resolveFileUrl(msg.file_url)} 
                               alt={msg.file_name || 'Imagen'} 
                               className="max-w-full rounded-lg max-h-48 object-cover"
                             />
@@ -383,7 +389,7 @@ export function Messages() {
                         )}
                         {msg.file_url && msg.file_type === 'document' && (
                           <a 
-                            href={`${getBackendUrl()}${msg.file_url}`} 
+                            href={resolveFileUrl(msg.file_url)} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className={`flex items-center gap-2 p-2 rounded mb-2 ${

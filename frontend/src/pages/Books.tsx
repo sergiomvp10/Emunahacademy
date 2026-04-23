@@ -265,6 +265,11 @@ export function Books() {
 
   const filteredBooks = books;
   const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const resolveUploadUrl = (url?: string | null): string | undefined => {
+    if (!url) return undefined;
+    if (/^(https?:)?\/\//.test(url) || url.startsWith('data:')) return url;
+    return `${apiBaseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
 
   const groupedBooks = categories
     .map(cat => ({
@@ -274,18 +279,13 @@ export function Books() {
     .filter(g => g.items.length > 0);
   const uncategorizedBooks = filteredBooks.filter(b => !b.category_id);
 
-  const getAuthorInitial = (book: Book) => {
-    const source = (book.author || book.title || '?').trim();
-    return source.charAt(0).toUpperCase() || '?';
-  };
-
-  const renderBookCard = (book: Book, categoryColor: string) => (
+  const renderBookCard = (book: Book) => (
     <div key={book.id} className="flex-shrink-0 w-60 sm:w-64 group">
       {/* Cover (landscape) */}
       <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md group-hover:shadow-xl transition-all group-hover:-translate-y-0.5">
         {book.cover_url ? (
           <img
-            src={`${apiBaseUrl}${book.cover_url}`}
+            src={resolveUploadUrl(book.cover_url)}
             alt={book.title}
             className="w-full h-full object-cover"
           />
@@ -301,7 +301,7 @@ export function Books() {
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
           <a
-            href={`${apiBaseUrl}${book.file_url}`}
+            href={resolveUploadUrl(book.file_url)}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white text-gray-900 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 hover:bg-gray-100 transition-colors"
@@ -310,7 +310,7 @@ export function Books() {
             {t.books.read}
           </a>
           <a
-            href={`${apiBaseUrl}${book.file_url}`}
+            href={resolveUploadUrl(book.file_url)}
             download={book.file_name}
             className="text-white text-xs flex items-center gap-1 hover:underline"
           >
@@ -348,27 +348,19 @@ export function Books() {
         </div>
       </div>
 
-      {/* Author avatar + title + author name */}
-      <div className="mt-3 flex items-start gap-3">
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold shadow-sm flex-shrink-0"
-          style={{ backgroundColor: categoryColor }}
+      {/* Title + author name */}
+      <div className="mt-3">
+        <h3
+          className="text-sm font-semibold text-gray-900 truncate"
+          title={book.title}
         >
-          {getAuthorInitial(book)}
-        </div>
-        <div className="min-w-0 pt-0.5">
-          <h3
-            className="text-sm font-semibold text-gray-900 truncate"
-            title={book.title}
-          >
-            {book.title}
-          </h3>
-          {book.author && (
-            <p className="text-xs text-gray-500 truncate">
-              {t.books.by} {book.author}
-            </p>
-          )}
-        </div>
+          {book.title}
+        </h3>
+        {book.author && (
+          <p className="text-xs text-gray-500 truncate">
+            {t.books.by} {book.author}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -614,7 +606,7 @@ export function Books() {
                 )}
               </div>
               <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
-                {items.map(book => renderBookCard(book, category.color || '#6366f1'))}
+                {items.map(book => renderBookCard(book))}
               </div>
             </section>
           ))}
@@ -625,7 +617,7 @@ export function Books() {
                 <h2 className="text-xl font-bold text-gray-900">{t.books.uncategorized}</h2>
               </div>
               <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
-                {uncategorizedBooks.map(book => renderBookCard(book, '#9ca3af'))}
+                {uncategorizedBooks.map(book => renderBookCard(book))}
               </div>
             </section>
           )}
