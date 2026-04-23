@@ -130,7 +130,7 @@ class ApiService {
       });
     }
 
-  async updateCourse(courseId: number, course: { title: string; description: string; thumbnail_url?: string }): Promise<Course> {
+  async updateCourse(courseId: number, course: { title: string; description: string; thumbnail_url?: string | null; grade_level?: string | null }): Promise<Course> {
     return this.request<Course>(`/api/courses/${courseId}`, {
       method: 'PUT',
       body: JSON.stringify(course),
