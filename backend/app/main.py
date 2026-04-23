@@ -20,8 +20,12 @@ logging.basicConfig(level=logging.INFO)
 
 _email_executor = ThreadPoolExecutor(max_workers=2)
 
-UPLOAD_DIR = Path(os.environ.get("UPLOAD_DIR", "uploads"))
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+from app.storage import (
+    UPLOAD_DIR,
+    save_bytes as storage_save_bytes,
+    delete_file as storage_delete_file,
+    is_r2_enabled,
+)
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB max file size
 MAX_BOOK_FILE_SIZE = 50 * 1024 * 1024  # 50MB max for book PDFs
 
@@ -1011,16 +1015,15 @@ async def upload_file(file: UploadFile = File(...)):
         )
     
     unique_filename = f"{uuid.uuid4()}{file_ext}"
-    file_path = UPLOAD_DIR / unique_filename
-    
-    with open(file_path, "wb") as f:
-        f.write(contents)
-    
-    file_url = f"/uploads/{unique_filename}"
-    
+    file_url = storage_save_bytes(
+        key=unique_filename,
+        data=contents,
+        content_type=file.content_type,
+    )
+
     is_image = file_ext in {'.jpg', '.jpeg', '.png', '.gif'}
     file_type = "image" if is_image else "document"
-    
+
     return {
         "file_url": file_url,
         "file_name": file.filename,
@@ -2370,15 +2373,14 @@ async def upload_book_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail=f"Archivo demasiado grande. Tamano maximo: {MAX_BOOK_FILE_SIZE // (1024*1024)}MB")
     
     unique_filename = f"books/{uuid.uuid4()}{file_ext}"
-    books_dir = UPLOAD_DIR / "books"
-    books_dir.mkdir(exist_ok=True)
-    file_path = UPLOAD_DIR / unique_filename
-    
-    with open(file_path, "wb") as f:
-        f.write(contents)
-    
+    file_url = storage_save_bytes(
+        key=unique_filename,
+        data=contents,
+        content_type=file.content_type or "application/pdf",
+    )
+
     return {
-        "file_url": f"/uploads/{unique_filename}",
+        "file_url": file_url,
         "file_name": file.filename,
         "file_size": len(contents)
     }
@@ -2516,15 +2518,13 @@ async def delete_book(book_id: int, user_id: int, db: Session = Depends(get_db))
     if not book:
         raise HTTPException(status_code=404, detail="Libro no encontrado")
     
-    # Try to delete the physical file from the upload directory.
-    # book.file_url is stored as "/uploads/books/<uuid>.pdf"; resolve it
-    # relative to UPLOAD_DIR so it works with the persistent disk mount.
-    if book.file_url and book.file_url.startswith("/uploads/"):
-        relative = book.file_url[len("/uploads/"):]
-        file_path = UPLOAD_DIR / relative
-        if file_path.exists():
-            file_path.unlink(missing_ok=True)
-    
+    # Best-effort delete of the underlying object on whichever storage
+    # backend it lives on (R2 or local disk).
+    if book.file_url:
+        storage_delete_file(book.file_url)
+    if book.cover_url:
+        storage_delete_file(book.cover_url)
+
     db.delete(book)
     db.commit()
     return {"message": "Libro eliminado"}
