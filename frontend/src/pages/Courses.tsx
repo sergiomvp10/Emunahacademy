@@ -47,6 +47,7 @@ export function Courses() {
   const [newCourse, setNewCourse] = useState({ title: '', description: '', thumbnail_url: '', grade_level: '' as GradeLevel | '' });
   const [creating, setCreating] = useState(false);
   const [filterGrade, setFilterGrade] = useState<GradeLevel | 'all'>('all');
+  const [filterSubject, setFilterSubject] = useState<string>('all');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [importingBase44, setImportingBase44] = useState(false);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
@@ -165,9 +166,20 @@ export function Courses() {
       return found ? t.grades[found.key] : `${t.grades.grade} ${grade}`;
     };
 
-  const filteredCourses = filterGrade === 'all' 
-    ? courses 
-    : courses.filter(c => c.grade_level === filterGrade);
+  const getCourseSubject = (title: string): string => {
+    const idx = title.indexOf(' — ');
+    return idx > 0 ? title.slice(0, idx).trim() : 'Other';
+  };
+
+  const subjectOptions = Array.from(
+    new Set(courses.map((c) => getCourseSubject(c.title)))
+  ).sort((a, b) => a.localeCompare(b));
+
+  const filteredCourses = courses.filter((c) => {
+    const gradeMatch = filterGrade === 'all' || c.grade_level === filterGrade;
+    const subjectMatch = filterSubject === 'all' || getCourseSubject(c.title) === filterSubject;
+    return gradeMatch && subjectMatch;
+  });
 
   const handlePublishCourse = async (courseId: number) => {
     try {
@@ -248,6 +260,19 @@ export function Courses() {
                                 {t.grades[grade.key]}
                               </SelectItem>
                             ))}
+            </SelectContent>
+          </Select>
+          <Select value={filterSubject} onValueChange={setFilterSubject}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder={t.courses.filterBySubject} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t.courses.allSubjects}</SelectItem>
+              {subjectOptions.map((subject) => (
+                <SelectItem key={subject} value={subject}>
+                  {subject}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         {canManageCourses && (

@@ -118,6 +118,8 @@ export const en = {
     exploreCourses: 'Explore available courses',
     filterByGrade: 'Filter by grade',
     allGrades: 'All grades',
+    filterBySubject: 'Filter by subject',
+    allSubjects: 'All subjects',
     createNewCourse: 'Create New Course',
     titlePlaceholder: 'Ex: Basic Mathematics',
     descriptionPlaceholder: 'Describe the course content...',

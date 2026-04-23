@@ -118,6 +118,8 @@ export const es = {
     exploreCourses: 'Explora los cursos disponibles',
     filterByGrade: 'Filtrar por grado',
     allGrades: 'Todos los grados',
+    filterBySubject: 'Filtrar por materia',
+    allSubjects: 'Todas las materias',
     createNewCourse: 'Crear Nuevo Curso',
     titlePlaceholder: 'Ej: Matematicas Basicas',
     descriptionPlaceholder: 'Describe el contenido del curso...',
