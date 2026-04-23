@@ -53,6 +53,7 @@ export function Courses() {
   const [editDraft, setEditDraft] = useState({ title: '', description: '', thumbnail_url: '', grade_level: '' as GradeLevel | '' });
   const [savingEdit, setSavingEdit] = useState(false);
   const [uploadingEditImage, setUploadingEditImage] = useState(false);
+  const [brokenCovers, setBrokenCovers] = useState<Set<number>>(new Set());
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -363,14 +364,20 @@ export function Courses() {
         {filteredCourses.map((course, index) => (
           <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
             <div 
-              className={`h-40 ${course.thumbnail_url ? '' : `bg-gradient-to-br ${getCourseColor(index)}`} relative`}
+              className={`h-40 ${course.thumbnail_url && !brokenCovers.has(course.id) ? '' : `bg-gradient-to-br ${getCourseColor(index)}`} relative`}
               onClick={() => navigate(`/app/courses/${course.id}`)}
             >
-              {course.thumbnail_url ? (
+              {course.thumbnail_url && !brokenCovers.has(course.id) ? (
                 <img 
                   src={resolveUploadUrl(course.thumbnail_url)} 
-                  alt={course.title}
+                  alt=""
                   className="w-full h-full object-cover"
+                  onError={() => setBrokenCovers((prev) => {
+                    if (prev.has(course.id)) return prev;
+                    const next = new Set(prev);
+                    next.add(course.id);
+                    return next;
+                  })}
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
