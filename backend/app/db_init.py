@@ -141,31 +141,62 @@ def seed_site_content(db: Session):
     db.commit()
 
 def cleanup_missing_uploads(db: Session):
-    """Null out Course.thumbnail_url entries whose underlying file is gone.
+    """Null out URLs whose underlying file is gone from the storage backend.
 
-    Covers referenced by the database but not reachable on the configured
-    storage backend (Render disk or Cloudflare R2) make cards render a broken
-    image. Clearing the URL lets the UI fall back to the gradient placeholder
-    so admins can re-upload cleanly. Only touches local ``/uploads/...`` URLs
-    to avoid accidentally wiping entries that point to R2 or other backends
-    we can't probe cheaply during boot.
+    Covers and PDFs referenced by the database but not reachable on the
+    configured storage backend (Render disk or Cloudflare R2) make cards
+    render a broken image or break downloads. Clearing the URL lets the UI
+    fall back to the gradient placeholder (for covers) or hide/disable the
+    broken download link (for PDFs) so admins can re-upload cleanly. Only
+    touches local ``/uploads/...`` URLs to avoid accidentally wiping entries
+    that point to R2 or other backends we can't probe cheaply during boot.
     """
     from app.storage import file_exists as storage_file_exists
+    from app.db_models import Book
 
-    stale = (
+    cleared_courses = 0
+    for course in (
         db.query(Course)
         .filter(Course.thumbnail_url.isnot(None))
         .filter(Course.thumbnail_url.like("/uploads/%"))
         .all()
-    )
-    cleared = 0
-    for course in stale:
+    ):
         if not storage_file_exists(course.thumbnail_url):
             course.thumbnail_url = None
-            cleared += 1
-    if cleared:
+            cleared_courses += 1
+
+    cleared_book_files = 0
+    cleared_book_covers = 0
+    books_to_delete: list[Book] = []
+    for book in (
+        db.query(Book)
+        .filter(Book.file_url.like("/uploads/%"))
+        .all()
+    ):
+        if not storage_file_exists(book.file_url):
+            books_to_delete.append(book)
+    for book in books_to_delete:
+        if book.cover_url and book.cover_url.startswith("/uploads/") and not storage_file_exists(book.cover_url):
+            cleared_book_covers += 1
+        db.delete(book)
+        cleared_book_files += 1
+
+    for book in (
+        db.query(Book)
+        .filter(Book.cover_url.isnot(None))
+        .filter(Book.cover_url.like("/uploads/%"))
+        .all()
+    ):
+        if not storage_file_exists(book.cover_url):
+            book.cover_url = None
+            cleared_book_covers += 1
+
+    if cleared_courses or cleared_book_files or cleared_book_covers:
         db.commit()
-        print(f"[cleanup_missing_uploads] cleared {cleared} stale course thumbnail(s)")
+        print(
+            f"[cleanup_missing_uploads] courses_cleared={cleared_courses} "
+            f"books_deleted={cleared_book_files} book_covers_cleared={cleared_book_covers}"
+        )
 
 
 def migrate_local_uploads_to_r2(db: Session):
