@@ -41,6 +41,10 @@ export function Courses() {
   const [filterGrade, setFilterGrade] = useState<GradeLevel | 'all'>('all');
   const [uploadingImage, setUploadingImage] = useState(false);
   const [importingBase44, setImportingBase44] = useState(false);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [editDraft, setEditDraft] = useState({ title: '', description: '', thumbnail_url: '', grade_level: '' as GradeLevel | '' });
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [uploadingEditImage, setUploadingEditImage] = useState(false);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -55,6 +59,51 @@ export function Courses() {
       alert('Error uploading image. Please try again.');
     } finally {
       setUploadingImage(false);
+    }
+  };
+
+  const handleEditImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingEditImage(true);
+    try {
+      const result = await api.uploadFile(file);
+      setEditDraft((prev) => ({ ...prev, thumbnail_url: result.file_url }));
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Please try again.');
+    } finally {
+      setUploadingEditImage(false);
+    }
+  };
+
+  const openEditDialog = (course: Course) => {
+    setEditingCourse(course);
+    setEditDraft({
+      title: course.title,
+      description: course.description || '',
+      thumbnail_url: course.thumbnail_url || '',
+      grade_level: (course.grade_level as GradeLevel) || '',
+    });
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingCourse || !editDraft.title) return;
+    setSavingEdit(true);
+    try {
+      await api.updateCourse(editingCourse.id, {
+        title: editDraft.title,
+        description: editDraft.description,
+        thumbnail_url: editDraft.thumbnail_url || null,
+        grade_level: editDraft.grade_level || null,
+      });
+      setEditingCourse(null);
+      loadCourses();
+    } catch (error) {
+      console.error('Error updating course:', error);
+    } finally {
+      setSavingEdit(false);
     }
   };
 
@@ -359,7 +408,7 @@ export function Courses() {
                       size="sm"
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigate(`/app/courses/${course.id}`);
+                        openEditDialog(course);
                       }}
                     >
                       <Edit className="h-4 w-4 text-blue-500" />
@@ -381,6 +430,94 @@ export function Courses() {
           </Card>
         ))}
       </div>
+
+      <Dialog open={!!editingCourse} onOpenChange={(open) => !open && setEditingCourse(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t.courses.editCourseTitle}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-title">{t.courses.courseTitle}</Label>
+              <Input
+                id="edit-title"
+                placeholder={t.courses.titlePlaceholder}
+                value={editDraft.title}
+                onChange={(e) => setEditDraft({ ...editDraft, title: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-description">{t.courses.courseDescription}</Label>
+              <Textarea
+                id="edit-description"
+                placeholder={t.courses.descriptionPlaceholder}
+                value={editDraft.description}
+                onChange={(e) => setEditDraft({ ...editDraft, description: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-grade">{t.grades.grade}</Label>
+              <Select
+                value={editDraft.grade_level}
+                onValueChange={(value) => setEditDraft({ ...editDraft, grade_level: value as GradeLevel })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={t.courses.selectGrade} />
+                </SelectTrigger>
+                <SelectContent>
+                  {GRADE_LEVEL_KEYS.map((grade) => (
+                    <SelectItem key={grade.value} value={grade.value}>
+                      {t.grades[grade.key]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>{t.courses.courseImage}</Label>
+              {editDraft.thumbnail_url ? (
+                <div className="relative inline-block">
+                  <img
+                    src={editDraft.thumbnail_url}
+                    alt="Course preview"
+                    className="w-full h-32 object-cover rounded-lg border"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setEditDraft({ ...editDraft, thumbnail_url: '' })}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <label className="cursor-pointer block">
+                  <div className="flex items-center justify-center gap-2 px-4 py-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors">
+                    <Upload className="h-6 w-6 text-gray-400" />
+                    <span className="text-sm text-gray-600">
+                      {uploadingEditImage ? t.courses.uploading : t.courses.uploadImage}
+                    </span>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleEditImageUpload}
+                    disabled={uploadingEditImage}
+                    className="hidden"
+                  />
+                </label>
+              )}
+            </div>
+            <Button
+              className="w-full bg-teal-500 hover:bg-teal-600"
+              onClick={handleSaveEdit}
+              disabled={savingEdit || !editDraft.title}
+            >
+              {savingEdit ? t.courses.saving : t.courses.saveChanges}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {filteredCourses.length === 0 && (
         <Card className="p-12 text-center">
