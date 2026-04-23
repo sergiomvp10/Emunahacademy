@@ -1,0 +1,300 @@
+[
+  {
+    "grade": "8",
+    "order": 1,
+    "title": "Reading Complex Texts",
+    "description": "Read and analyze complex literary and informational texts with close reading strategies.",
+    "objectives": [
+      "Apply close reading strategies",
+      "Analyze complex syntax and diction",
+      "Draw inferences supported by textual evidence"
+    ],
+    "lessons": [
+      {
+        "title": "Close Reading",
+        "content": "Close reading involves careful, repeated analysis of how a text creates meaning.",
+        "examples": [
+          "Annotate as you read: underline key passages, circle unfamiliar words, mark patterns",
+          "First read: what happens? Second read: how is it written? Third read: what does it mean?",
+          "Find the 'moments of friction' — places where the text surprises or confuses you"
+        ]
+      },
+      {
+        "title": "Textual Evidence",
+        "content": "All claims about a text must be supported with specific evidence.",
+        "examples": [
+          "Strong: 'Holden Caulfield's repeated use of the word 'phony' reveals his disillusionment with adult society (Salinger, 2)','Weak: 'The character seems unhappy'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 2,
+    "title": "Literary Analysis Essay",
+    "description": "Write a formal literary analysis essay with a thesis, textual evidence, and analysis.",
+    "objectives": [
+      "Write a sophisticated, arguable thesis",
+      "Integrate quotations smoothly (ICE: introduce, cite, explain)",
+      "Develop analysis beyond plot summary"
+    ],
+    "lessons": [
+      {
+        "title": "The Literary Analysis Thesis",
+        "content": "A literary analysis thesis makes a specific, arguable claim about how a text works.",
+        "examples": [
+          "Weak: 'In Lord of the Flies, the boys become savage'",
+          "Strong: 'Golding uses the conch shell as a symbol of democratic order to show how quickly civilization collapses when authority is no longer enforced by force'"
+        ]
+      },
+      {
+        "title": "ICE — Integrate Evidence",
+        "content": "Quote integration: Introduce the quote, Cite it, then Explain its significance.",
+        "examples": [
+          "Introduce: 'Golding emphasizes this collapse when...'",
+          "Cite: '...the conch shattered into a thousand white fragments' (181)",
+          "Explain: 'The physical destruction of the conch symbolizes the final dissolution of democratic order on the island'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 3,
+    "title": "Informational Reading — Multiple Perspectives",
+    "description": "Analyze how different authors treat the same topic; evaluate conflicting evidence.",
+    "objectives": [
+      "Compare accounts with different perspectives",
+      "Evaluate credibility and bias",
+      "Synthesize conflicting information"
+    ],
+    "lessons": [
+      {
+        "title": "Multiple Perspectives",
+        "content": "On any complex topic, credible sources may reach different conclusions.",
+        "examples": [
+          "Two historians may interpret the same event differently based on their sources",
+          "Identify: What evidence does each author use? What are their assumptions?",
+          "Neither text need be 'wrong' — complexity is normal in real inquiry"
+        ]
+      },
+      {
+        "title": "Evaluating Bias",
+        "content": "All texts have a perspective; bias isn't always intentional.",
+        "examples": [
+          "Check: Who funded this study?",
+          "Are counterarguments addressed honestly?",
+          "Does the author have relevant expertise?"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 4,
+    "title": "Research — Extended Project",
+    "description": "Complete an extended research project with annotated bibliography and formal paper.",
+    "objectives": [
+      "Develop an original research question",
+      "Create an annotated bibliography",
+      "Write a well-organized research paper with proper MLA citations"
+    ],
+    "lessons": [
+      {
+        "title": "The Research Question",
+        "content": "A great research question is specific, debatable, and researchable.",
+        "examples": [
+          "Too broad: 'Is climate change real?'",
+          "Too narrow: 'What is the average temperature in Phoenix in July 2019?'",
+          "Just right: 'How has climate change affected wildfire frequency in California over the past 30 years?'"
+        ]
+      },
+      {
+        "title": "Annotated Bibliography",
+        "content": "Each source gets a citation plus a paragraph summarizing and evaluating it.",
+        "examples": [
+          "Summary: What does this source argue or show?",
+          "Evaluation: How credible is it? What is its potential bias?",
+          "Usefulness: How does it relate to your research question?"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 5,
+    "title": "Grammar — Advanced Usage and Style",
+    "description": "Master advanced grammar for precise, effective writing.",
+    "objectives": [
+      "Use active vs. passive voice appropriately",
+      "Avoid common errors: dangling modifiers, faulty parallelism",
+      "Vary sentence structure for rhetorical effect"
+    ],
+    "lessons": [
+      {
+        "title": "Active vs. Passive Voice",
+        "content": "Active voice is direct and clear; passive has its uses but can obscure meaning.",
+        "examples": [
+          "Passive: 'The ball was kicked by John.'",
+          "Active: 'John kicked the ball.' (clearer, more direct)",
+          "Appropriate passive: 'Mistakes were made' (when actor is unknown or irrelevant)"
+        ]
+      },
+      {
+        "title": "Parallel Structure",
+        "content": "Items in a series must have the same grammatical form.",
+        "examples": [
+          "Wrong: 'She liked reading, to swim, and dances'",
+          "Correct: 'She liked reading, swimming, and dancing'",
+          "Wrong: 'He is talented, hardworking, and has a lot of patience'",
+          "Correct: 'He is talented, hardworking, and patient'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 6,
+    "title": "Dystopian Literature",
+    "description": "Analyze the dystopian genre through major works and the social critiques they encode.",
+    "objectives": [
+      "Define dystopian fiction and its conventions",
+      "Analyze how dystopias critique real societies",
+      "Compare two dystopian texts"
+    ],
+    "lessons": [
+      {
+        "title": "Dystopia Conventions",
+        "content": "Dystopian fiction presents a nightmarish future society to critique present trends.",
+        "examples": [
+          "Total government control (1984, The Giver)",
+          "Loss of individual freedom, enforced conformity",
+          "Technology used to oppress (surveillance, propaganda)",
+          "Often features a protagonist who begins to question the system"
+        ]
+      },
+      {
+        "title": "Social Critique",
+        "content": "Dystopias always comment on real fears and tendencies in contemporary society.",
+        "examples": [
+          "1984 (1949): critiques Stalinist totalitarianism and surveillance",
+          "The Hunger Games: critiques media exploitation and wealth inequality",
+          "Handmaid's Tale: critiques patriarchy and religious extremism"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 7,
+    "title": "Speeches and Rhetoric",
+    "description": "Analyze great speeches for rhetorical strategies and craft; write and deliver a speech.",
+    "objectives": [
+      "Analyze rhetorical strategies in historic speeches",
+      "Write a persuasive speech with ethos, pathos, logos",
+      "Deliver a speech with effective techniques"
+    ],
+    "lessons": [
+      {
+        "title": "Analyzing Great Speeches",
+        "content": "Great speeches combine rhetorical appeals with powerful language.",
+        "examples": [
+          "MLK's 'I Have a Dream': anaphora ('I have a dream that...'), vivid metaphor, emotional appeal",
+          "Lincoln's Gettysburg Address: parallel structure, elevated diction, emotional pathos",
+          "Malala's UN Speech: ethos (personal experience), logos (statistics), pathos (urgency)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 8,
+    "title": "Vocabulary — Figurative and Connotative Language",
+    "description": "Analyze how figurative and connotative language shapes meaning and tone.",
+    "objectives": [
+      "Analyze extended metaphors",
+      "Interpret symbolism in literary texts",
+      "Evaluate how word choice creates tone"
+    ],
+    "lessons": [
+      {
+        "title": "Extended Metaphors",
+        "content": "A metaphor sustained across a text creates layered meaning.",
+        "examples": [
+          "'Hope is the thing with feathers' (Emily Dickinson) — hope is compared to a bird throughout",
+          "'All the world's a stage' (Shakespeare) — people as actors, life as a play"
+        ]
+      },
+      {
+        "title": "Symbolism",
+        "content": "Symbols are objects, characters, or events that represent larger ideas.",
+        "examples": [
+          "The green light in Gatsby: the American Dream, unattainable hope",
+          "The conch in Lord of the Flies: democratic order and civilization",
+          "The mockingbird in To Kill a Mockingbird: innocence destroyed by evil"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 9,
+    "title": "Multimedia and Digital Literacy",
+    "description": "Create and analyze multimodal texts; evaluate digital information critically.",
+    "objectives": [
+      "Analyze how visuals and text work together",
+      "Create a multimedia presentation or documentary",
+      "Evaluate digital sources using advanced criteria"
+    ],
+    "lessons": [
+      {
+        "title": "Multimodal Texts",
+        "content": "Modern communication combines words, images, sound, and video.",
+        "examples": [
+          "A documentary uses interview, narration, b-roll footage, and music together",
+          "Websites layer text, images, hyperlinks, and interactive elements",
+          "Analyze each element: What does the image add that words don't? How does music shape emotional response?"
+        ]
+      },
+      {
+        "title": "Digital Citizenship",
+        "content": "Responsible digital citizenship includes creating and sharing responsibly.",
+        "examples": [
+          "Understand copyright: you can't use others' images/music without permission",
+          "Cite digital sources; use Creative Commons-licensed images",
+          "Think before posting: digital footprints are permanent"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 10,
+    "title": "Independent Reading and Reflection",
+    "description": "Synthesize learning through sustained independent reading and reflective writing.",
+    "objectives": [
+      "Read a self-selected challenging text",
+      "Write a reflective reader's essay",
+      "Connect reading to personal growth and worldview"
+    ],
+    "lessons": [
+      {
+        "title": "Choosing Challenging Texts",
+        "content": "Reading above your comfort level builds skills and expands worldview.",
+        "examples": [
+          "Choose books that push you: unfamiliar settings, complex characters, challenging ideas",
+          "A little struggle is productive — if you understand every sentence immediately, the book may not be challenging enough"
+        ]
+      },
+      {
+        "title": "Reflective Reading Essay",
+        "content": "A reflective essay connects the text to your own thinking and growth.",
+        "examples": [
+          "How did reading this book change how you see the world?",
+          "What question did it leave you with?",
+          "Connect ideas from the book to other texts, courses, or your own experience"
+        ]
+      }
+    ]
+  }
+]

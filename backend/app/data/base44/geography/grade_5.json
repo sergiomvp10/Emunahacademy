@@ -1,0 +1,308 @@
+[
+  {
+    "grade": "5",
+    "order": 1,
+    "title": "Physical Geography — Earth's Systems",
+    "description": "Study Earth as a system of interacting spheres.",
+    "objectives": [
+      "Identify the four spheres: lithosphere, hydrosphere, atmosphere, biosphere",
+      "Explain how spheres interact",
+      "Give examples of sphere interactions"
+    ],
+    "lessons": [
+      {
+        "title": "Earth's Four Spheres",
+        "content": "Earth's systems are divided into four interacting spheres.",
+        "examples": [
+          "Lithosphere: solid rock of Earth's crust",
+          "Hydrosphere: all water on, above, and below Earth's surface",
+          "Atmosphere: gases surrounding Earth",
+          "Biosphere: all living organisms and their environments"
+        ]
+      },
+      {
+        "title": "Sphere Interactions",
+        "content": "Events in one sphere trigger changes in others.",
+        "examples": [
+          "Volcanic eruption (lithosphere) → ash in atmosphere → reduced sunlight → cooler temperatures → impact on biosphere",
+          "Deforestation (biosphere) → less evapotranspiration → changed rainfall → drier lithosphere",
+          "Ocean warming (hydrosphere) → more evaporation → stronger hurricanes (atmosphere)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 2,
+    "title": "Human Geography — Migration Patterns",
+    "description": "Analyze historical and contemporary migration patterns and their causes.",
+    "objectives": [
+      "Classify types of migration",
+      "Analyze push and pull factors",
+      "Map major global migration routes"
+    ],
+    "lessons": [
+      {
+        "title": "Types of Migration",
+        "content": "Migration takes many forms driven by different factors.",
+        "examples": [
+          "Voluntary migration: moving for economic opportunity or better quality of life",
+          "Forced migration: fleeing war, persecution, or natural disaster",
+          "Internal migration: moving within a country (Great Migration of Black Americans northward)",
+          "International migration: crossing national borders"
+        ]
+      },
+      {
+        "title": "Contemporary Migration",
+        "content": "Migration is reshaping demographics worldwide.",
+        "examples": [
+          "~280 million international migrants today (~3.5% of world population)",
+          "Remittances: migrants send ~$800 billion annually to home countries — more than total foreign aid",
+          "Climate migration: rising seas and drought are creating new migration pressures"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 3,
+    "title": "Economic Geography — Development",
+    "description": "Understand the geography of economic development and inequality.",
+    "objectives": [
+      "Distinguish developed from developing countries",
+      "Apply HDI to compare countries",
+      "Explain geographic factors that influence development"
+    ],
+    "lessons": [
+      {
+        "title": "Measuring Development",
+        "content": "Development is measured by multiple indicators beyond just income.",
+        "examples": [
+          "GDP per capita: income per person",
+          "Human Development Index (HDI): combines income, education (years of schooling), and health (life expectancy)",
+          "Top HDI countries: Norway, Switzerland, Iceland; lowest: Niger, South Sudan, Chad"
+        ]
+      },
+      {
+        "title": "Geography and Development",
+        "content": "Geography doesn't determine destiny, but it creates advantages and disadvantages.",
+        "examples": [
+          "Landlocked countries face higher trade costs (no sea access)",
+          "Tropical disease burden: malaria costs Africa ~$12 billion/year in lost productivity",
+          "Resource curse: oil-rich nations often have weak institutions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 4,
+    "title": "Political Geography — Borders and Power",
+    "description": "Analyze political geography and how power shapes spaces.",
+    "objectives": [
+      "Understand how borders are created and contested",
+      "Analyze the concept of sovereignty",
+      "Describe international organizations and their geographic dimensions"
+    ],
+    "lessons": [
+      {
+        "title": "Sovereignty and Borders",
+        "content": "Sovereignty is the right of a state to govern its territory without external interference.",
+        "examples": [
+          "The 1648 Peace of Westphalia established the modern concept of national sovereignty",
+          "International law recognizes states' right to their territory",
+          "Disputed territories: Kashmir, Gaza, Taiwan, South China Sea — sovereignty contested"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 5,
+    "title": "Environmental Geography — Climate and Society",
+    "description": "Analyze the geography of climate vulnerability and resilience.",
+    "objectives": [
+      "Identify most climate-vulnerable regions",
+      "Explain how poverty amplifies climate risk",
+      "Evaluate adaptation strategies in different geographic contexts"
+    ],
+    "lessons": [
+      {
+        "title": "Climate Vulnerability",
+        "content": "Climate change affects all regions, but some are far more vulnerable than others.",
+        "examples": [
+          "Small Island Developing States (SIDS): Kiribati, Tuvalu, Maldives — existential threat from sea level rise",
+          "Sub-Saharan Africa: already faces extreme heat, drought, and flooding",
+          "Arctic: warming at 3× the global average; permafrost thaw releasing methane"
+        ]
+      },
+      {
+        "title": "Adaptation Strategies",
+        "content": "Countries and communities are adapting to climate change in various ways.",
+        "examples": [
+          "Netherlands: building floating homes and expanding flood defenses",
+          "Bangladesh: constructing floating schools; planting mangroves as natural barriers",
+          "Kiribati: purchasing land in Fiji to relocate population if needed"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 6,
+    "title": "Regional Geography — Central and South Asia",
+    "description": "Study the geography, cultures, and geopolitics of Central and South Asia.",
+    "objectives": [
+      "Locate key countries and features",
+      "Explain the strategic importance of Central Asia",
+      "Describe South Asia's geographic diversity"
+    ],
+    "lessons": [
+      {
+        "title": "Central Asia",
+        "content": "Central Asia occupies a strategic crossroads between Europe, Middle East, and East Asia.",
+        "examples": [
+          "Five 'Stans': Kazakhstan (largest), Uzbekistan, Tajikistan, Kyrgyzstan, Turkmenistan — all former Soviet republics",
+          "Enormous oil and gas reserves: Kazakhstan, Turkmenistan",
+          "The Aral Sea disaster: one of the worst environmental disasters in history"
+        ]
+      },
+      {
+        "title": "South Asia",
+        "content": "South Asia is home to ~1.9 billion people — nearly a quarter of humanity.",
+        "examples": [
+          "India: 1.4 billion people; world's largest democracy; fastest-growing major economy",
+          "Pakistan: 220 million; nuclear power; geographic challenges: flooding, water scarcity",
+          "Bangladesh: world's most densely populated large country; 1,080 people/km²",
+          "Himalaya: source of 10 rivers serving ~2 billion people"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 7,
+    "title": "Urban Geography — Cities of the Future",
+    "description": "Analyze urbanization trends and the design of future cities.",
+    "objectives": [
+      "Describe global urbanization trends",
+      "Analyze challenges of megacity growth",
+      "Evaluate smart city concepts"
+    ],
+    "lessons": [
+      {
+        "title": "Global Urbanization",
+        "content": "For the first time in history, more than half the world's population lives in cities.",
+        "examples": [
+          "In 1800: ~3% of people lived in cities; today: ~56%; by 2050: ~68%",
+          "Most growth is in developing world: Lagos, Kinshasa, Dhaka, Mumbai",
+          "Megacities: 10 million+; there are 35 today; 48 projected by 2035"
+        ]
+      },
+      {
+        "title": "Smart Cities",
+        "content": "Technology is transforming how cities are planned and managed.",
+        "examples": [
+          "Singapore: uses sensors and data to optimize traffic, energy use, and waste",
+          "Songdo (South Korea): purpose-built smart city with underground waste collection and real-time monitoring",
+          "Barcelona: smart street lighting, smart parking, free public Wi-Fi citywide"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 8,
+    "title": "Water Geography — Global Water Crisis",
+    "description": "Analyze the geography of freshwater availability and the global water crisis.",
+    "objectives": [
+      "Map the global distribution of fresh water",
+      "Explain causes of water scarcity",
+      "Evaluate solutions to the water crisis"
+    ],
+    "lessons": [
+      {
+        "title": "Water Distribution",
+        "content": "Fresh water is unevenly distributed and increasingly scarce.",
+        "examples": [
+          "Only 0.3% of all water is accessible fresh water (rivers, lakes, groundwater)",
+          "Water stress: a region uses more than 40% of available water supply",
+          "Most water-stressed: Middle East, North Africa, Central Asia, parts of India and China"
+        ]
+      },
+      {
+        "title": "Solutions",
+        "content": "Technological and policy solutions exist but require investment and cooperation.",
+        "examples": [
+          "Desalination: removing salt from seawater — effective but energy-intensive (Israel gets 70% of drinking water this way)",
+          "Drip irrigation: delivers water directly to roots; 30-50% more efficient than sprinkler systems",
+          "Virtual water trade: countries import water-intensive goods rather than growing them",
+          "The Indus Waters Treaty (1960): India-Pakistan water-sharing agreement — held through wars"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 9,
+    "title": "Food Geography — Feeding the World",
+    "description": "Analyze the geography of food production, distribution, and food security.",
+    "objectives": [
+      "Map major food-producing regions",
+      "Explain causes of food insecurity",
+      "Evaluate sustainability of global food systems"
+    ],
+    "lessons": [
+      {
+        "title": "Global Food Production",
+        "content": "Food production is geographically concentrated but unevenly distributed.",
+        "examples": [
+          "The U.S., Brazil, China, India, and EU produce most of the world's food",
+          "Major grains: wheat (northern plains, Europe, China), rice (Asia), corn (Americas, Africa)",
+          "Just 5 crops (wheat, rice, corn, potatoes, soybeans) provide 60% of human calories"
+        ]
+      },
+      {
+        "title": "Food Insecurity",
+        "content": "815 million people are chronically hungry; 3 billion cannot afford a healthy diet.",
+        "examples": [
+          "Most hunger is in Sub-Saharan Africa and South Asia",
+          "Food deserts in wealthy countries: urban areas without access to affordable fresh food",
+          "Climate change is reducing crop yields in vulnerable regions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 10,
+    "title": "Geospatial Technology and the Future of Geography",
+    "description": "Explore cutting-edge geographic technologies shaping the future.",
+    "objectives": [
+      "Explain remote sensing and its applications",
+      "Describe real-world uses of GIS and geospatial big data",
+      "Evaluate geographic dimensions of artificial intelligence"
+    ],
+    "lessons": [
+      {
+        "title": "Remote Sensing and Big Data",
+        "content": "Satellites and sensors generate vast geographic data that transforms decision-making.",
+        "examples": [
+          "Landsat (NASA): 50+ years of Earth imagery; tracks deforestation, glacier loss, urban growth",
+          "Planet Labs: daily satellite images of every point on Earth",
+          "Google Maps: uses GPS, crowdsourced data, satellite imagery, and street-level photography"
+        ]
+      },
+      {
+        "title": "Geography and AI",
+        "content": "Artificial intelligence is revolutionizing geographic analysis.",
+        "examples": [
+          "Machine learning: analyzes satellite images to count trees, identify land use, or detect illegal mining",
+          "Predictive models: forecast disease outbreaks, flood risk, or conflict based on geographic patterns",
+          "Autonomous vehicles rely on extremely precise geographic data",
+          "The geographic digital divide: benefits flow mainly to wealthy, connected countries"
+        ]
+      }
+    ]
+  }
+]

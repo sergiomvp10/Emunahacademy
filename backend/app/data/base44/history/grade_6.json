@@ -1,0 +1,308 @@
+[
+  {
+    "grade": "6",
+    "order": 1,
+    "title": "Ancient Civilizations Compared",
+    "description": "Compare the major ancient civilizations of Egypt, Mesopotamia, Greece, Rome, China, and India.",
+    "objectives": [
+      "Identify common features across ancient civilizations",
+      "Analyze how geography shaped each civilization",
+      "Evaluate lasting contributions to the modern world"
+    ],
+    "lessons": [
+      {
+        "title": "What Makes a Civilization?",
+        "content": "Historians define a civilization by specific characteristics.",
+        "examples": [
+          "Surplus agriculture → specialized labor → social hierarchy → government → writing → monumental architecture",
+          "River valley civilizations: all arose near major rivers for water, fertile soil, and transportation",
+          "Cultural diffusion: ideas spread between civilizations through trade and conquest"
+        ]
+      },
+      {
+        "title": "Legacy Comparison",
+        "content": "Ancient civilizations left enduring marks on modern society.",
+        "examples": [
+          "Greece: democracy, philosophy, Olympic Games, scientific method",
+          "Rome: law, engineering, Latin language, Christian church structure",
+          "China: paper, printing, compass, gunpowder, civil service examinations",
+          "Mesopotamia: first writing (cuneiform), first law code (Hammurabi)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 2,
+    "title": "Medieval World",
+    "description": "Explore medieval Europe, the Islamic world, and East Asia from 500–1400 CE.",
+    "objectives": [
+      "Describe feudalism and manorialism",
+      "Explain the significance of the Islamic Golden Age",
+      "Compare medieval Europe to contemporaneous civilizations"
+    ],
+    "lessons": [
+      {
+        "title": "Medieval Europe",
+        "content": "After Rome's fall, Europe fragmented into feudal kingdoms.",
+        "examples": [
+          "Feudalism: king → lords → knights → serfs — land for military service",
+          "The Church unified European culture; Pope wielded enormous power",
+          "Crusades (1096–1291): Christian military campaigns to control Jerusalem; mixed results"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 3,
+    "title": "The Renaissance and Reformation",
+    "description": "Study the Renaissance and Protestant Reformation as transformative intellectual movements.",
+    "objectives": [
+      "Explain Renaissance humanism",
+      "Describe the Protestant Reformation's causes and impact",
+      "Analyze how the printing press changed history"
+    ],
+    "lessons": [
+      {
+        "title": "Renaissance Humanism",
+        "content": "Humanism put human achievement and potential at the center, rather than theology.",
+        "examples": [
+          "Civic humanism: being a good, engaged citizen is the highest virtue",
+          "Leonardo da Vinci: embodiment of the 'Renaissance man' — artist, scientist, engineer",
+          "Machiavelli's The Prince: analyzed political power realistically, not morally"
+        ]
+      },
+      {
+        "title": "The Reformation",
+        "content": "Martin Luther's challenge to the Church split Christianity permanently.",
+        "examples": [
+          "95 Theses (1517): criticized indulgences — the Church selling forgiveness",
+          "Council of Trent (1545–63): Catholic Counter-Reformation cleaned up abuses",
+          "Religious wars devastated Europe for a century (Thirty Years' War 1618–48)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 4,
+    "title": "Atlantic World — Trade, Slavery, and Colonialism",
+    "description": "Analyze the Atlantic economy built on colonialism and the slave trade.",
+    "objectives": [
+      "Describe the Triangular Trade",
+      "Analyze the impact of the slave trade on Africa",
+      "Evaluate the long-term legacy of Atlantic colonialism"
+    ],
+    "lessons": [
+      {
+        "title": "Triangular Trade",
+        "content": "The Atlantic economy linked Europe, Africa, and the Americas in a brutal system.",
+        "examples": [
+          "Europe → Africa: guns, textiles, manufactured goods",
+          "Africa → Americas: 12.5 million enslaved Africans (over 300 years)",
+          "Americas → Europe: sugar, tobacco, cotton, silver"
+        ]
+      },
+      {
+        "title": "Impact and Legacy",
+        "content": "The Atlantic slave trade reshaped Africa and built European and American wealth.",
+        "examples": [
+          "African states were destabilized; coastal kingdoms grew powerful through slave-trading",
+          "Enslavement built the wealth of Britain, France, the Netherlands, and the American colonies",
+          "Reparations debates today reflect the unresolved legacy of this history"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 5,
+    "title": "Revolutions — American, French, Haitian",
+    "description": "Compare the American, French, and Haitian Revolutions and their shared and different outcomes.",
+    "objectives": [
+      "Identify Enlightenment ideas driving all three revolutions",
+      "Compare causes, processes, and outcomes",
+      "Evaluate which revolution was most radical"
+    ],
+    "lessons": [
+      {
+        "title": "Enlightenment Foundations",
+        "content": "All three revolutions drew on Enlightenment ideas about natural rights.",
+        "examples": [
+          "Locke: natural rights (life, liberty, property); government by consent",
+          "Rousseau: the social contract; popular sovereignty",
+          "Voltaire: freedom of speech; separation of church and state"
+        ]
+      },
+      {
+        "title": "The Haitian Revolution (1791–1804)",
+        "content": "The Haitian Revolution was the only successful slave revolt in history — creating the first Black republic.",
+        "examples": [
+          "Haiti (Saint-Domingue) was France's most profitable colony; brutal enslaved conditions",
+          "Toussaint Louverture led enslaved people to defeat France, Britain, and Spain",
+          "Haiti declared independence Jan. 1, 1804 — forced to pay France reparations until 1947"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 6,
+    "title": "Industrialization and Global Change",
+    "description": "Examine industrialization's transformation of work, society, and global power.",
+    "objectives": [
+      "Explain why industrialization began in Britain",
+      "Describe social impacts of industrialization",
+      "Analyze how industrialization drove imperialism"
+    ],
+    "lessons": [
+      {
+        "title": "Industrial Revolution",
+        "content": "Britain industrialized first due to a unique combination of factors.",
+        "examples": [
+          "Coal and iron deposits, navigable rivers, strong navy, colonial markets, patent law protecting inventors",
+          "Enclosure movement: drove rural poor into cities as factory workers",
+          "Child labor: children as young as 5 worked 14-hour days in mines and mills"
+        ]
+      },
+      {
+        "title": "Industrialization and Imperialism",
+        "content": "Industrial nations sought colonies for raw materials and markets.",
+        "examples": [
+          "By 1914, European powers controlled 84% of the world's land surface",
+          "'Scramble for Africa' (1880–1914): Africa divided by European powers",
+          "Economic imperialism in China: opium wars forced China to accept British trade terms"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 7,
+    "title": "WWI — Causes and Consequences",
+    "description": "Examine the causes, course, and consequences of World War I.",
+    "objectives": [
+      "Explain MAIN causes: Militarism, Alliances, Imperialism, Nationalism",
+      "Describe the experience of trench warfare",
+      "Evaluate the Treaty of Versailles and its consequences"
+    ],
+    "lessons": [
+      {
+        "title": "MAIN Causes",
+        "content": "WWI had deep structural causes underlying the assassination trigger.",
+        "examples": [
+          "Militarism: European powers had built massive armies and navies for decades",
+          "Alliances: Triple Alliance (Germany, Austria-Hungary, Italy) vs. Triple Entente (France, Russia, Britain)",
+          "Imperialism: competition for colonies created tensions",
+          "Nationalism: desire for self-determination; ethnic minorities in Austria-Hungary wanted independence"
+        ]
+      },
+      {
+        "title": "Treaty of Versailles",
+        "content": "The peace settlement humiliated Germany and set the stage for WWII.",
+        "examples": [
+          "War guilt clause: Germany solely blamed → $33 billion in reparations",
+          "Germany lost 13% of territory and all colonies",
+          "Redrew maps of Europe and Middle East creating new, often unstable nations",
+          "Hitler would later exploit German resentment of the treaty"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 8,
+    "title": "WWII — Global Conflict",
+    "description": "Study the causes, major theaters, and outcome of World War II.",
+    "objectives": [
+      "Explain the rise of totalitarian regimes",
+      "Describe the Holocaust and its causes",
+      "Evaluate WWII's consequences for global order"
+    ],
+    "lessons": [
+      {
+        "title": "Rise of Totalitarianism",
+        "content": "WWI's aftermath produced totalitarian regimes in Europe and Asia.",
+        "examples": [
+          "Hitler's rise: economic depression + German resentment + propaganda = Nazi takeover (1933)",
+          "Mussolini's fascist Italy (1922); Franco's Spain (1939); Stalin's Soviet Union",
+          "Japan's militarist government expanded aggressively into China and Southeast Asia"
+        ]
+      },
+      {
+        "title": "The Holocaust",
+        "content": "The Holocaust was the systematic, state-sponsored murder of 6 million Jews and millions of others.",
+        "examples": [
+          "1933–1939: legal persecution, stripping of rights (Nuremberg Laws)",
+          "1941–1945: 'Final Solution' — systematic extermination via death camps",
+          "Auschwitz-Birkenau: largest camp; over 1 million killed",
+          "Nuremberg Trials (1945–46): established legal precedent for crimes against humanity"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 9,
+    "title": "The Cold War",
+    "description": "Examine the Cold War ideological conflict, major crises, and its global impact.",
+    "objectives": [
+      "Explain the ideological divide between capitalism and communism",
+      "Analyze the Korean War, Cuban Missile Crisis, and Vietnam War",
+      "Describe how the Cold War ended"
+    ],
+    "lessons": [
+      {
+        "title": "Cold War Crises",
+        "content": "The Cold War nearly turned hot several times.",
+        "examples": [
+          "Korean War (1950–53): first hot war of Cold War; divided Korea remains today",
+          "Cuban Missile Crisis (1962): closest the world came to nuclear war; Kennedy and Khrushchev's 13-day standoff",
+          "Vietnam War (1955–75): U.S. failed to prevent communist unification; 58,000 Americans and 3 million Vietnamese died"
+        ]
+      },
+      {
+        "title": "End of the Cold War",
+        "content": "The Soviet Union collapsed due to economic failure, nationalism, and reform.",
+        "examples": [
+          "Gorbachev's glasnost and perestroika (1985): openness and economic reform",
+          "Fall of the Berlin Wall (November 9, 1989)",
+          "Soviet Union dissolved December 25, 1991 → 15 independent republics"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 10,
+    "title": "The World Since 1991",
+    "description": "Survey major world events from 1991 to the present.",
+    "objectives": [
+      "Describe the post-Cold War world order",
+      "Analyze the September 11 attacks and the 'War on Terror'",
+      "Identify major global challenges today"
+    ],
+    "lessons": [
+      {
+        "title": "Post-Cold War World",
+        "content": "The U.S. emerged as the world's sole superpower — but the world remained complex.",
+        "examples": [
+          "Globalization accelerated: trade, immigration, internet connected the world",
+          "Yugoslav Wars (1991–2001): ethnic conflict after communism; genocide in Bosnia and Kosovo",
+          "Rwandan Genocide (1994): 800,000 Tutsi killed in 100 days; world's failure to act"
+        ]
+      },
+      {
+        "title": "21st Century Challenges",
+        "content": "The 21st century brought new and ongoing challenges.",
+        "examples": [
+          "9/11 (2001): 2,977 killed; U.S. invaded Afghanistan and Iraq",
+          "Arab Spring (2010–12): pro-democracy uprisings across Middle East; mixed outcomes",
+          "Climate crisis: increasing urgency; Paris Agreement (2015) set targets",
+          "COVID-19 (2020): 7+ million deaths globally; exposed inequality in healthcare systems"
+        ]
+      }
+    ]
+  }
+]

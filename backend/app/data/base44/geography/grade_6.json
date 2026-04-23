@@ -1,0 +1,307 @@
+[
+  {
+    "grade": "6",
+    "order": 1,
+    "title": "World Geography — Introduction and Tools",
+    "description": "Master advanced geographic tools and the five themes for world geography study.",
+    "objectives": [
+      "Apply five themes to case studies",
+      "Use latitude, longitude, and time zones",
+      "Interpret multiple map projections"
+    ],
+    "lessons": [
+      {
+        "title": "Map Projections",
+        "content": "Representing a sphere on a flat map always involves distortion.",
+        "examples": [
+          "Mercator: preserves shape and angles but distorts size (Greenland appears as large as Africa!)",
+          "Peters/Gall-Peters: accurate area but distorts shape",
+          "Robinson: compromise projection used for world maps",
+          "Goode's Homolosine: interrupts ocean to minimize land distortion"
+        ]
+      },
+      {
+        "title": "Time Zones",
+        "content": "Earth is divided into 24 time zones (roughly 15° longitude each).",
+        "examples": [
+          "When it's noon in New York (EST = UTC-5), it's 5pm in London (UTC+0) and 1am in Tokyo (UTC+9)",
+          "International Date Line (180° longitude): crossing west to east: lose a day",
+          "China uses a single time zone despite spanning 5 geographical zones"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 2,
+    "title": "North America — In Depth",
+    "description": "In-depth regional geography of North America.",
+    "objectives": [
+      "Analyze regional differences within North America",
+      "Explain USMCA and its geographic effects",
+      "Describe environmental challenges shared by North American nations"
+    ],
+    "lessons": [
+      {
+        "title": "Regional Analysis",
+        "content": "North America has remarkable regional diversity within three major nations.",
+        "examples": [
+          "U.S. Sun Belt vs. Rust Belt: demographic and economic shift since 1970",
+          "Canadian provinces: Quebec (French-speaking, distinct culture), Alberta (oil sands), British Columbia (Pacific economy)",
+          "Mexico: sharp contrast between industrialized north (maquiladoras) and rural, indigenous south"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 3,
+    "title": "Latin America — In Depth",
+    "description": "Study the physical, cultural, and economic geography of Latin America.",
+    "objectives": [
+      "Describe Latin America's physical geography in depth",
+      "Analyze urbanization in Latin America",
+      "Evaluate economic challenges and opportunities"
+    ],
+    "lessons": [
+      {
+        "title": "Megacities",
+        "content": "Latin America is one of the world's most urbanized regions.",
+        "examples": [
+          "São Paulo: 22 million; Brazil's economic engine; extreme inequality (Gini coefficient ~0.48)",
+          "Mexico City: 22 million; built on ancient lake bed; sinks 10 inches/year",
+          "Lima: 10+ million; 70% arrived through rural migration in last 50 years"
+        ]
+      },
+      {
+        "title": "Economic Geography",
+        "content": "Latin America is rich in resources but faces structural economic challenges.",
+        "examples": [
+          "Commodity dependence: copper (Chile, Peru), soy (Brazil, Argentina), oil (Venezuela, Mexico)",
+          "Dutch Disease: resource exports can strengthen currency, hurting manufacturing exports",
+          "Inequality: Latin America is the world's most unequal region; Gini coefficients among world's highest"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 4,
+    "title": "Europe — In Depth",
+    "description": "Advanced study of European geography — physical, political, and economic.",
+    "objectives": [
+      "Explain the Brexit decision geographically",
+      "Describe the refugee crisis of 2015 and its geographic dimensions",
+      "Analyze Europe's energy geography"
+    ],
+    "lessons": [
+      {
+        "title": "Brexit Geography",
+        "content": "The UK's vote to leave the EU had clear geographic patterns.",
+        "examples": [
+          "England's post-industrial cities (Sunderland, Stoke) voted heavily Leave; London and Scotland voted Remain",
+          "Northern Ireland: Good Friday Agreement required open border with Republic of Ireland — Brexit threatened this",
+          "The 'two Britains': cosmopolitan, educated cities vs. left-behind post-industrial towns"
+        ]
+      },
+      {
+        "title": "Energy Geography",
+        "content": "Europe faces a major energy transition challenge.",
+        "examples": [
+          "Germany: Energiewende — transition to renewable energy; closed nuclear plants; became dependent on Russian gas",
+          "Nord Stream 2 pipeline: geopolitical tool; destroyed 2022 after Russia invaded Ukraine",
+          "North Sea wind: massive offshore wind capacity; UK, Denmark, Netherlands leading"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 5,
+    "title": "Middle East and North Africa — In Depth",
+    "description": "Advanced study of MENA geography, resources, and geopolitics.",
+    "objectives": [
+      "Analyze oil's role in shaping MENA",
+      "Describe water scarcity challenges",
+      "Evaluate ongoing geopolitical conflicts"
+    ],
+    "lessons": [
+      {
+        "title": "Oil Geography",
+        "content": "The Persian Gulf holds 60% of proven world oil reserves — making it strategically vital.",
+        "examples": [
+          "Saudi Arabia: world's largest oil exporter; Ghawar field — largest in the world",
+          "OPEC: oil cartel that manages production to influence prices",
+          "Gulf states using oil wealth to diversify (Dubai, Abu Dhabi): tourism, finance, technology",
+          "Petrodollar recycling: Gulf states reinvest oil revenues in Western financial systems"
+        ]
+      },
+      {
+        "title": "Water Wars",
+        "content": "Water scarcity is creating serious geopolitical tensions in MENA.",
+        "examples": [
+          "Nile: Ethiopia's Grand Renaissance Dam threatens Egypt's water supply — potential for conflict",
+          "Jordan River: shared by Israel, Jordan, Palestine — severely over-extracted",
+          "Aquifer depletion: Saudi Arabia depleted 'fossil' aquifers for wheat production in 1970s–90s — now stops"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 6,
+    "title": "Sub-Saharan Africa — In Depth",
+    "description": "Advanced study of Sub-Saharan Africa's geography, economy, and potential.",
+    "objectives": [
+      "Analyze Africa's 'resource curse' in depth",
+      "Describe Africa's youthful demography and its implications",
+      "Evaluate Africa's technological leapfrogging"
+    ],
+    "lessons": [
+      {
+        "title": "Africa's Economic Geography",
+        "content": "Africa has vast resources but structural barriers to development.",
+        "examples": [
+          "DRC: holds ~70% of world's cobalt — essential for EV batteries; yet one of world's poorest countries",
+          "Nigeria: Africa's largest economy; oil accounts for 90% of exports — extreme volatility",
+          "'Africa Rising': decade of 5%+ growth in many countries (2000–2015)"
+        ]
+      },
+      {
+        "title": "Demographic Dividend",
+        "content": "Africa's youthful population could be its greatest asset — or its biggest challenge.",
+        "examples": [
+          "Africa will have 2 billion people by 2050; median age just 19",
+          "If young people are educated and employed: demographic dividend → rapid growth (as seen in East Asia)",
+          "If not: youth unemployment → instability → migration pressure"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 7,
+    "title": "South and East Asia — In Depth",
+    "description": "Advanced study of South and East Asian geography, economy, and geopolitics.",
+    "objectives": [
+      "Analyze China's Belt and Road Initiative",
+      "Describe South Asia's water security challenges",
+      "Evaluate East Asian economic geography"
+    ],
+    "lessons": [
+      {
+        "title": "China's Belt and Road Initiative",
+        "content": "China's $1 trillion+ infrastructure investment program is reshaping global geography.",
+        "examples": [
+          "BRI: loans and construction in 150+ countries for roads, ports, railways, pipelines",
+          "Gwadar Port (Pakistan): Chinese-built deep-water port gives China access to Indian Ocean",
+          "Critics: 'debt trap diplomacy' — Sri Lanka gave up Hambantota Port for 99 years when it couldn't repay loans",
+          "Supporters: fills infrastructure gap developing countries desperately need"
+        ]
+      },
+      {
+        "title": "East Asian Economic Geography",
+        "content": "East Asia has achieved remarkable economic development through export-led growth.",
+        "examples": [
+          "Japan (1960s–80s), South Korea and Taiwan (1970s–90s), China (1980s–2000s): each followed similar export-led model",
+          "Special Economic Zones: China's SEZs (Shenzhen, Shanghai) attracted foreign investment with tax benefits",
+          "Taiwan: semiconductor manufacturing hub; TSMC makes chips used in ~90% of advanced devices worldwide"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 8,
+    "title": "Pacific World — Oceania and Antarctica",
+    "description": "Study the Pacific world, from the island nations to Antarctica.",
+    "objectives": [
+      "Analyze Pacific Island geography and culture",
+      "Describe Antarctica's geography and international governance",
+      "Evaluate the Pacific as a geopolitical arena"
+    ],
+    "lessons": [
+      {
+        "title": "Pacific Island Nations",
+        "content": "The Pacific Islands are among the most culturally rich and geographically threatened places on Earth.",
+        "examples": [
+          "Polynesia, Micronesia, Melanesia: thousands of islands across a third of Earth's surface",
+          "Traditional navigation: Polynesian wayfinders used stars, ocean swells, birds, and clouds to navigate thousands of miles",
+          "Climate crisis: Kiribati, Tuvalu, Marshall Islands face complete inundation by 2100 at current sea level rise rates"
+        ]
+      },
+      {
+        "title": "Antarctica",
+        "content": "Antarctica is governed by the unique Antarctic Treaty System.",
+        "examples": [
+          "Antarctic Treaty (1959): 54 countries agree to peaceful scientific use only — no military, no mining",
+          "Antarctica is the world's only continent without a permanent human population or national sovereignty claims (frozen by treaty)",
+          "Ice sheets: hold 70% of world's fresh water; West Antarctic Ice Sheet melting faster than expected"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 9,
+    "title": "Cultural Geography — Language and Religion",
+    "description": "Advanced study of cultural geography — language, religion, and cultural landscapes.",
+    "objectives": [
+      "Map world language families",
+      "Analyze how religion shapes geography",
+      "Study cultural landscape analysis"
+    ],
+    "lessons": [
+      {
+        "title": "Language Geography",
+        "content": "Languages cluster in families and reflect historical migrations and contacts.",
+        "examples": [
+          "Indo-European family: covers Europe, Iran, northern India — all descended from a proto-language ~5,000 BCE",
+          "Bantu expansion: single language family spread from West Africa across sub-Saharan Africa ~3,000 years ago",
+          "Language loss: 50% of world's 7,000 languages may be extinct by 2100; with them, irreplaceable knowledge"
+        ]
+      },
+      {
+        "title": "Religion and Landscape",
+        "content": "Religion shapes everything from architecture to law to land use.",
+        "examples": [
+          "Sacred sites as geographic anchors: Jerusalem, Mecca, Varanasi, Vatican, Uluru",
+          "Religious law and land use: halal/kosher restrictions shape agriculture and trade",
+          "Pilgrimage geography: Mecca receives 2+ million pilgrims during Hajj — enormous logistical and environmental challenge"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 10,
+    "title": "Global Geography — Interconnected World",
+    "description": "Synthesize geographic understanding to analyze the interconnected challenges of the modern world.",
+    "objectives": [
+      "Apply geographic thinking to global challenges",
+      "Evaluate geographic solutions",
+      "Propose evidence-based geographic policies"
+    ],
+    "lessons": [
+      {
+        "title": "Interconnected Challenges",
+        "content": "Today's biggest challenges require geographic thinking to understand and solve.",
+        "examples": [
+          "Pandemic geography: COVID spread along airline routes; unequal vaccine access follows wealth geography",
+          "Supply chain geography: COVID disruptions revealed over-concentration of manufacturing in China",
+          "Climate-migration nexus: 216 million internal climate migrants projected by 2050 (World Bank)"
+        ]
+      },
+      {
+        "title": "Your Geographic Toolkit",
+        "content": "You now have the tools to analyze any geographic situation.",
+        "examples": [
+          "Five Themes: apply Location, Place, Region, Movement, HEI to any issue",
+          "Scale: always ask 'at what scale?' — local, national, global perspectives give different insights",
+          "Systems thinking: trace connections between physical and human geography",
+          "Spatial thinking: maps reveal patterns invisible in tables or text"
+        ]
+      }
+    ]
+  }
+]

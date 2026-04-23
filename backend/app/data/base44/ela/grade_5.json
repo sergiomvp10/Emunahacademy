@@ -1,0 +1,270 @@
+[
+  {
+    "grade": "5",
+    "order": 1,
+    "title": "Reading Literature — Theme and Summary",
+    "description": "Determine themes and summarize literary texts.",
+    "objectives": [
+      "Determine theme from details",
+      "Summarize without personal opinion",
+      "Compare themes across texts"
+    ],
+    "lessons": [
+      {
+        "title": "Finding Theme",
+        "content": "Theme is the central message the author wants to convey; it is not the topic.",
+        "examples": [
+          "Topic: friendship. Theme: True friends support each other even when it's hard.",
+          "Look for what the main character learns or how they change"
+        ]
+      },
+      {
+        "title": "Summarizing",
+        "content": "A summary captures the most important events without retelling every detail.",
+        "examples": [
+          "Include: main character, conflict, key events, resolution",
+          "Exclude: minor details, personal reactions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 2,
+    "title": "Reading Informational Text — Main Idea",
+    "description": "Determine main idea and explain how supporting details develop it.",
+    "objectives": [
+      "Identify main idea of a passage",
+      "Explain how details support the main idea",
+      "Summarize informational text"
+    ],
+    "lessons": [
+      {
+        "title": "Main Idea vs. Topic",
+        "content": "The topic is the subject; the main idea is the author's point about it.",
+        "examples": [
+          "Topic: volcanoes. Main idea: Volcanic eruptions are destructive but also create new land.",
+          "Ask: What does the author want me to understand?"
+        ]
+      },
+      {
+        "title": "Supporting Details",
+        "content": "Details provide evidence, examples, or explanations for the main idea.",
+        "examples": [
+          "Quote relevant sentences that directly support the main idea",
+          "Distinguish relevant details from interesting but tangential information"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 3,
+    "title": "Figurative Language",
+    "description": "Identify and interpret figurative language including simile, metaphor, personification, and hyperbole.",
+    "objectives": [
+      "Define and identify key types of figurative language",
+      "Interpret the meaning of figurative expressions",
+      "Use figurative language in own writing"
+    ],
+    "lessons": [
+      {
+        "title": "Types of Figurative Language",
+        "content": "Writers use figurative language to make writing vivid and expressive.",
+        "examples": [
+          "Simile: 'Life is like a box of chocolates' (comparison using like/as)",
+          "Metaphor: 'The world is a stage' (direct comparison)",
+          "Personification: 'The wind whispered through the trees'",
+          "Hyperbole: 'I've told you a million times'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 4,
+    "title": "Point of View",
+    "description": "Compare first- and third-person narrators and how POV affects the story.",
+    "objectives": [
+      "Identify first, second, and third person narration",
+      "Explain how POV shapes what readers know",
+      "Compare two texts with different POVs"
+    ],
+    "lessons": [
+      {
+        "title": "Narrator Perspectives",
+        "content": "The narrator's point of view determines what information readers receive.",
+        "examples": [
+          "First person: 'I walked into the room and felt afraid' — limited to narrator's experience",
+          "Third-person omniscient: narrator knows all characters' thoughts",
+          "Third-person limited: narrator knows only one character's inner life"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 5,
+    "title": "Research and Informational Writing",
+    "description": "Research a topic and write an organized informational essay.",
+    "objectives": [
+      "Find and evaluate sources",
+      "Take organized notes",
+      "Write a multi-paragraph essay with introduction, body, conclusion"
+    ],
+    "lessons": [
+      {
+        "title": "Finding Sources",
+        "content": "Use multiple credible sources; evaluate for accuracy and reliability.",
+        "examples": [
+          "Credible: .gov, .edu, published encyclopedias, peer-reviewed articles",
+          "Less credible: anonymous websites, social media, undated sources"
+        ]
+      },
+      {
+        "title": "Essay Structure",
+        "content": "Informational essays: hook → thesis → body paragraphs (each with topic sentence + evidence) → conclusion.",
+        "examples": [
+          "Topic sentence: 'The bald eagle nearly went extinct due to hunting and habitat loss.'",
+          "Evidence: cite facts, statistics, expert quotes"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 6,
+    "title": "Greek and Latin Roots",
+    "description": "Use Greek and Latin roots to determine the meaning of unfamiliar words.",
+    "objectives": [
+      "Identify common Greek and Latin roots",
+      "Use roots to infer word meanings",
+      "Build vocabulary across subjects"
+    ],
+    "lessons": [
+      {
+        "title": "Common Roots",
+        "content": "Many English words share Greek and Latin roots.",
+        "examples": [
+          "geo (earth): geography, geology, geometry",
+          "bio (life): biology, biography, antibiotic",
+          "port (carry): transport, portable, export",
+          "script (write): manuscript, scripture, inscription"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 7,
+    "title": "Opinion Writing",
+    "description": "Write opinion essays with clear claims, reasoning, and evidence.",
+    "objectives": [
+      "State a clear, arguable claim",
+      "Support with logical reasons and evidence",
+      "Address counterarguments"
+    ],
+    "lessons": [
+      {
+        "title": "Opinion Structure",
+        "content": "Intro (hook + claim) → body (reasons + evidence) → conclusion (restate + call to action).",
+        "examples": [
+          "Claim: 'Schools should have longer recess for better student learning.'",
+          "Reason 1: Physical activity improves concentration",
+          "Counterargument: 'Some say it wastes learning time, but research shows...'"
+        ]
+      },
+      {
+        "title": "Transitions",
+        "content": "Use transitions to connect ideas and show relationships.",
+        "examples": [
+          "First, In addition, Furthermore, On the other hand, Therefore, In conclusion"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 8,
+    "title": "Drama and Poetry",
+    "description": "Read and analyze dramatic texts and poetry, focusing on structure and sound.",
+    "objectives": [
+      "Identify elements of drama: acts, scenes, stage directions",
+      "Analyze poetic structure: stanza, rhyme, meter",
+      "Interpret the meaning of poems"
+    ],
+    "lessons": [
+      {
+        "title": "Drama Elements",
+        "content": "Plays have unique structural elements that distinguish them from prose.",
+        "examples": [
+          "Acts: major divisions",
+          "Scenes: smaller divisions within acts",
+          "Stage directions: italicized instructions for actors and setting"
+        ]
+      },
+      {
+        "title": "Poetry Analysis",
+        "content": "Analyze how a poem's structure contributes to its meaning.",
+        "examples": [
+          "Rhyme scheme: ABAB CDCD EF EF GG (Shakespearean sonnet)",
+          "Meter: iambic pentameter — 10 syllables alternating unstressed/stressed",
+          "Free verse: no regular rhyme or meter"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 9,
+    "title": "Text Structure",
+    "description": "Identify and use informational text structures to comprehend and organize writing.",
+    "objectives": [
+      "Identify cause/effect, problem/solution, compare/contrast, sequence, description",
+      "Use signal words to identify structure",
+      "Apply text structure in own writing"
+    ],
+    "lessons": [
+      {
+        "title": "Common Text Structures",
+        "content": "Authors organize informational text in specific patterns.",
+        "examples": [
+          "Cause/Effect: 'Because of..., as a result...'",
+          "Problem/Solution: 'The challenge is..., one approach is...'",
+          "Compare/Contrast: 'Similarly..., in contrast...'",
+          "Sequence: 'First, next, then, finally'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 10,
+    "title": "Collaborative Discussion",
+    "description": "Participate in structured collaborative discussions, building on others' ideas.",
+    "objectives": [
+      "Prepare for discussion by reading",
+      "Ask clarifying questions",
+      "Respond to others' ideas respectfully"
+    ],
+    "lessons": [
+      {
+        "title": "Discussion Norms",
+        "content": "Effective collaborative discussions require preparation and respectful engagement.",
+        "examples": [
+          "Come prepared: annotate the text before class",
+          "Build on others: 'I agree with ___ because...' or 'To add to what ___ said...'",
+          "Disagree respectfully: 'I see it differently because...'"
+        ]
+      },
+      {
+        "title": "Citing Evidence in Discussion",
+        "content": "Support your ideas with text evidence.",
+        "examples": [
+          "'On page 12, the author says...' to support your claim",
+          "Ask: 'What evidence do you have for that?'"
+        ]
+      }
+    ]
+  }
+]

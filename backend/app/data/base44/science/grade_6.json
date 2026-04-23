@@ -1,0 +1,311 @@
+[
+  {
+    "grade": "6",
+    "order": 1,
+    "title": "Scientific Method and Lab Skills",
+    "description": "Master the scientific method and essential laboratory skills.",
+    "objectives": [
+      "Write a testable hypothesis",
+      "Design a controlled experiment",
+      "Analyze data and draw conclusions"
+    ],
+    "lessons": [
+      {
+        "title": "The Scientific Method",
+        "content": "Science follows a systematic process to test ideas.",
+        "examples": [
+          "Observation → Question → Hypothesis → Experiment → Data → Conclusion",
+          "Hypothesis format: 'If [independent variable], then [dependent variable], because [reasoning]'",
+          "Control group: receives no treatment; used for comparison"
+        ]
+      },
+      {
+        "title": "Variables",
+        "content": "Identify and control variables for a fair test.",
+        "examples": [
+          "Independent variable: what you change",
+          "Dependent variable: what you measure",
+          "Controlled variables: everything else kept the same"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 2,
+    "title": "Cells — Structure and Function",
+    "description": "Study cell organelles and the differences between prokaryotic and eukaryotic cells.",
+    "objectives": [
+      "Identify cell organelles and their functions",
+      "Distinguish plant from animal cells",
+      "Compare prokaryotic and eukaryotic cells"
+    ],
+    "lessons": [
+      {
+        "title": "Cell Organelles",
+        "content": "Each organelle has a specific function, like organs in a body.",
+        "examples": [
+          "Nucleus: control center (contains DNA)",
+          "Mitochondria: powerhouse (produces ATP via cellular respiration)",
+          "Chloroplast: site of photosynthesis (plant cells only)",
+          "Cell membrane: controls what enters/exits",
+          "Ribosome: makes proteins"
+        ]
+      },
+      {
+        "title": "Prokaryotes vs. Eukaryotes",
+        "content": "Prokaryotes lack a nucleus; eukaryotes have a membrane-bound nucleus.",
+        "examples": [
+          "Prokaryotes: bacteria, archaea",
+          "Eukaryotes: animals, plants, fungi, protists",
+          "All organisms on Earth are one or the other"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 3,
+    "title": "Photosynthesis and Cellular Respiration",
+    "description": "Understand how plants produce food and how all cells release energy.",
+    "objectives": [
+      "Write and explain the equation for photosynthesis",
+      "Write and explain cellular respiration",
+      "Explain how they are complementary processes"
+    ],
+    "lessons": [
+      {
+        "title": "Photosynthesis",
+        "content": "Plants use light energy to convert CO₂ and water into glucose and oxygen.",
+        "examples": [
+          "6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂",
+          "Takes place in chloroplasts",
+          "Glucose stores the energy from sunlight as chemical energy"
+        ]
+      },
+      {
+        "title": "Cellular Respiration",
+        "content": "All living cells break down glucose to release usable energy (ATP).",
+        "examples": [
+          "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP",
+          "Aerobic (with O₂): most efficient — 36-38 ATP per glucose",
+          "Anaerobic: lactic acid fermentation in muscles; yeast produces CO₂ + alcohol"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 4,
+    "title": "Atoms and Elements",
+    "description": "Explore atomic structure, elements, and the periodic table.",
+    "objectives": [
+      "Describe the structure of an atom",
+      "Use the periodic table to find element information",
+      "Understand atomic number and atomic mass"
+    ],
+    "lessons": [
+      {
+        "title": "Atomic Structure",
+        "content": "Atoms are made of protons, neutrons, and electrons.",
+        "examples": [
+          "Protons: positive charge, in nucleus; number defines the element",
+          "Neutrons: no charge, in nucleus; affect atomic mass",
+          "Electrons: negative charge, orbit in shells"
+        ]
+      },
+      {
+        "title": "The Periodic Table",
+        "content": "Elements are organized by atomic number in the periodic table.",
+        "examples": [
+          "Rows (periods): elements with same number of electron shells",
+          "Columns (groups): elements with similar chemical properties",
+          "Metals, nonmetals, and metalloids have characteristic properties"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 5,
+    "title": "Weather and Climate Science",
+    "description": "Investigate atmospheric science, weather patterns, and climate.",
+    "objectives": [
+      "Explain how the sun drives weather",
+      "Describe factors that influence climate",
+      "Interpret weather maps and data"
+    ],
+    "lessons": [
+      {
+        "title": "Atmospheric Energy",
+        "content": "The sun drives atmospheric circulation, which creates weather.",
+        "examples": [
+          "Uneven heating: equator receives more solar energy than poles → wind and ocean currents",
+          "Convection cells: Hadley, Ferrel, and Polar cells move heat around the globe",
+          "Coriolis effect: Earth's rotation deflects winds to the right in northern hemisphere"
+        ]
+      },
+      {
+        "title": "Climate Factors",
+        "content": "Multiple factors determine a region's climate.",
+        "examples": [
+          "Latitude: closer to equator = warmer",
+          "Altitude: higher = colder (temp drops ~6.5°C per 1,000 m)",
+          "Ocean currents: Gulf Stream warms Europe",
+          "Rain shadow: leeward side of mountains is drier"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 6,
+    "title": "Waves — Light and Sound",
+    "description": "Understand wave properties and the behavior of light and sound.",
+    "objectives": [
+      "Identify wave properties: wavelength, frequency, amplitude",
+      "Explain how sound travels",
+      "Describe the electromagnetic spectrum"
+    ],
+    "lessons": [
+      {
+        "title": "Wave Properties",
+        "content": "Waves transfer energy without transferring matter.",
+        "examples": [
+          "Wavelength: distance between crests",
+          "Frequency: number of waves per second (Hertz)",
+          "Amplitude: height of wave (related to energy)",
+          "v = fλ (wave speed = frequency × wavelength)"
+        ]
+      },
+      {
+        "title": "Light and Sound",
+        "content": "Sound needs a medium; light does not.",
+        "examples": [
+          "Sound: longitudinal wave — travels through air, water, solids; ~343 m/s in air",
+          "Light: transverse electromagnetic wave — travels through vacuum at 3×10⁸ m/s",
+          "Electromagnetic spectrum: radio, microwave, infrared, visible, UV, X-ray, gamma ray"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 7,
+    "title": "Heredity and Evolution",
+    "description": "Connect genetics to evolution and natural selection.",
+    "objectives": [
+      "Explain natural selection",
+      "Describe evidence for evolution",
+      "Connect genetic variation to evolution"
+    ],
+    "lessons": [
+      {
+        "title": "Natural Selection",
+        "content": "Traits that improve survival and reproduction become more common over time.",
+        "examples": [
+          "Darwin's finches: different beak shapes evolved for different food sources",
+          "Antibiotic resistance: bacteria with resistance genes survive → reproduce → resistance spreads",
+          "4 requirements: variation, inheritance, differential survival, time"
+        ]
+      },
+      {
+        "title": "Evidence for Evolution",
+        "content": "Multiple independent lines of evidence support evolution.",
+        "examples": [
+          "Fossil record: shows change over time",
+          "Comparative anatomy: homologous structures (human arm, bat wing, whale flipper)",
+          "DNA evidence: humans share ~98.8% of DNA with chimpanzees",
+          "Biogeography: related species on nearby islands"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 8,
+    "title": "Space Science — Solar System",
+    "description": "Explore the solar system, its formation, and the planets within it.",
+    "objectives": [
+      "Describe how the solar system formed",
+      "Compare the planets",
+      "Explain orbital mechanics and gravity"
+    ],
+    "lessons": [
+      {
+        "title": "Solar System Formation",
+        "content": "The solar system formed ~4.6 billion years ago from a spinning disk of gas and dust.",
+        "examples": [
+          "Nebular hypothesis: cloud of gas collapsed under gravity → sun formed at center",
+          "Remaining material clumped together to form planets",
+          "Terrestrial planets (rocky): Mercury, Venus, Earth, Mars — inner solar system",
+          "Gas giants: Jupiter, Saturn; Ice giants: Uranus, Neptune — outer solar system"
+        ]
+      },
+      {
+        "title": "Orbital Mechanics",
+        "content": "Gravity keeps planets in orbit; Kepler's laws describe how.",
+        "examples": [
+          "Planets closer to the sun move faster and have shorter years",
+          "Earth orbits the sun at ~29.8 km/s",
+          "Kepler's 3rd law: the farther from the sun, the longer the orbital period"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 9,
+    "title": "Human Impact on Earth",
+    "description": "Analyze how human activity affects Earth's systems and what can be done.",
+    "objectives": [
+      "Explain the greenhouse effect and climate change",
+      "Describe impacts on biodiversity",
+      "Evaluate solutions"
+    ],
+    "lessons": [
+      {
+        "title": "Climate Change Mechanisms",
+        "content": "The greenhouse effect is natural; humans are intensifying it.",
+        "examples": [
+          "CO₂, methane, and water vapor trap heat in atmosphere",
+          "Since 1880, global average temperature has risen ~1.1°C",
+          "Effects: more frequent extreme weather, glacier melt, sea level rise, ocean acidification"
+        ]
+      },
+      {
+        "title": "Biodiversity Loss",
+        "content": "Current extinction rates are 100-1,000× background rates — a mass extinction.",
+        "examples": [
+          "Habitat destruction is the #1 cause of species loss",
+          "Invasive species, pollution, overhunting, and climate change also contribute",
+          "1 million species are threatened with extinction (IPBES, 2019)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "6",
+    "order": 10,
+    "title": "Engineering Design Process",
+    "description": "Apply the engineering design process to solve a real-world problem.",
+    "objectives": [
+      "Define a problem and establish criteria and constraints",
+      "Generate, test, and evaluate solutions",
+      "Communicate design decisions"
+    ],
+    "lessons": [
+      {
+        "title": "The EDP",
+        "content": "Engineers follow an iterative design process.",
+        "examples": [
+          "Define: What is the problem? What are the criteria (what it must do) and constraints (limits)?",
+          "Brainstorm: Generate many possible solutions",
+          "Prototype: Build a testable model",
+          "Test: Evaluate against criteria",
+          "Improve: Use test results to refine the design"
+        ]
+      }
+    ]
+  }
+]

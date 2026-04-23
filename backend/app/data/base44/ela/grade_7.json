@@ -1,0 +1,276 @@
+[
+  {
+    "grade": "7",
+    "order": 1,
+    "title": "Literary Analysis — Craft and Structure",
+    "description": "Analyze how authors develop plot, character, and theme through craft choices.",
+    "objectives": [
+      "Analyze plot structure with precision",
+      "Explain how an author's word choices shape meaning",
+      "Evaluate how multiple themes interact"
+    ],
+    "lessons": [
+      {
+        "title": "Analyzing Author's Craft",
+        "content": "Every word choice, structural decision, and narrative technique is intentional.",
+        "examples": [
+          "Foreshadowing: early hints that create suspense ('Little did she know that...')",
+          "Flashback: moves back in time to reveal background",
+          "Unreliable narrator: the narrator's perspective is limited or distorted"
+        ]
+      },
+      {
+        "title": "Multiple Themes",
+        "content": "Complex literary works often have several interrelated themes.",
+        "examples": [
+          "The Outsiders: themes of class conflict, loyalty, and identity all intersect",
+          "One event can develop multiple themes simultaneously"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 2,
+    "title": "Argumentative Writing",
+    "description": "Plan and write a formal argumentative essay with claim, evidence, and counterargument.",
+    "objectives": [
+      "Write a debatable thesis/claim",
+      "Use relevant evidence from credible sources",
+      "Effectively address counterarguments"
+    ],
+    "lessons": [
+      {
+        "title": "Thesis and Structure",
+        "content": "A strong thesis is specific, debatable, and previews main reasons.",
+        "examples": [
+          "Weak: 'Homework has pros and cons'",
+          "Strong: 'Nightly homework should be eliminated for middle schoolers because it increases stress, reduces family time, and fails to improve academic achievement'"
+        ]
+      },
+      {
+        "title": "Counterargument and Rebuttal",
+        "content": "Acknowledge opposing views, then refute them with evidence.",
+        "examples": [
+          "'Some argue that homework builds responsibility; however, research indicates that self-directed reading is more effective for developing independent learners'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 3,
+    "title": "Reading Nonfiction — Rhetorical Analysis",
+    "description": "Analyze the rhetorical strategies authors use to persuade in nonfiction texts.",
+    "objectives": [
+      "Identify ethos, pathos, and logos",
+      "Analyze how word choice and structure support the argument",
+      "Evaluate the effectiveness of persuasion"
+    ],
+    "lessons": [
+      {
+        "title": "Rhetorical Appeals",
+        "content": "Persuasive writers appeal to credibility, emotion, and logic.",
+        "examples": [
+          "Ethos: 'As a doctor with 20 years of experience...' (credibility)",
+          "Pathos: a story about a child suffering from pollution (emotion)",
+          "Logos: statistics showing 80% of scientists agree on climate change (logic)"
+        ]
+      },
+      {
+        "title": "Analyzing Language",
+        "content": "Word choice (diction) and tone shape how readers feel about the argument.",
+        "examples": [
+          "'Militants' vs. 'freedom fighters' — same people, very different connotation",
+          "Formal, objective language builds credibility; passionate language builds emotion"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 4,
+    "title": "Grammar — Phrases and Clauses",
+    "description": "Identify and correctly use phrases and clauses to add variety and precision.",
+    "objectives": [
+      "Identify noun, verb, adjective, and adverb phrases",
+      "Use participial and infinitive phrases",
+      "Write sentences with varied clause structures"
+    ],
+    "lessons": [
+      {
+        "title": "Phrases",
+        "content": "A phrase lacks a subject-verb pair and cannot stand alone.",
+        "examples": [
+          "Prepositional phrase: 'under the old bridge'",
+          "Participial phrase: 'Running through the rain, she finally reached home'",
+          "Infinitive phrase: 'To win the championship was her goal'"
+        ]
+      },
+      {
+        "title": "Varied Sentence Structure",
+        "content": "Varying sentences keeps writing engaging.",
+        "examples": [
+          "Simple: 'She ran.'",
+          "Compound: 'She ran, but she was too late.'",
+          "Complex: 'Although she ran as fast as she could, she missed the train.'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 5,
+    "title": "Research — Synthesis Writing",
+    "description": "Synthesize information from multiple sources into a coherent research essay.",
+    "objectives": [
+      "Integrate evidence from 4+ sources",
+      "Write without plagiarism; cite correctly",
+      "Synthesize rather than simply summarize sources"
+    ],
+    "lessons": [
+      {
+        "title": "Synthesis vs. Summary",
+        "content": "Synthesis weaves ideas from multiple sources together around YOUR argument.",
+        "examples": [
+          "Summary: 'Source A says X. Source B says Y.'",
+          "Synthesis: 'Multiple experts agree that X (Source A; Source B), while Source C offers the counterpoint that Y'"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 6,
+    "title": "Reading Across Genres — Comparing Texts",
+    "description": "Compare how different genres handle the same topic or theme.",
+    "objectives": [
+      "Compare a poem, story, and nonfiction text on the same theme",
+      "Analyze what each genre can and cannot do",
+      "Evaluate which treatment is most effective"
+    ],
+    "lessons": [
+      {
+        "title": "Genre Comparison",
+        "content": "The same subject can be explored through different lenses.",
+        "examples": [
+          "Topic: war. Compare: a war poem (Owen's 'Dulce et Decorum Est'), a novel excerpt (All Quiet on the Western Front), a news article",
+          "Each form uses different techniques to create impact"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 7,
+    "title": "Vocabulary — Academic Language",
+    "description": "Build academic vocabulary for reading, writing, and discussion across subjects.",
+    "objectives": [
+      "Identify Tier 2 academic vocabulary",
+      "Use context and morphology to infer meaning",
+      "Apply academic vocabulary in writing"
+    ],
+    "lessons": [
+      {
+        "title": "Tier 2 Vocabulary",
+        "content": "Academic words appear across subjects and in formal writing.",
+        "examples": [
+          "Analyze, evaluate, synthesize, justify, interpret, infer",
+          "These words appear on standardized tests and in college writing",
+          "Learn them in context rather than memorizing definitions"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 8,
+    "title": "Drama — Reading and Performance",
+    "description": "Read, analyze, and perform dramatic texts.",
+    "objectives": [
+      "Analyze dialogue and stage directions",
+      "Compare a dramatic text to its film adaptation",
+      "Perform a scene with attention to character and tone"
+    ],
+    "lessons": [
+      {
+        "title": "Reading Drama",
+        "content": "Drama is meant to be performed; read with performance in mind.",
+        "examples": [
+          "Stage directions give clues about setting, mood, and character",
+          "Subtext: what characters mean beyond what they literally say",
+          "Cast plays strategically when reading aloud in class"
+        ]
+      },
+      {
+        "title": "Adaptation Analysis",
+        "content": "Compare a play to its film adaptation — what changes and why?",
+        "examples": [
+          "Some dialogue is cut in films; scenes may be added",
+          "Consider: what can film do that a stage cannot? What can a stage do that film cannot?"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 9,
+    "title": "Personal Narrative",
+    "description": "Write a personal narrative that conveys a meaningful experience with reflection.",
+    "objectives": [
+      "Choose a meaningful event",
+      "Use literary techniques in personal writing",
+      "Reflect on significance — not just what happened but why it mattered"
+    ],
+    "lessons": [
+      {
+        "title": "Crafting the Narrative",
+        "content": "Great personal narratives use literary techniques to create meaning.",
+        "examples": [
+          "Start in the middle of action (in medias res)",
+          "Use sensory details: sight, sound, smell, taste, touch",
+          "'I remember the exact smell of rain on hot pavement that afternoon...'"
+        ]
+      },
+      {
+        "title": "Reflection",
+        "content": "The reflection is the most important part — it shows what you learned or how you changed.",
+        "examples": [
+          "Move beyond description to meaning: 'That moment taught me...'",
+          "Connect the personal to the universal: how does your experience relate to larger human experiences?"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "7",
+    "order": 10,
+    "title": "Independent Reading and Book Clubs",
+    "description": "Develop as independent readers through choice reading and collaborative discussion.",
+    "objectives": [
+      "Read independently for sustained periods",
+      "Discuss books in a small-group book club format",
+      "Write reader's response and book review"
+    ],
+    "lessons": [
+      {
+        "title": "Reader's Response",
+        "content": "Respond personally and analytically to what you read.",
+        "examples": [
+          "Personal: 'This character reminded me of...because...'",
+          "Analytical: 'The author uses foreshadowing in chapter 3 when...'",
+          "Evaluative: 'I think the ending was unsatisfying because...'"
+        ]
+      },
+      {
+        "title": "Book Club Discussion",
+        "content": "Book clubs thrive on genuine questions and diverse perspectives.",
+        "examples": [
+          "Ask genuine questions you don't know the answer to",
+          "'I was confused by... Can anyone explain...?'",
+          "'What I found most interesting was... Does anyone disagree?'"
+        ]
+      }
+    ]
+  }
+]

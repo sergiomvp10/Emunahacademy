@@ -1,0 +1,320 @@
+[
+  {
+    "grade": "5",
+    "order": 1,
+    "title": "Pre-Columbian Americas",
+    "description": "Explore the major civilizations of North and South America before European contact.",
+    "objectives": [
+      "Describe major pre-Columbian civilizations",
+      "Explain how geography shaped these cultures",
+      "Recognize contributions to world history"
+    ],
+    "lessons": [
+      {
+        "title": "Civilizations of the Americas",
+        "content": "The Americas were home to sophisticated civilizations long before Europeans arrived.",
+        "examples": [
+          "Maya: advanced writing, astronomy, mathematics; Classic period 250–900 CE; Mesoamerica",
+          "Aztec (Mexica): Tenochtitlan; powerful empire through tribute and trade; 1300–1521 CE",
+          "Inca: Tawantinsuyu; largest empire in pre-Columbian Americas; 1438–1533 CE; Andes Mountains"
+        ]
+      },
+      {
+        "title": "North American Cultures",
+        "content": "Hundreds of distinct cultures thrived in North America.",
+        "examples": [
+          "Mississippian culture: Cahokia — population 20,000+; built large earthen mounds",
+          "Ancestral Puebloans: cliff dwellings at Mesa Verde; sophisticated irrigation",
+          "Haudenosaunee (Iroquois) Confederacy: democratic confederacy of six nations — influenced U.S. Constitution"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 2,
+    "title": "European Exploration and Colonization",
+    "description": "Study European exploration of the Americas and the establishment of colonies.",
+    "objectives": [
+      "Explain motivations for exploration (3 Gs: Gold, Glory, God)",
+      "Describe major explorers and their routes",
+      "Analyze the impact of colonization on Indigenous peoples"
+    ],
+    "lessons": [
+      {
+        "title": "Age of Exploration",
+        "content": "European nations competed to explore and claim territory in the Americas.",
+        "examples": [
+          "Columbus (1492): Spain → Caribbean",
+          "Hernán Cortés (1519–1521): conquered the Aztec Empire with 600 soldiers and Indigenous allies",
+          "Francisco Pizarro (1532): conquered the Inca Empire; used smallpox as an inadvertent weapon"
+        ]
+      },
+      {
+        "title": "Columbian Exchange and Its Consequences",
+        "content": "Contact between Old and New Worlds transformed both.",
+        "examples": [
+          "Devastating disease: 50–90% of Indigenous populations died from European diseases",
+          "Forced labor and enslavement of Indigenous peoples",
+          "Encomienda system: Spanish colonizers given land and Indigenous workers"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 3,
+    "title": "Colonial America",
+    "description": "Examine the establishment and growth of the thirteen original colonies.",
+    "objectives": [
+      "Describe the three colonial regions",
+      "Compare colonial life in different regions",
+      "Explain how the colonies developed distinct identities"
+    ],
+    "lessons": [
+      {
+        "title": "Three Colonial Regions",
+        "content": "Geography shaped colonial economies, societies, and values.",
+        "examples": [
+          "New England: rocky soil, short growing season → fishing, shipbuilding, small farms; Puritan influence; town meetings",
+          "Middle Colonies: fertile land, diverse settlers (Dutch, German, Quaker) → 'breadbasket' of wheat and grain",
+          "Southern Colonies: warm climate, long growing season → tobacco, rice, indigo plantations; enslaved labor; aristocratic society"
+        ]
+      },
+      {
+        "title": "Colonial Government",
+        "content": "Colonists developed traditions of self-government that would fuel revolution.",
+        "examples": [
+          "Mayflower Compact (1620): Pilgrims agreed to self-govern",
+          "House of Burgesses (1619, Virginia): first representative assembly in the Americas",
+          "By 1775, all colonies had elected assemblies"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 4,
+    "title": "The American Revolution — Causes and Effects",
+    "description": "Analyze the causes, events, and legacy of the American Revolution.",
+    "objectives": [
+      "Trace the escalating tensions between Britain and the colonies",
+      "Analyze the Declaration of Independence as a political document",
+      "Evaluate the Revolution's impact on different groups"
+    ],
+    "lessons": [
+      {
+        "title": "Escalating Tensions",
+        "content": "A series of British policies pushed colonists toward revolution.",
+        "examples": [
+          "Stamp Act (1765): tax on documents → protests, 'taxation without representation'",
+          "Townshend Acts (1767): taxes on imports → colonial boycotts",
+          "Boston Massacre (1770): British soldiers kill 5 colonists → outrage",
+          "Tea Act and Boston Tea Party (1773): colonists dump 342 chests of tea",
+          "Intolerable Acts (1774): British punishment galvanizes colonial unity"
+        ]
+      },
+      {
+        "title": "Impact on Different Groups",
+        "content": "The Revolution meant different things to different people.",
+        "examples": [
+          "Many enslaved people fought on the British side, hoping for freedom (promised by Lord Dunmore's Proclamation)",
+          "Native Americans mostly supported Britain (who had limited western settlement)",
+          "Women contributed to the war effort but did not gain legal rights",
+          "Roughly 1/3 of colonists were Loyalist and either fled or were persecuted"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 5,
+    "title": "Building a New Nation",
+    "description": "Examine the critical period from the Articles of Confederation through the Constitution.",
+    "objectives": [
+      "Explain the weaknesses of the Articles of Confederation",
+      "Describe the Constitutional Convention",
+      "Analyze the structure of the new government"
+    ],
+    "lessons": [
+      {
+        "title": "Articles of Confederation",
+        "content": "The first U.S. government was intentionally weak — and it showed.",
+        "examples": [
+          "No power to tax; no national army; no power to regulate commerce",
+          "Shays' Rebellion (1786): debt-ridden farmers revolted; Congress couldn't stop it",
+          "This crisis convinced leaders a stronger government was needed"
+        ]
+      },
+      {
+        "title": "The Constitutional Convention",
+        "content": "In 1787, delegates crafted a new framework for government.",
+        "examples": [
+          "Great Compromise: bicameral Congress — House (by population) + Senate (equal per state)",
+          "3/5 Compromise: enslaved people counted as 3/5 of a person for representation (deeply immoral)",
+          "Federalism: power divided between national and state governments",
+          "Bill of Rights (1791): first 10 amendments protecting individual rights"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 6,
+    "title": "Westward Expansion and Manifest Destiny",
+    "description": "Analyze the ideology of Manifest Destiny and its human consequences.",
+    "objectives": [
+      "Define Manifest Destiny",
+      "Trace U.S. territorial expansion",
+      "Evaluate the impact on Native Americans and Mexico"
+    ],
+    "lessons": [
+      {
+        "title": "Manifest Destiny",
+        "content": "Many Americans believed it was their God-given destiny to expand across the continent.",
+        "examples": [
+          "Louisiana Purchase (1803): Jefferson doubled U.S. territory for $15 million",
+          "Mexican-American War (1846–1848): U.S. gained California, Texas, and the Southwest",
+          "Oregon Territory (1846): U.S. and Britain divided the Pacific Northwest"
+        ]
+      },
+      {
+        "title": "Human Costs",
+        "content": "Expansion came at enormous human cost.",
+        "examples": [
+          "Indian Removal Act (1830): forced relocation of tribes east of the Mississippi",
+          "Trail of Tears (1838): Cherokee Nation forced to march 1,000+ miles; ~4,000 died",
+          "Mexican citizens in acquired territories lost land and rights despite treaty promises"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 7,
+    "title": "Slavery and the Road to Civil War",
+    "description": "Trace the deepening sectional crisis over slavery from 1820–1860.",
+    "objectives": [
+      "Explain the Missouri Compromise and Compromise of 1850",
+      "Describe the abolitionist movement",
+      "Analyze events that pushed the nation toward civil war"
+    ],
+    "lessons": [
+      {
+        "title": "Compromises and Crises",
+        "content": "A series of compromises delayed but could not prevent civil war.",
+        "examples": [
+          "Missouri Compromise (1820): drew a line dividing free/slave territory",
+          "Compromise of 1850: California enters free; Fugitive Slave Act enrages northerners",
+          "Kansas-Nebraska Act (1854): 'popular sovereignty' → 'Bleeding Kansas' violence",
+          "Dred Scott decision (1857): enslaved people have no rights; unconstitutional to restrict slavery in territories"
+        ]
+      },
+      {
+        "title": "Abolitionist Movement",
+        "content": "A growing movement demanded the immediate end of slavery.",
+        "examples": [
+          "Frederick Douglass: escaped enslaved man; powerful orator and writer",
+          "Harriet Tubman: Underground Railroad conductor; freed ~70 people",
+          "Harriet Beecher Stowe: Uncle Tom's Cabin (1852) turned millions against slavery",
+          "John Brown's raid on Harpers Ferry (1859): terrified the South"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 8,
+    "title": "Reconstruction and Its Aftermath",
+    "description": "Evaluate the achievements and failures of Reconstruction, and the rise of Jim Crow.",
+    "objectives": [
+      "Describe Reconstruction's goals and achievements",
+      "Explain how Reconstruction ended and why",
+      "Trace the rise of Jim Crow laws and their impact"
+    ],
+    "lessons": [
+      {
+        "title": "Reconstruction Achievements",
+        "content": "Reconstruction (1865–1877) brought important constitutional changes.",
+        "examples": [
+          "13th Amendment (1865): abolished slavery",
+          "14th Amendment (1868): equal citizenship; due process; equal protection",
+          "15th Amendment (1870): Black men's right to vote",
+          "Freedmen's Bureau: education, healthcare, legal aid for 4 million formerly enslaved people"
+        ]
+      },
+      {
+        "title": "End of Reconstruction and Jim Crow",
+        "content": "Reconstruction was undermined by violence, politics, and white supremacy.",
+        "examples": [
+          "KKK and White League: terrorized Black voters and officials",
+          "Compromise of 1877: federal troops withdrawn; Republicans give up Reconstruction for the presidency",
+          "Jim Crow laws (1877–1965): legal segregation in Southern states — 'separate but equal'",
+          "Plessy v. Ferguson (1896): Supreme Court upheld segregation"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 9,
+    "title": "The Industrial Age and Progressive Era",
+    "description": "Explore industrialization's transformation of America and the Progressive response.",
+    "objectives": [
+      "Describe the transformation of American industry 1865–1900",
+      "Identify problems of the Gilded Age",
+      "Explain Progressive reforms"
+    ],
+    "lessons": [
+      {
+        "title": "Industrial Transformation",
+        "content": "After the Civil War, the U.S. became the world's largest industrial economy.",
+        "examples": [
+          "Transcontinental Railroad (1869): connected the nation; built largely by Chinese and Irish immigrants",
+          "Standard Oil (Rockefeller) and Carnegie Steel: massive monopolies",
+          "By 1900, the U.S. produced more steel than Britain and Germany combined"
+        ]
+      },
+      {
+        "title": "Progressive Reforms",
+        "content": "Reformers used investigative journalism and legislation to address industrial abuses.",
+        "examples": [
+          "Muckrakers: Upton Sinclair's 'The Jungle' exposed meatpacking conditions → Pure Food and Drug Act (1906)",
+          "Triangle Shirtwaist Factory fire (1911): 146 workers died; led to fire safety and labor laws",
+          "Child labor laws: keyed to 'Progressive' movement; children under 14 banned from factories (1916 Keating-Owen Act)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "5",
+    "order": 10,
+    "title": "America in the 20th Century — Overview",
+    "description": "Survey major events in 20th-century American history from WWI to the Cold War.",
+    "objectives": [
+      "Trace U.S. involvement in WWI and WWII",
+      "Describe the New Deal",
+      "Explain the beginning of the Cold War"
+    ],
+    "lessons": [
+      {
+        "title": "World Wars",
+        "content": "America played decisive roles in both World Wars.",
+        "examples": [
+          "WWI (1917 entry): Zimmermann Telegram and unrestricted submarine warfare brought U.S. in; decisive tipping of balance",
+          "Great Depression: WWI's aftermath, Prohibition, speculation bubble → crash of 1929",
+          "WWII: Pearl Harbor → total mobilization; 16 million served; Hiroshima and Nagasaki ended the Pacific war"
+        ]
+      },
+      {
+        "title": "Cold War Beginnings",
+        "content": "After WWII, the U.S. and USSR became competing superpowers.",
+        "examples": [
+          "Truman Doctrine (1947): U.S. would resist Soviet expansion anywhere",
+          "Marshall Plan: $13 billion to rebuild Western Europe → keeps it out of Soviet orbit",
+          "NATO (1949): military alliance; Soviet atomic bomb test that year changed everything"
+        ]
+      }
+    ]
+  }
+]

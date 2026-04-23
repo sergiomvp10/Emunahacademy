@@ -1,0 +1,315 @@
+[
+  {
+    "grade": "8",
+    "order": 1,
+    "title": "Physical Science — Structure of Matter",
+    "description": "Study atomic structure, the periodic table, and chemical bonding.",
+    "objectives": [
+      "Describe atomic models historically and currently",
+      "Read the periodic table (periods, groups, blocks)",
+      "Explain ionic and covalent bonding"
+    ],
+    "lessons": [
+      {
+        "title": "Modern Atomic Model",
+        "content": "The modern quantum model describes electrons in probability clouds called orbitals.",
+        "examples": [
+          "Bohr model (1913): electrons in fixed orbits — useful but simplified",
+          "Electron cloud model: electrons exist in regions of probability",
+          "Electron configuration determines chemical behavior"
+        ]
+      },
+      {
+        "title": "Chemical Bonding",
+        "content": "Atoms bond to achieve stable electron configurations.",
+        "examples": [
+          "Ionic bond: electron transfer between metal and non-metal (NaCl: Na⁺ and Cl⁻)",
+          "Covalent bond: electron sharing between non-metals (H₂O: O shares electrons with 2 H)",
+          "Metallic bond: sea of electrons shared among metal atoms → conducts electricity"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 2,
+    "title": "Acids, Bases, and pH",
+    "description": "Understand acid-base chemistry and the pH scale.",
+    "objectives": [
+      "Define acids and bases in terms of H⁺ ions",
+      "Read and use the pH scale",
+      "Describe neutralization reactions"
+    ],
+    "lessons": [
+      {
+        "title": "Acids and Bases",
+        "content": "Acids release H⁺ ions; bases accept H⁺ (or release OH⁻).",
+        "examples": [
+          "Acids: lemon juice, vinegar, stomach acid (HCl)",
+          "Bases: baking soda, soap, bleach",
+          "Strong acid: HCl completely dissociates; weak acid: acetic acid partially dissociates"
+        ]
+      },
+      {
+        "title": "pH Scale",
+        "content": "pH measures hydrogen ion concentration on a scale of 0-14.",
+        "examples": [
+          "pH < 7: acidic; pH = 7: neutral; pH > 7: basic",
+          "Battery acid: pH ~1; pure water: pH 7; bleach: pH ~13",
+          "Neutralization: acid + base → salt + water"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 3,
+    "title": "Motion and Forces — Advanced",
+    "description": "Deepen understanding of kinematics and dynamics.",
+    "objectives": [
+      "Analyze motion with graphs",
+      "Apply Newton's laws to complex systems",
+      "Understand momentum and impulse"
+    ],
+    "lessons": [
+      {
+        "title": "Kinematics",
+        "content": "Kinematics describes motion without considering its cause.",
+        "examples": [
+          "Displacement-time graph: slope = velocity",
+          "Velocity-time graph: slope = acceleration; area = displacement",
+          "Uniform acceleration: v = u + at; s = ut + ½at²"
+        ]
+      },
+      {
+        "title": "Dynamics",
+        "content": "Newton's laws applied to complex systems.",
+        "examples": [
+          "Free body diagram: draw all forces on an object",
+          "Atwood machine: two masses over a pulley — net force = (m₁−m₂)g",
+          "Projectile motion: horizontal (constant velocity) + vertical (acceleration due to gravity)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 4,
+    "title": "Energy — Heat and Thermodynamics",
+    "description": "Study heat transfer, thermal energy, and the laws of thermodynamics.",
+    "objectives": [
+      "Distinguish temperature from thermal energy",
+      "Describe heat transfer mechanisms",
+      "Apply the first and second laws of thermodynamics"
+    ],
+    "lessons": [
+      {
+        "title": "Heat Transfer",
+        "content": "Thermal energy moves from hot to cold by three mechanisms.",
+        "examples": [
+          "Conduction: direct contact (metal spoon in hot soup)",
+          "Convection: fluid movement (hot air rises, cool air sinks)",
+          "Radiation: electromagnetic waves (sun heats Earth across vacuum)"
+        ]
+      },
+      {
+        "title": "Laws of Thermodynamics",
+        "content": "Energy is conserved; entropy always increases.",
+        "examples": [
+          "1st Law: energy cannot be created or destroyed; ΔU = Q − W",
+          "2nd Law: heat flows naturally from hot to cold; disorder (entropy) increases",
+          "Why machines can't be 100% efficient: some energy always lost to heat"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 5,
+    "title": "Electromagnetism",
+    "description": "Explore the relationship between electricity and magnetism.",
+    "objectives": [
+      "Describe magnetic fields and poles",
+      "Explain electromagnetic induction",
+      "Understand how motors and generators work"
+    ],
+    "lessons": [
+      {
+        "title": "Magnetic Fields",
+        "content": "Every magnet creates a magnetic field; electric currents also create magnetic fields.",
+        "examples": [
+          "Earth acts like a giant magnet — magnetic north is near geographic north",
+          "Oersted (1820): discovered that current-carrying wire deflects a compass",
+          "Solenoid: coil of wire carrying current creates a strong magnetic field (electromagnet)"
+        ]
+      },
+      {
+        "title": "Induction and Devices",
+        "content": "A changing magnetic field induces an electric current.",
+        "examples": [
+          "Faraday's Law of Induction (1831): moving a magnet through a coil generates electricity",
+          "Generator: converts mechanical energy to electrical energy (rotating magnet in coil)",
+          "Motor: converts electrical energy to mechanical (current in magnetic field creates force)"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 6,
+    "title": "Geology — Earth's History",
+    "description": "Read the rock record, understand geological processes, and Earth's changing surface.",
+    "objectives": [
+      "Apply principles of stratigraphy",
+      "Explain geological processes: weathering, erosion, deposition",
+      "Describe major geological eras and events"
+    ],
+    "lessons": [
+      {
+        "title": "Rock Types and Cycles",
+        "content": "Rocks form through igneous, sedimentary, and metamorphic processes in a continuous cycle.",
+        "examples": [
+          "Igneous: cooled magma/lava (granite, basalt)",
+          "Sedimentary: compacted sediment (sandstone, limestone) — contains fossils",
+          "Metamorphic: transformed by heat/pressure (marble from limestone, quartzite from sandstone)"
+        ]
+      },
+      {
+        "title": "Geological Time",
+        "content": "Earth's 4.6-billion-year history is divided into eons, eras, periods, and epochs.",
+        "examples": [
+          "Precambrian: 88% of Earth's history; single-celled life",
+          "Paleozoic: Cambrian explosion, first vertebrates, mass extinctions",
+          "Mesozoic: age of dinosaurs; ~66 Ma ended by asteroid impact",
+          "Cenozoic: mammals dominate; last 65.5 million years; humans appear in last 0.3 Ma"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 7,
+    "title": "Ecology — Population Dynamics",
+    "description": "Analyze how populations change over time and interact within ecosystems.",
+    "objectives": [
+      "Describe factors that limit population growth",
+      "Explain predator-prey dynamics",
+      "Analyze human population growth and its implications"
+    ],
+    "lessons": [
+      {
+        "title": "Population Growth Models",
+        "content": "Populations grow exponentially when unlimited but logistically when resources are limited.",
+        "examples": [
+          "J-curve: exponential growth (no resource limits) — bacteria in ideal conditions",
+          "S-curve: logistic growth (real-world carrying capacity)",
+          "Carrying capacity (K): maximum population an environment can support"
+        ]
+      },
+      {
+        "title": "Limiting Factors",
+        "content": "Biotic and abiotic factors limit population size.",
+        "examples": [
+          "Density-dependent: disease, competition, predation — effects increase with population density",
+          "Density-independent: natural disasters, extreme weather — affect populations regardless of size",
+          "Predator-prey oscillations: Lotka-Volterra model; lynx-hare cycles"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 8,
+    "title": "Nuclear Physics — Introduction",
+    "description": "Introduce nuclear reactions, radioactivity, and nuclear energy.",
+    "objectives": [
+      "Describe types of radioactive decay",
+      "Explain fission and fusion",
+      "Evaluate nuclear energy's role in the future"
+    ],
+    "lessons": [
+      {
+        "title": "Radioactive Decay",
+        "content": "Unstable nuclei release radiation to become more stable.",
+        "examples": [
+          "Alpha decay: releases α particle (2p + 2n) — least penetrating",
+          "Beta decay: releases β particle (electron) — from neutron → proton",
+          "Gamma decay: releases high-energy photon — most penetrating"
+        ]
+      },
+      {
+        "title": "Fission and Fusion",
+        "content": "Both nuclear reactions release enormous energy via E = mc².",
+        "examples": [
+          "Fission: heavy nucleus splits (U-235 + neutron → two smaller nuclei + energy) — used in nuclear power plants and bombs",
+          "Fusion: two light nuclei combine (H + H → He + energy) — powers the sun; experimental fusion reactors (ITER) aim for commercial power by 2040s",
+          "Fusion produces ~4× more energy than fission per kg; no long-lived radioactive waste"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 9,
+    "title": "Biomedical Science",
+    "description": "Explore how biology and medicine intersect through disease, immunity, and modern treatments.",
+    "objectives": [
+      "Describe how the immune system works",
+      "Explain how vaccines work",
+      "Analyze modern medical technologies"
+    ],
+    "lessons": [
+      {
+        "title": "The Immune System",
+        "content": "The immune system defends the body through innate and adaptive immunity.",
+        "examples": [
+          "Innate: skin, fever, inflammation — first line of defense (non-specific)",
+          "Adaptive: B-cells (antibodies) and T-cells (kill infected cells) — specific response, develops memory",
+          "Autoimmune disorders: immune system attacks own cells (lupus, MS, type 1 diabetes)"
+        ]
+      },
+      {
+        "title": "Vaccines and Modern Medicine",
+        "content": "Vaccines train the immune system; modern medicine has revolutionized health.",
+        "examples": [
+          "Vaccines: introduce antigen (weakened pathogen or mRNA) → immune memory formed → fast response if exposed to real pathogen",
+          "mRNA vaccines (COVID-19): instruct cells to make spike protein — new platform for many diseases",
+          "Antibiotics: kill bacteria by disrupting cell walls or protein synthesis; antibiotic resistance is a growing crisis"
+        ]
+      }
+    ]
+  },
+  {
+    "grade": "8",
+    "order": 10,
+    "title": "Physics — Waves and Modern Technology",
+    "description": "Explore wave behavior and how wave physics underpins modern technology.",
+    "objectives": [
+      "Describe wave behaviors: reflection, refraction, diffraction, interference",
+      "Explain how digital technology uses waves",
+      "Connect wave physics to medical and communication technology"
+    ],
+    "lessons": [
+      {
+        "title": "Wave Behaviors",
+        "content": "Waves interact with matter and each other in predictable ways.",
+        "examples": [
+          "Reflection: waves bounce off surfaces (mirrors, echo)",
+          "Refraction: waves bend when entering a new medium (lens, prism)",
+          "Diffraction: waves bend around obstacles (sound around corners)",
+          "Interference: waves add (constructive) or cancel (destructive)"
+        ]
+      },
+      {
+        "title": "Wave Technology",
+        "content": "Wave physics underlies nearly all modern communication and medical technology.",
+        "examples": [
+          "MRI: uses radio waves and magnetic fields to image soft tissue",
+          "Ultrasound: high-frequency sound waves create images of internal organs (pregnancy imaging, heart scans)",
+          "Fiber optics: total internal reflection carries data as light pulses at the speed of light",
+          "Wi-Fi and 5G: radio waves carry digital data; different frequencies for different uses"
+        ]
+      }
+    ]
+  }
+]
