@@ -230,8 +230,8 @@ export function TutorAI() {
   const quickActions = isEs ? QUICK_ACTIONS_ES : QUICK_ACTIONS_EN;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between flex-wrap gap-2">
+    <div className="h-[calc(100vh-9rem)] flex flex-col gap-3">
+      <div className="flex items-center justify-between flex-wrap gap-2 flex-shrink-0">
         <div>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-indigo-500" />
@@ -252,12 +252,12 @@ export function TutorAI() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-        <Card className="lg:col-span-3 p-3 h-fit lg:sticky lg:top-4">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400 px-2 mb-2">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-0">
+        <Card className="lg:col-span-3 p-3 h-full flex flex-col overflow-hidden">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400 px-2 mb-2 flex-shrink-0">
             {isEs ? 'Tus tutores' : 'Your tutors'}
           </h2>
-          <ul className="space-y-1">
+          <ul className="space-y-1 flex-1 overflow-y-auto pr-1 -mr-1">
             {TUTORS.map((tt) => {
               const isActive = tt.id === tutorId;
               return (
@@ -294,7 +294,7 @@ export function TutorAI() {
             })}
           </ul>
 
-          <div className="mt-4 px-2.5 py-3 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white">
+          <div className="mt-3 px-2.5 py-3 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white flex-shrink-0">
             <p className="text-xs uppercase tracking-wider opacity-80">Practice Arena</p>
             <p className="text-sm font-semibold mt-1 leading-snug">
               {isEs
@@ -312,7 +312,7 @@ export function TutorAI() {
           </div>
         </Card>
 
-        <Card className="lg:col-span-6 flex flex-col overflow-hidden min-h-[640px]">
+        <Card className="lg:col-span-6 flex flex-col overflow-hidden h-full min-h-0">
           <div
             className={`relative px-5 py-4 text-white bg-gradient-to-r ${tutor.gradient}`}
           >
@@ -399,8 +399,8 @@ export function TutorAI() {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t bg-white px-4 py-3 space-y-3">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          <div className="border-t bg-white px-4 py-3 space-y-3 flex-shrink-0">
+            <div className="flex flex-wrap items-center gap-2">
               {quickActions.map((qa) => (
                 <button
                   key={qa.label}
@@ -452,7 +452,7 @@ export function TutorAI() {
           </div>
         </Card>
 
-        <div className="lg:col-span-3 space-y-4">
+        <div className="lg:col-span-3 flex flex-col gap-3 h-full min-h-0">
           <Card className="p-4">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               {isEs ? 'Estás estudiando' : 'You are studying'}
@@ -478,7 +478,7 @@ export function TutorAI() {
             </div>
           </Card>
 
-          <Card className="p-4">
+          <Card className="p-4 flex-shrink-0">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
               {isEs ? 'Temas para reforzar' : 'Topics to review'}
             </p>
@@ -499,11 +499,11 @@ export function TutorAI() {
             </ul>
           </Card>
 
-          <Card className="p-4">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
+          <Card className="p-4 flex-1 flex flex-col min-h-0">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex-shrink-0">
               {isEs ? 'Sugerencias' : 'Suggestions'}
             </p>
-            <div className="space-y-2">
+            <div className="space-y-2 flex-1 overflow-y-auto pr-1 -mr-1">
               {(isEs
                 ? [
                     'Practicá 5 minutos de fracciones',
@@ -528,7 +528,7 @@ export function TutorAI() {
             </div>
           </Card>
 
-          <Card className="p-4 border-2 border-dashed border-indigo-200 bg-indigo-50/40">
+          <Card className="p-4 border-2 border-dashed border-indigo-200 bg-indigo-50/40 flex-shrink-0">
             <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600 flex items-center gap-1">
               <GraduationCap className="h-3.5 w-3.5" />
               {isEs ? 'Próximo paso' : 'Next step'}
