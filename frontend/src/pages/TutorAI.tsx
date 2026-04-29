@@ -30,6 +30,7 @@ interface Tutor {
   id: TutorId;
   name: string;
   subject: string;
+  subjectEs: string;
   emoji: string;
   Icon: typeof Calculator;
   gradient: string;
@@ -41,6 +42,12 @@ interface Tutor {
   greetingEn: string;
   socraticEs: string;
   socraticEn: string;
+  currentLessonEs: string;
+  currentLessonEn: string;
+  topicsEs: string[];
+  topicsEn: string[];
+  suggestionsEs: string[];
+  suggestionsEn: string[];
 }
 
 const TUTORS: Tutor[] = [
@@ -48,6 +55,7 @@ const TUTORS: Tutor[] = [
     id: 'maya',
     name: 'Maya',
     subject: 'Math',
+    subjectEs: 'Matemáticas',
     emoji: '🧮',
     Icon: Calculator,
     gradient: 'from-indigo-500 via-violet-500 to-fuchsia-500',
@@ -63,11 +71,34 @@ const TUTORS: Tutor[] = [
       'Antes de darte la respuesta: ¿qué pasa si multiplicás el numerador y el denominador por el mismo número distinto de cero?',
     socraticEn:
       "Before I give you the answer: what happens if you multiply the numerator and the denominator by the same nonzero number?",
+    currentLessonEs: 'Lección 3 · Fracciones equivalentes',
+    currentLessonEn: 'Lesson 3 · Equivalent fractions',
+    topicsEs: [
+      'Fracciones equivalentes',
+      'Mínimo común múltiplo',
+      'Decimales y porcentaje',
+    ],
+    topicsEn: [
+      'Equivalent fractions',
+      'Least common multiple',
+      'Decimals & percent',
+    ],
+    suggestionsEs: [
+      'Practicá 5 minutos de fracciones',
+      'Revisá la lección 2 antes del quiz',
+      'Pedile a Maya un ejemplo cotidiano',
+    ],
+    suggestionsEn: [
+      'Practice fractions for 5 min',
+      'Revisit lesson 2 before the quiz',
+      'Ask Maya for a real-world example',
+    ],
   },
   {
     id: 'sam',
     name: 'Sam',
     subject: 'Science',
+    subjectEs: 'Ciencias',
     emoji: '🔬',
     Icon: FlaskConical,
     gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
@@ -83,11 +114,34 @@ const TUTORS: Tutor[] = [
       '¿Qué creés que pasa con las moléculas de agua cuando reciben energía del sol?',
     socraticEn:
       'What do you think happens to water molecules when they receive energy from the sun?',
+    currentLessonEs: 'Lección 2 · Ciclo del agua',
+    currentLessonEn: 'Lesson 2 · The water cycle',
+    topicsEs: [
+      'Evaporación y condensación',
+      'Estados de la materia',
+      'Fotosíntesis básica',
+    ],
+    topicsEn: [
+      'Evaporation & condensation',
+      'States of matter',
+      'Basic photosynthesis',
+    ],
+    suggestionsEs: [
+      'Hacé un experimento simple con hielo',
+      'Mirá un video de 3 minutos del ciclo',
+      'Pedile a Sam una hipótesis para probar',
+    ],
+    suggestionsEn: [
+      'Try a simple ice experiment',
+      'Watch a 3-min water-cycle video',
+      'Ask Sam for a hypothesis to test',
+    ],
   },
   {
     id: 'hugo',
     name: 'Hugo',
     subject: 'History',
+    subjectEs: 'Historia',
     emoji: '📜',
     Icon: Landmark,
     gradient: 'from-amber-500 via-orange-500 to-rose-500',
@@ -103,11 +157,34 @@ const TUTORS: Tutor[] = [
       '¿Qué características compartirían dos civilizaciones que se establecen cerca de grandes ríos?',
     socraticEn:
       'What traits might two civilizations share if they both settled near major rivers?',
+    currentLessonEs: 'Lección 4 · Civilizaciones mesopotámicas',
+    currentLessonEn: 'Lesson 4 · Mesopotamian civilizations',
+    topicsEs: [
+      'Sumeria y la escritura cuneiforme',
+      'El Código de Hammurabi',
+      'Causas de la caída de imperios',
+    ],
+    topicsEn: [
+      'Sumer & cuneiform writing',
+      "Hammurabi's Code",
+      'Why empires fall',
+    ],
+    suggestionsEs: [
+      'Hacé una línea de tiempo de 5 hitos',
+      'Compará Mesopotamia con Egipto',
+      'Pedile a Hugo una historia corta',
+    ],
+    suggestionsEn: [
+      'Build a 5-event timeline',
+      'Compare Mesopotamia with Egypt',
+      'Ask Hugo for a short story',
+    ],
   },
   {
     id: 'emma',
     name: 'Emma',
     subject: 'English Language Arts',
+    subjectEs: 'Lengua y Literatura',
     emoji: '📚',
     Icon: BookOpen,
     gradient: 'from-pink-500 via-rose-500 to-red-500',
@@ -123,11 +200,34 @@ const TUTORS: Tutor[] = [
       'Cuando Jonas habla con The Giver, ¿qué emoción detectás en él que antes no aparecía?',
     socraticEn:
       "When Jonas talks to The Giver, what emotion do you sense in him that wasn't there before?",
+    currentLessonEs: 'Lección 5 · The Giver, capítulo 4',
+    currentLessonEn: 'Lesson 5 · The Giver, chapter 4',
+    topicsEs: [
+      'Tema central y simbolismo',
+      'Estructura del párrafo',
+      'Vocabulario académico',
+    ],
+    topicsEn: [
+      'Theme & symbolism',
+      'Paragraph structure',
+      'Academic vocabulary',
+    ],
+    suggestionsEs: [
+      'Escribí un párrafo sobre el capítulo',
+      'Identificá 3 palabras nuevas',
+      'Pedile a Emma una pregunta de comprensión',
+    ],
+    suggestionsEn: [
+      'Write a paragraph about the chapter',
+      'Spot 3 new vocabulary words',
+      'Ask Emma a comprehension question',
+    ],
   },
   {
     id: 'gabi',
     name: 'Gabi',
     subject: 'Geography',
+    subjectEs: 'Geografía',
     emoji: '🌍',
     Icon: Globe,
     gradient: 'from-sky-500 via-cyan-500 to-teal-500',
@@ -143,6 +243,28 @@ const TUTORS: Tutor[] = [
       '¿Por qué creés que el clima cambia tanto entre la costa y la cordillera de los Andes?',
     socraticEn:
       'Why do you think the climate changes so much between the coast and the Andes range?',
+    currentLessonEs: 'Lección 1 · Biomas de Sudamérica',
+    currentLessonEn: 'Lesson 1 · South American biomes',
+    topicsEs: [
+      'Biomas y climas',
+      'Coordenadas y mapas',
+      'Recursos naturales',
+    ],
+    topicsEn: [
+      'Biomes & climates',
+      'Coordinates & maps',
+      'Natural resources',
+    ],
+    suggestionsEs: [
+      'Ubicá 3 biomas en el mapa',
+      'Compará Amazonas vs Pampas',
+      'Pedile a Gabi un dato curioso',
+    ],
+    suggestionsEn: [
+      'Place 3 biomes on the map',
+      'Compare Amazon vs Pampas',
+      'Ask Gabi for a fun fact',
+    ],
   },
 ];
 
@@ -465,10 +587,10 @@ export function TutorAI() {
               </div>
               <div className="min-w-0">
                 <p className="font-semibold text-gray-800 text-sm leading-tight">
-                  {tutor.subject} — Grade 5
+                  {isEs ? tutor.subjectEs : tutor.subject} — Grade 5
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  {isEs ? 'Lección 3 · 24% completado' : 'Lesson 3 · 24% complete'}
+                  {isEs ? tutor.currentLessonEs : tutor.currentLessonEn}
                 </p>
                 <button className="mt-2 inline-flex items-center text-xs text-indigo-600 hover:underline">
                   {isEs ? 'Ir al curso' : 'Open course'}
@@ -483,11 +605,7 @@ export function TutorAI() {
               {isEs ? 'Temas para reforzar' : 'Topics to review'}
             </p>
             <ul className="space-y-2">
-              {[
-                isEs ? 'Fracciones equivalentes' : 'Equivalent fractions',
-                isEs ? 'Mínimo común múltiplo' : 'Least common multiple',
-                isEs ? 'Decimales y porcentaje' : 'Decimals & percent',
-              ].map((topic) => (
+              {(isEs ? tutor.topicsEs : tutor.topicsEn).map((topic) => (
                 <li
                   key={topic}
                   className="flex items-center justify-between gap-2 text-sm text-gray-700 px-2 py-1.5 rounded-lg bg-amber-50 border border-amber-100"
@@ -504,18 +622,7 @@ export function TutorAI() {
               {isEs ? 'Sugerencias' : 'Suggestions'}
             </p>
             <div className="flex-1 flex flex-col justify-between gap-2 overflow-y-auto pr-1 -mr-1 min-h-0">
-              {(isEs
-                ? [
-                    'Practicá 5 minutos de fracciones',
-                    'Revisá la lección 2 antes del quiz',
-                    'Pedile a Maya un ejemplo cotidiano',
-                  ]
-                : [
-                    'Practice fractions for 5 min',
-                    'Revisit lesson 2 before the quiz',
-                    'Ask Maya for a real-world example',
-                  ]
-              ).map((s) => (
+              {(isEs ? tutor.suggestionsEs : tutor.suggestionsEn).map((s) => (
                 <button
                   key={s}
                   onClick={() => send(s)}
