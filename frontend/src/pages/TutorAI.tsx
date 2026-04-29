@@ -230,7 +230,7 @@ export function TutorAI() {
   const quickActions = isEs ? QUICK_ACTIONS_ES : QUICK_ACTIONS_EN;
 
   return (
-    <div className="h-[calc(100vh-9rem)] flex flex-col gap-3">
+    <div className="h-full flex flex-col gap-3">
       <div className="flex items-center justify-between flex-wrap gap-2 flex-shrink-0">
         <div>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
