@@ -655,9 +655,9 @@ export function TutorAI() {
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="w-full text-left text-sm text-gray-700 px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-700 transition"
+                  className="w-full text-left text-xs text-gray-700 leading-snug py-1.5 rounded-md hover:text-indigo-700 transition break-words"
                 >
-                  <span className="truncate">{s}</span>
+                  <span>{s}</span>
                 </button>
               ))}
             </div>
