@@ -1,19 +1,224 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { api } from '../api';
 import { StudentProgress, ChildProgress } from '../types';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { Card } from '@/components/ui/card';
+import { Progress as ProgressBar } from '@/components/ui/progress';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { 
-  CheckCircle, Award, TrendingUp, BarChart3, Target
+import {
+  BarChart3,
+  Calculator,
+  FlaskConical,
+  Landmark,
+  BookOpen,
+  Globe,
+  Lightbulb,
+  GraduationCap,
+  Clock,
+  CheckSquare,
+  Flame,
+  ChevronRight,
+  Check,
 } from 'lucide-react';
-import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+} from 'recharts';
+
+type SubjectKey = 'math' | 'ela' | 'science' | 'history' | 'geography' | 'other';
+
+interface SubjectMeta {
+  key: SubjectKey;
+  Icon: typeof Calculator;
+  gradient: string;
+  chartColor: string;
+}
+
+const SUBJECTS: Record<SubjectKey, SubjectMeta> = {
+  math: {
+    key: 'math',
+    Icon: Calculator,
+    gradient: 'from-indigo-500 via-violet-500 to-fuchsia-500',
+    chartColor: '#8b5cf6',
+  },
+  ela: {
+    key: 'ela',
+    Icon: BookOpen,
+    gradient: 'from-sky-500 via-blue-500 to-indigo-500',
+    chartColor: '#3b82f6',
+  },
+  science: {
+    key: 'science',
+    Icon: FlaskConical,
+    gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
+    chartColor: '#14b8a6',
+  },
+  history: {
+    key: 'history',
+    Icon: Landmark,
+    gradient: 'from-amber-500 via-orange-500 to-rose-500',
+    chartColor: '#f59e0b',
+  },
+  geography: {
+    key: 'geography',
+    Icon: Globe,
+    gradient: 'from-cyan-500 via-sky-500 to-blue-500',
+    chartColor: '#06b6d4',
+  },
+  other: {
+    key: 'other',
+    Icon: Lightbulb,
+    gradient: 'from-purple-500 via-violet-500 to-indigo-500',
+    chartColor: '#a855f7',
+  },
+};
+
+function detectSubject(title: string): SubjectKey {
+  const lower = title.toLowerCase();
+  if (lower.startsWith('math') || lower.includes('matemat')) return 'math';
+  if (
+    lower.startsWith('ela') ||
+    lower.includes('english') ||
+    lower.includes('language arts') ||
+    lower.includes('lengua')
+  )
+    return 'ela';
+  if (lower.startsWith('science') || lower.includes('cienc')) return 'science';
+  if (lower.startsWith('history') || lower.includes('histor')) return 'history';
+  if (
+    lower.startsWith('geography') ||
+    lower.includes('geograf')
+  )
+    return 'geography';
+  return 'other';
+}
+
+function subjectLabel(
+  key: SubjectKey,
+  t: { progress: { [k: string]: string } }
+) {
+  switch (key) {
+    case 'math':
+      return t.progress.subjectMath;
+    case 'ela':
+      return t.progress.subjectEla;
+    case 'science':
+      return t.progress.subjectScience;
+    case 'history':
+      return t.progress.subjectHistory;
+    case 'geography':
+      return t.progress.subjectGeography;
+    default:
+      return t.progress.subjectOther;
+  }
+}
+
+const DAY_LETTERS = ['M', 'T', 'W', 'T', 'F'];
+
+function todayWeekdayIdx(): number {
+  const d = new Date().getDay(); // 0=Sun..6=Sat
+  if (d >= 1 && d <= 5) return d - 1;
+  return -1;
+}
+
+interface CourseCardProps {
+  p: StudentProgress;
+  isEs: boolean;
+  t: { progress: { [k: string]: string } };
+}
+
+function CourseCard({ p, t }: CourseCardProps) {
+  const subjectKey = detectSubject(p.course_title);
+  const subject = SUBJECTS[subjectKey];
+  const SubjectIcon = subject.Icon;
+  const pct = p.total_lessons > 0 ? Math.round((p.completed_lessons / p.total_lessons) * 100) : 0;
+  const score = p.average_quiz_score !== null ? Math.round(p.average_quiz_score) : 0;
+  const inSuccessZone = score >= 80;
+  const goalStreak = 0;
+  const today = todayWeekdayIdx();
+  const activeDays: boolean[] = [false, false, false, false, false];
+
+  return (
+    <div
+      className={`relative rounded-2xl bg-gradient-to-br ${subject.gradient} text-white p-5 shadow-md overflow-hidden`}
+    >
+      <ChevronRight className="h-5 w-5 absolute top-4 right-4 opacity-90" />
+
+      <div className="flex items-start gap-3">
+        <div className="h-14 w-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+          <SubjectIcon className="h-7 w-7" />
+        </div>
+        <div className="min-w-0 flex-1 pr-6">
+          <p className="text-[10px] font-bold tracking-[0.18em] opacity-90">
+            {subjectLabel(subjectKey, t)}
+          </p>
+          <p className="text-base font-semibold truncate mt-0.5">{p.course_title}</p>
+
+          <div className="flex items-center gap-1.5 mt-2">
+            {DAY_LETTERS.map((d, i) => {
+              const isToday = i === today;
+              const done = activeDays[i];
+              return (
+                <span
+                  key={i}
+                  className={`h-4 w-4 rounded-full flex items-center justify-center text-[9px] font-bold ${
+                    done
+                      ? 'bg-white text-gray-700'
+                      : isToday
+                      ? 'bg-white/90 text-gray-700'
+                      : 'bg-white/25 text-white/85'
+                  }`}
+                >
+                  {done ? <Check className="h-2.5 w-2.5" strokeWidth={3} /> : d}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-4 h-1.5 rounded-full bg-white/25 overflow-hidden">
+        <div className="h-full bg-white rounded-full transition-all" style={{ width: `${pct}%` }} />
+      </div>
+
+      <div className="mt-4 grid grid-cols-3 gap-2 items-center">
+        <div>
+          <p className="text-2xl font-bold leading-none">{pct}%</p>
+          <p className="text-[10px] opacity-90 mt-1.5">{t.progress.overallScore}</p>
+        </div>
+        <div className="flex justify-center">
+          <div
+            className={`h-14 w-14 rounded-full border-[3px] ${
+              inSuccessZone ? 'border-white' : 'border-white/40'
+            } flex items-center justify-center text-center leading-tight`}
+          >
+            <span className="text-[10px] font-semibold whitespace-pre-line">
+              {t.progress.successZone.replace(' ', '\n')}
+            </span>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-base font-bold flex items-center justify-end gap-1 leading-none">
+            <Flame className="h-4 w-4" />
+            {goalStreak > 0 ? `${goalStreak}-${t.progress.days}` : '—'}
+          </p>
+          <p className="text-[10px] opacity-90 mt-1.5">{t.progress.goalStreak}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function ProgressPage() {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isEs = language === 'es';
   const [progress, setProgress] = useState<StudentProgress[]>([]);
   const [childrenProgress, setChildrenProgress] = useState<ChildProgress[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,12 +252,34 @@ export function ProgressPage() {
   };
 
   const calculateAverageScore = (progressList: StudentProgress[]) => {
-    const scores = progressList.filter(p => p.average_quiz_score !== null).map(p => p.average_quiz_score!);
+    const scores = progressList.filter((p) => p.average_quiz_score !== null).map((p) => p.average_quiz_score!);
     if (scores.length === 0) return null;
     return scores.reduce((sum, s) => sum + s, 0) / scores.length;
   };
 
-  const COLORS = ['#14b8a6', '#f59e0b', '#ef4444', '#8b5cf6', '#3b82f6'];
+  const weeklyChartData = useMemo(() => {
+    const buckets: Record<SubjectKey, number> = {
+      math: 0,
+      ela: 0,
+      science: 0,
+      history: 0,
+      geography: 0,
+      other: 0,
+    };
+    progress.forEach((p) => {
+      const k = detectSubject(p.course_title);
+      buckets[k] += 0;
+    });
+    return (Object.keys(buckets) as SubjectKey[])
+      .filter((k) => progress.some((p) => detectSubject(p.course_title) === k))
+      .map((k) => ({
+        name: subjectLabel(k, t)
+          .toLowerCase()
+          .replace(/^./, (c) => c.toUpperCase()),
+        value: buckets[k],
+        color: SUBJECTS[k].chartColor,
+      }));
+  }, [progress, t]);
 
   if (loading) {
     return (
@@ -62,239 +289,202 @@ export function ProgressPage() {
     );
   }
 
-  // Student View
   if (user?.role === 'student') {
-    const overallProgress = calculateOverallProgress(progress);
-    const averageScore = calculateAverageScore(progress);
-    const totalCompleted = progress.reduce((sum, p) => sum + p.completed_lessons, 0);
-    const totalLessons = progress.reduce((sum, p) => sum + p.total_lessons, 0);
-    const totalEvaluations = progress.reduce((sum, p) => sum + p.evaluations_completed, 0);
-
-    const pieData = progress.map(p => ({
-      name: p.course_title,
-      value: p.completed_lessons
-    }));
+    const gpa = (() => {
+      const avg = calculateAverageScore(progress);
+      if (avg === null) return 0;
+      return Math.max(0, Math.min(4, (avg / 100) * 4));
+    })();
+    const timeSpentHours = 0;
+    const workCompletedToday = 0;
 
     return (
       <div className="space-y-6">
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-800">{t.progress.myProgress}</h1>
-                  <p className="text-gray-500">{t.progress.subtitle}</p>
-                </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="bg-gradient-to-br from-teal-500 to-teal-600 text-white">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-teal-100 text-sm">{t.progress.overallProgress}</p>
-                  <p className="text-3xl font-bold">{overallProgress.toFixed(0)}%</p>
-                </div>
-                <TrendingUp className="h-10 w-10 text-teal-200" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm">{t.progress.completedLessons}</p>
-                  <p className="text-2xl font-bold">{totalCompleted}/{totalLessons}</p>
-                </div>
-                <CheckCircle className="h-8 w-8 text-green-500" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm">{t.progress.quizAverage}</p>
-                  <p className="text-2xl font-bold">
-                    {averageScore !== null ? `${averageScore.toFixed(0)}%` : 'N/A'}
-                  </p>
-                </div>
-                <Award className="h-8 w-8 text-amber-500" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-gray-500 text-sm">{t.progress.evaluations}</p>
-                  <p className="text-2xl font-bold">{totalEvaluations}</p>
-                </div>
-                <Target className="h-8 w-8 text-blue-500" />
-              </div>
-            </CardContent>
-          </Card>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">{t.progress.myProgress}</h1>
+          <p className="text-gray-500">{t.progress.subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Progress by Course */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t.progress.progressByCourse}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {progress.map((p, index) => (
-                <div key={p.course_id} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="w-3 h-3 rounded-full" 
-                        style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                      />
-                      <span className="font-medium">{p.course_title}</span>
-                    </div>
-                    <span className="text-sm text-gray-500">
-                      {p.completed_lessons}/{p.total_lessons}
-                    </span>
-                  </div>
-                  <Progress 
-                    value={p.total_lessons > 0 ? (p.completed_lessons / p.total_lessons) * 100 : 0}
-                    className="h-2"
-                  />
-                  <div className="flex justify-between text-xs text-gray-500">
-                                        <span>
-                                          {p.average_quiz_score !== null 
-                                            ? `Quiz: ${p.average_quiz_score.toFixed(0)}%` 
-                                            : t.progress.noQuizzes}
-                                        </span>
-                                        <span>
-                                          {t.progress.evaluations}: {p.evaluations_completed}/{p.total_evaluations}
-                                        </span>
-                  </div>
-                </div>
+        {progress.length === 0 ? (
+          <Card className="p-12 text-center">
+            <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <p className="text-gray-500">{t.progress.notEnrolled}</p>
+          </Card>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {progress.map((p) => (
+                <CourseCard key={p.course_id} p={p} isEs={isEs} t={t} />
               ))}
-                            {progress.length === 0 && (
-                              <p className="text-center text-gray-500 py-4">
-                                {t.progress.notEnrolled}
-                              </p>
-                            )}
-            </CardContent>
-          </Card>
+            </div>
 
-          {/* Distribution Chart */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">{t.progress.lessonDistribution}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {pieData.length > 0 ? (
-                <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        paddingAngle={5}
-                        dataKey="value"
-                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                      >
-                        {pieData.map((_, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="space-y-3">
+                <Card className="p-4 flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-500">{t.progress.gradePointAverage}</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none mt-1">
+                      {gpa.toFixed(2)}
+                    </p>
+                  </div>
+                </Card>
+                <Card className="p-4 flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                    <Clock className="h-6 w-6 text-amber-500" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-500">{t.progress.timeSpentThisWeek}</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none mt-1">
+                      {timeSpentHours} {t.progress.hours}
+                    </p>
+                  </div>
+                </Card>
+                <Card className="p-4 flex items-center gap-3">
+                  <div className="h-12 w-12 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                    <CheckSquare className="h-6 w-6 text-emerald-500" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-500">{t.progress.workCompletedToday}</p>
+                    <p className="text-2xl font-bold text-gray-800 leading-none mt-1">
+                      {workCompletedToday} {t.progress.steps}
+                    </p>
+                  </div>
+                </Card>
+              </div>
+
+              <Card className="p-5 lg:col-span-2">
+                <h3 className="font-semibold text-gray-800 mb-3">
+                  {t.progress.workCompletedThisWeek}
+                </h3>
+                <div className="h-56">
+                  {weeklyChartData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={weeklyChartData}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                        <XAxis
+                          dataKey="name"
+                          tick={{ fontSize: 11, fill: '#6b7280' }}
+                          axisLine={false}
+                          tickLine={false}
+                        />
+                        <YAxis
+                          tick={{ fontSize: 11, fill: '#6b7280' }}
+                          axisLine={false}
+                          tickLine={false}
+                          domain={[0, 50]}
+                        />
+                        <Tooltip
+                          cursor={{ fill: 'rgba(0,0,0,0.04)' }}
+                          contentStyle={{
+                            borderRadius: 8,
+                            border: '1px solid #e5e7eb',
+                            fontSize: 12,
+                          }}
+                        />
+                        <Bar dataKey="value" radius={[6, 6, 0, 0]} fill="#a5b4fc" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-full flex items-center justify-center text-sm text-gray-400">
+                      {t.progress.noData}
+                    </div>
+                  )}
                 </div>
-              ) : (
-                                <p className="text-center text-gray-500 py-12">
-                                  {t.progress.noData}
-                                </p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+              </Card>
+            </div>
+          </>
+        )}
       </div>
     );
   }
 
-  // Parent View
   if (user?.role === 'parent') {
     return (
       <div className="space-y-6">
-                <div>
-                  <h1 className="text-2xl font-bold text-gray-800">{t.progress.childrenProgress}</h1>
-                  <p className="text-gray-500">{t.progress.childrenSubtitle}</p>
-                </div>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">{t.progress.childrenProgress}</h1>
+          <p className="text-gray-500">{t.progress.childrenSubtitle}</p>
+        </div>
 
         {childrenProgress.map((child) => {
           const childOverall = calculateOverallProgress(child.courses);
           const childAverage = calculateAverageScore(child.courses);
 
           return (
-            <Card key={child.student.id}>
-              <CardHeader>
-                <div className="flex items-center gap-4">
-                  <Avatar className="h-12 w-12">
-                    <AvatarFallback className="bg-teal-100 text-teal-600 text-lg">
-                      {child.student.name.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <CardTitle>{child.student.name}</CardTitle>
-                    <p className="text-sm text-gray-500">{child.student.email}</p>
-                  </div>
+            <Card key={child.student.id} className="p-5">
+              <div className="flex items-center gap-4 mb-4">
+                <Avatar className="h-12 w-12">
+                  <AvatarFallback className="bg-teal-100 text-teal-600 text-lg">
+                    {child.student.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-semibold text-gray-800">{child.student.name}</p>
+                  <p className="text-sm text-gray-500">{child.student.email}</p>
                 </div>
-              </CardHeader>
-              <CardContent>
-                {/* Child Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  <div className="text-center p-3 bg-teal-50 rounded-lg">
-                    <p className="text-2xl font-bold text-teal-600">{childOverall.toFixed(0)}%</p>
-                                      <p className="text-xs text-gray-500">{t.progress.overallProgress}</p>
-                                    </div>
-                                    <div className="text-center p-3 bg-amber-50 rounded-lg">
-                                      <p className="text-2xl font-bold text-amber-600">
-                                        {childAverage !== null ? `${childAverage.toFixed(0)}%` : 'N/A'}
-                                      </p>
-                                      <p className="text-xs text-gray-500">{t.progress.quizAverage}</p>
-                                    </div>
-                                    <div className="text-center p-3 bg-blue-50 rounded-lg">
-                                      <p className="text-2xl font-bold text-blue-600">{child.courses.length}</p>
-                                      <p className="text-xs text-gray-500">{t.progress.enrolledCourses}</p>
-                  </div>
-                </div>
+              </div>
 
-                {/* Course Progress */}
+              <div className="grid grid-cols-3 gap-3 mb-5">
+                <div className="text-center p-3 bg-teal-50 rounded-lg">
+                  <p className="text-2xl font-bold text-teal-600">{childOverall.toFixed(0)}%</p>
+                  <p className="text-xs text-gray-500">{t.progress.overallProgress}</p>
+                </div>
+                <div className="text-center p-3 bg-amber-50 rounded-lg">
+                  <p className="text-2xl font-bold text-amber-600">
+                    {childAverage !== null ? `${childAverage.toFixed(0)}%` : 'N/A'}
+                  </p>
+                  <p className="text-xs text-gray-500">{t.progress.quizAverage}</p>
+                </div>
+                <div className="text-center p-3 bg-blue-50 rounded-lg">
+                  <p className="text-2xl font-bold text-blue-600">{child.courses.length}</p>
+                  <p className="text-xs text-gray-500">{t.progress.enrolledCourses}</p>
+                </div>
+              </div>
+
+              {child.courses.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {child.courses.map((course) => (
+                    <CourseCard key={course.course_id} p={course} isEs={isEs} t={t} />
+                  ))}
+                </div>
+              ) : (
                 <div className="space-y-3">
                   {child.courses.map((course) => (
                     <div key={course.course_id} className="space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-medium">{course.course_title}</span>
-                                                <span className="text-xs text-gray-500">
-                                                  {course.completed_lessons}/{course.total_lessons} {t.progress.lessons}
-                                                </span>
+                        <span className="text-xs text-gray-500">
+                          {course.completed_lessons}/{course.total_lessons} {t.progress.lessons}
+                        </span>
                       </div>
-                      <Progress 
-                        value={course.total_lessons > 0 ? (course.completed_lessons / course.total_lessons) * 100 : 0}
+                      <ProgressBar
+                        value={
+                          course.total_lessons > 0
+                            ? (course.completed_lessons / course.total_lessons) * 100
+                            : 0
+                        }
                         className="h-1.5"
                       />
                     </div>
                   ))}
                 </div>
-              </CardContent>
+              )}
             </Card>
           );
         })}
 
-                {childrenProgress.length === 0 && (
-                  <Card className="p-12 text-center">
-                    <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-600 mb-2">{t.progress.noChildrenLinked}</h3>
-                    <p className="text-gray-500">
-                      {t.progress.contactAdmin}
-                    </p>
-                  </Card>
-                )}
+        {childrenProgress.length === 0 && (
+          <Card className="p-12 text-center">
+            <BarChart3 className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-600 mb-2">
+              {t.progress.noChildrenLinked}
+            </h3>
+            <p className="text-gray-500">{t.progress.contactAdmin}</p>
+          </Card>
+        )}
       </div>
     );
   }
