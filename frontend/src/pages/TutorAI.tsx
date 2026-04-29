@@ -16,7 +16,6 @@ import {
   Wand2,
   Plus,
   ChevronRight,
-  MessageCircle,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -64,11 +63,11 @@ const TUTORS: Tutor[] = [
     taglineEs: 'Tu maestra de números, paciente y curiosa',
     taglineEn: 'Your patient, curious math mentor',
     greetingEs:
-      '¡Hola! Soy Maya. Estás en Math — Grade 5, Lección 3 (fracciones equivalentes). ¿Querés que te lo explique paso a paso o probamos modo Sócrates y vamos resolviendo con pistas?',
+      '¡Hola! Soy Maya. Estás en Math — Grado 5, Lección 3 (fracciones equivalentes). ¿Quieres que te lo explique paso a paso o probamos modo Sócrates y vamos resolviendo con pistas?',
     greetingEn:
       "Hi! I'm Maya. You're on Math — Grade 5, Lesson 3 (equivalent fractions). Want me to walk you through it or try Socratic mode with hints?",
     socraticEs:
-      'Antes de darte la respuesta: ¿qué pasa si multiplicás el numerador y el denominador por el mismo número distinto de cero?',
+      'Antes de darte la respuesta: ¿qué pasa si multiplicas el numerador y el denominador por el mismo número distinto de cero?',
     socraticEn:
       "Before I give you the answer: what happens if you multiply the numerator and the denominator by the same nonzero number?",
     currentLessonEs: 'Lección 3 · Fracciones equivalentes',
@@ -84,14 +83,20 @@ const TUTORS: Tutor[] = [
       'Decimals & percent',
     ],
     suggestionsEs: [
-      'Practicá 5 minutos de fracciones',
-      'Revisá la lección 2 antes del quiz',
-      'Pedile a Maya un ejemplo cotidiano',
+      'Practica 5 minutos de fracciones',
+      'Revisa la lección 2 antes del quiz',
+      'Pídele a Maya un ejemplo cotidiano',
+      'Resuelve 3 problemas de mínimo común múltiplo',
+      'Convierte una fracción a decimal y porcentaje',
+      'Pídele a Maya que te dé una pista (modo Sócrates)',
     ],
     suggestionsEn: [
-      'Practice fractions for 5 min',
-      'Revisit lesson 2 before the quiz',
+      'Practice fractions for 5 minutes',
+      'Review lesson 2 before the quiz',
       'Ask Maya for a real-world example',
+      'Solve 3 LCM problems',
+      'Convert a fraction to decimal and percent',
+      'Ask Maya for a Socratic hint',
     ],
   },
   {
@@ -107,11 +112,11 @@ const TUTORS: Tutor[] = [
     taglineEs: 'Experimentos, hipótesis y mucha curiosidad',
     taglineEn: 'Experiments, hypotheses, and plenty of curiosity',
     greetingEs:
-      '¡Qué tal! Soy Sam. Estamos en Science — Grade 6, ciclo del agua. ¿Te explico el proceso de evaporación o querés que armemos un mini experimento mental?',
+      '¡Hola! Soy Sam. Estamos en Science — Grado 6, ciclo del agua. ¿Te explico el proceso de evaporación o quieres que armemos un mini experimento mental?',
     greetingEn:
       "Hey! I'm Sam. We're on Science — Grade 6, the water cycle. Want me to explain evaporation or build a quick thought experiment?",
     socraticEs:
-      '¿Qué creés que pasa con las moléculas de agua cuando reciben energía del sol?',
+      '¿Qué crees que pasa con las moléculas de agua cuando reciben energía del sol?',
     socraticEn:
       'What do you think happens to water molecules when they receive energy from the sun?',
     currentLessonEs: 'Lección 2 · Ciclo del agua',
@@ -127,14 +132,20 @@ const TUTORS: Tutor[] = [
       'Basic photosynthesis',
     ],
     suggestionsEs: [
-      'Hacé un experimento simple con hielo',
-      'Mirá un video de 3 minutos del ciclo',
-      'Pedile a Sam una hipótesis para probar',
+      'Haz un experimento simple con hielo',
+      'Mira un video de 3 minutos del ciclo del agua',
+      'Pídele a Sam una hipótesis para probar',
+      'Dibuja el ciclo del agua y rotula cada paso',
+      'Compara evaporación y condensación con un ejemplo',
+      'Pídele a Sam un dato curioso de ciencia',
     ],
     suggestionsEn: [
       'Try a simple ice experiment',
-      'Watch a 3-min water-cycle video',
+      'Watch a 3-minute water cycle video',
       'Ask Sam for a hypothesis to test',
+      'Draw the water cycle and label each step',
+      'Compare evaporation and condensation with an example',
+      'Ask Sam for a fun science fact',
     ],
   },
   {
@@ -147,7 +158,7 @@ const TUTORS: Tutor[] = [
     gradient: 'from-amber-500 via-orange-500 to-rose-500',
     ring: 'ring-amber-300',
     bubble: 'bg-amber-50 text-amber-900 border-amber-100',
-    taglineEs: 'Cuentacuentos del pasado, pregunto causas y consecuencias',
+    taglineEs: 'Cuentacuentos del pasado, pregunta causas y consecuencias',
     taglineEn: 'Storyteller of the past — I dig into causes and effects',
     greetingEs:
       '¡Saludos! Soy Hugo. Hoy: civilizaciones mesopotámicas. ¿Te interesa más cómo vivían, qué inventaron, o por qué cayeron?',
@@ -170,14 +181,20 @@ const TUTORS: Tutor[] = [
       'Why empires fall',
     ],
     suggestionsEs: [
-      'Hacé una línea de tiempo de 5 hitos',
-      'Compará Mesopotamia con Egipto',
-      'Pedile a Hugo una historia corta',
+      'Haz una línea de tiempo con 5 hitos',
+      'Compara Mesopotamia con Egipto',
+      'Pídele a Hugo una historia corta',
+      'Explica el Código de Hammurabi en 3 frases',
+      'Lista 3 inventos sumerios y para qué servían',
+      'Pídele a Hugo causas y consecuencias de un imperio',
     ],
     suggestionsEn: [
       'Build a 5-event timeline',
       'Compare Mesopotamia with Egypt',
       'Ask Hugo for a short story',
+      "Explain Hammurabi's Code in 3 sentences",
+      'List 3 Sumerian inventions and their uses',
+      'Ask Hugo for causes and effects of an empire',
     ],
   },
   {
@@ -193,11 +210,11 @@ const TUTORS: Tutor[] = [
     taglineEs: 'Lectura, escritura y el placer de las palabras',
     taglineEn: 'Reading, writing, and the joy of words',
     greetingEs:
-      '¡Hola! Soy Emma. Acabás de leer "The Giver" cap. 4. ¿Querés que repasemos el tema central, los personajes, o practicamos un párrafo de respuesta?',
+      '¡Hola! Soy Emma. Acabas de leer "The Giver" cap. 4. ¿Quieres que repasemos el tema central, los personajes, o practicamos un párrafo de respuesta?',
     greetingEn:
       "Hi! I'm Emma. You just read 'The Giver' ch. 4. Want to review the theme, characters, or practice a response paragraph?",
     socraticEs:
-      'Cuando Jonas habla con The Giver, ¿qué emoción detectás en él que antes no aparecía?',
+      'Cuando Jonas habla con The Giver, ¿qué emoción detectas en él que antes no aparecía?',
     socraticEn:
       "When Jonas talks to The Giver, what emotion do you sense in him that wasn't there before?",
     currentLessonEs: 'Lección 5 · The Giver, capítulo 4',
@@ -213,14 +230,20 @@ const TUTORS: Tutor[] = [
       'Academic vocabulary',
     ],
     suggestionsEs: [
-      'Escribí un párrafo sobre el capítulo',
-      'Identificá 3 palabras nuevas',
-      'Pedile a Emma una pregunta de comprensión',
+      'Escribe un párrafo sobre el capítulo',
+      'Identifica 3 palabras nuevas y su significado',
+      'Pídele a Emma una pregunta de comprensión',
+      'Resume el capítulo en 4 oraciones',
+      'Compara dos personajes en una tabla corta',
+      'Pídele a Emma un sinónimo más preciso',
     ],
     suggestionsEn: [
       'Write a paragraph about the chapter',
-      'Spot 3 new vocabulary words',
+      'Spot 3 new vocabulary words and their meanings',
       'Ask Emma a comprehension question',
+      'Summarize the chapter in 4 sentences',
+      'Compare two characters in a short table',
+      'Ask Emma for a more precise synonym',
     ],
   },
   {
@@ -240,7 +263,7 @@ const TUTORS: Tutor[] = [
     greetingEn:
       "Hi! I'm Gabi. Today: the biomes of South America. Want to start with the Amazon, the Andes, or the Pampas?",
     socraticEs:
-      '¿Por qué creés que el clima cambia tanto entre la costa y la cordillera de los Andes?',
+      '¿Por qué crees que el clima cambia tanto entre la costa y la cordillera de los Andes?',
     socraticEn:
       'Why do you think the climate changes so much between the coast and the Andes range?',
     currentLessonEs: 'Lección 1 · Biomas de Sudamérica',
@@ -256,14 +279,20 @@ const TUTORS: Tutor[] = [
       'Natural resources',
     ],
     suggestionsEs: [
-      'Ubicá 3 biomas en el mapa',
-      'Compará Amazonas vs Pampas',
-      'Pedile a Gabi un dato curioso',
+      'Ubica 3 biomas en el mapa',
+      'Compara el Amazonas con las Pampas',
+      'Pídele a Gabi un dato curioso',
+      'Lista 3 recursos naturales por bioma',
+      'Identifica un país por sus coordenadas',
+      'Pídele a Gabi un mini quiz de geografía',
     ],
     suggestionsEn: [
       'Place 3 biomes on the map',
-      'Compare Amazon vs Pampas',
+      'Compare the Amazon with the Pampas',
       'Ask Gabi for a fun fact',
+      'List 3 natural resources per biome',
+      'Identify a country by its coordinates',
+      'Ask Gabi for a quick geography quiz',
     ],
   },
 ];
@@ -626,9 +655,8 @@ export function TutorAI() {
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="w-full text-left text-sm text-gray-700 px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-700 transition flex items-center gap-2"
+                  className="w-full text-left text-sm text-gray-700 px-3 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-700 transition"
                 >
-                  <MessageCircle className="h-3.5 w-3.5 text-indigo-400 flex-shrink-0" />
                   <span className="truncate">{s}</span>
                 </button>
               ))}
