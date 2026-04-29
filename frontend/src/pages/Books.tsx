@@ -286,7 +286,7 @@ export function Books() {
   const uncategorizedBooks = filteredBooks.filter(b => !b.category_id);
 
   const renderBookCard = (book: Book) => (
-    <div key={book.id} className="flex-shrink-0 w-[calc((100%-5rem)/5)] min-w-[160px] group">
+    <div key={book.id} className="w-full group">
       {/* Cover (landscape) */}
       <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md group-hover:shadow-xl transition-all group-hover:-translate-y-0.5">
         {book.cover_url ? (
@@ -615,7 +615,7 @@ export function Books() {
                   </button>
                 )}
               </div>
-              <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                 {items.map(book => renderBookCard(book))}
               </div>
             </section>
@@ -626,7 +626,7 @@ export function Books() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-900">{t.books.uncategorized}</h2>
               </div>
-              <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
                 {uncategorizedBooks.map(book => renderBookCard(book))}
               </div>
             </section>
