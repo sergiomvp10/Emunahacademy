@@ -257,7 +257,7 @@ export function TutorAI() {
           <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400 px-2 mb-2 flex-shrink-0">
             {isEs ? 'Tus tutores' : 'Your tutors'}
           </h2>
-          <ul className="space-y-1 flex-1 overflow-y-auto pr-1 -mr-1">
+          <ul className="flex-1 flex flex-col justify-between gap-1 overflow-y-auto pr-1 -mr-1 min-h-0">
             {TUTORS.map((tt) => {
               const isActive = tt.id === tutorId;
               return (
@@ -503,7 +503,7 @@ export function TutorAI() {
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex-shrink-0">
               {isEs ? 'Sugerencias' : 'Suggestions'}
             </p>
-            <div className="space-y-2 flex-1 overflow-y-auto pr-1 -mr-1">
+            <div className="flex-1 flex flex-col justify-between gap-2 overflow-y-auto pr-1 -mr-1 min-h-0">
               {(isEs
                 ? [
                     'Practicá 5 minutos de fracciones',
