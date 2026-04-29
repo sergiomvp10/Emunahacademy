@@ -286,7 +286,7 @@ export function Books() {
   const uncategorizedBooks = filteredBooks.filter(b => !b.category_id);
 
   const renderBookCard = (book: Book) => (
-    <div key={book.id} className="flex-shrink-0 w-60 sm:w-64 group">
+    <div key={book.id} className="flex-shrink-0 w-[calc((100%-5rem)/5)] min-w-[160px] group">
       {/* Cover (landscape) */}
       <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md group-hover:shadow-xl transition-all group-hover:-translate-y-0.5">
         {book.cover_url ? (
