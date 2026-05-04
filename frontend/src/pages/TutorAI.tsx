@@ -11,7 +11,6 @@ import {
   Sparkles,
   Lightbulb,
   Brain,
-  GraduationCap,
   ListChecks,
   Wand2,
   Plus,
@@ -457,9 +456,6 @@ export function TutorAI() {
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
             <Sparkles className="h-6 w-6 text-indigo-500" />
             Tutor AI
-            <span className="ml-2 text-xs uppercase tracking-wide bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
-              Beta
-            </span>
           </h1>
           <p className="text-gray-500 text-sm">
             {isEs
@@ -733,17 +729,6 @@ export function TutorAI() {
             </div>
           </Card>
 
-          <Card className="p-4 border-2 border-dashed border-indigo-200 bg-indigo-50/40 flex-shrink-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600 flex items-center gap-1">
-              <GraduationCap className="h-3.5 w-3.5" />
-              {isEs ? 'Próximo paso' : 'Next step'}
-            </p>
-            <p className="text-sm text-gray-700 mt-1.5 leading-snug">
-              {isEs
-                ? 'Conectar IA real (OpenAI / Claude / Groq) y memoria por estudiante. Te aviso cuando definamos.'
-                : 'Wire a real LLM (OpenAI / Claude / Groq) and per-student memory. Coming next.'}
-            </p>
-          </Card>
         </div>
       </div>
     </div>
