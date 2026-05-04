@@ -6,6 +6,7 @@ from typing import List, Optional
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
+from pydantic import BaseModel, Field
 import json
 import os
 import uuid
@@ -50,9 +51,10 @@ from app.db_config import get_db, engine
 from app.db_models import (
     Base, User, Course, Lesson, Enrollment, CalendarEvent, ParentStudentLink,
     QuizResult, Evaluation, EvaluationSubmission, LessonCompletion, Message, Payment,
-    Assignment, AssignmentSubmission, SiteContentDB, BookCategory, Book,
+    Assignment, AssignmentSubmission, SiteContentDB, BookCategory, Book, TutorMessage,
     UserRoleEnum, LessonTypeEnum, EventTypeEnum, PaymentStatusEnum, AssignmentStatusEnum
 )
+from app import tutor_ai
 import json
 from app.db_init import init_database
 
@@ -2528,3 +2530,92 @@ async def delete_book(book_id: int, user_id: int, db: Session = Depends(get_db))
     db.delete(book)
     db.commit()
     return {"message": "Libro eliminado"}
+
+
+# ==================== TUTOR AI ENDPOINTS ====================
+
+class TutorChatRequest(BaseModel):
+    student_id: int
+    tutor_id: str = Field(..., pattern="^(maya|sam|hugo|emma|gabi)$")
+    message: str
+    mode: str = Field("explain", pattern="^(explain|socratic)$")
+    language: str = Field("es", pattern="^(es|en)$")
+
+
+class TutorChatResponse(BaseModel):
+    reply: str
+    tutor_id: str
+
+
+@app.post("/api/tutor/chat", response_model=TutorChatResponse)
+async def tutor_chat(payload: TutorChatRequest, db: Session = Depends(get_db)):
+    student = db.query(User).filter(User.id == payload.student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+
+    if not (payload.message or "").strip():
+        raise HTTPException(status_code=400, detail="El mensaje no puede estar vacio")
+
+    try:
+        system_prompt = tutor_ai.build_system_prompt(
+            db=db,
+            student=student,
+            tutor_id=payload.tutor_id,
+            mode=payload.mode,
+            language=payload.language,
+        )
+        history = tutor_ai.get_recent_history(db, student.id, payload.tutor_id)
+        reply = tutor_ai.call_claude(
+            system_prompt=system_prompt,
+            history=history,
+            user_message=payload.message.strip(),
+        )
+    except RuntimeError as e:
+        logger.exception("Tutor AI runtime error")
+        raise HTTPException(status_code=503, detail=str(e))
+    except Exception as e:
+        logger.exception("Tutor AI failed")
+        raise HTTPException(status_code=500, detail=f"Error al consultar al tutor: {e}")
+
+    tutor_ai.save_turn(
+        db=db,
+        student_id=student.id,
+        tutor_id=payload.tutor_id,
+        user_message=payload.message.strip(),
+        assistant_message=reply,
+        mode=payload.mode,
+        language=payload.language,
+    )
+
+    return TutorChatResponse(reply=reply, tutor_id=payload.tutor_id)
+
+
+@app.get("/api/tutor/history")
+async def tutor_history(
+    student_id: int,
+    tutor_id: str,
+    limit: int = 50,
+    db: Session = Depends(get_db),
+):
+    if tutor_id not in tutor_ai.TUTORS:
+        raise HTTPException(status_code=400, detail="tutor_id invalido")
+    student = db.query(User).filter(User.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Estudiante no encontrado")
+    return {"messages": tutor_ai.get_history_for_ui(db, student_id, tutor_id, limit=limit)}
+
+
+@app.delete("/api/tutor/history")
+async def clear_tutor_history(
+    student_id: int,
+    tutor_id: str,
+    db: Session = Depends(get_db),
+):
+    if tutor_id not in tutor_ai.TUTORS:
+        raise HTTPException(status_code=400, detail="tutor_id invalido")
+    db.query(TutorMessage).filter(
+        TutorMessage.student_id == student_id,
+        TutorMessage.tutor_id == tutor_id,
+    ).delete(synchronize_session=False)
+    db.commit()
+    return {"message": "Historial borrado"}

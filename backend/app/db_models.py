@@ -288,6 +288,21 @@ class Book(Base):
     category = relationship("BookCategory", back_populates="books")
     uploader = relationship("User", foreign_keys=[uploaded_by])
 
+class TutorMessage(Base):
+    __tablename__ = "tutor_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    tutor_id = Column(String(20), nullable=False, index=True)  # maya, sam, hugo, emma, gabi
+    role = Column(String(20), nullable=False)  # 'user' or 'assistant'
+    content = Column(Text, nullable=False)
+    mode = Column(String(20), nullable=True)  # 'explain' or 'socratic' (only on user messages)
+    language = Column(String(5), nullable=True)  # 'es' or 'en'
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+    student = relationship("User", foreign_keys=[student_id])
+
+
 class AssignmentSubmission(Base):
     __tablename__ = "assignment_submissions"
     

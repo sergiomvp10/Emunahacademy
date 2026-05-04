@@ -598,6 +598,49 @@ class ApiService {
       method: 'DELETE',
     });
   }
+
+  // Tutor AI
+  async tutorChat(payload: {
+    student_id: number;
+    tutor_id: 'maya' | 'sam' | 'hugo' | 'emma' | 'gabi';
+    message: string;
+    mode: 'explain' | 'socratic';
+    language: 'es' | 'en';
+  }): Promise<{ reply: string; tutor_id: string }> {
+    return this.request<{ reply: string; tutor_id: string }>('/api/tutor/chat', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  }
+
+  async getTutorHistory(
+    studentId: number,
+    tutorId: 'maya' | 'sam' | 'hugo' | 'emma' | 'gabi',
+    limit = 50,
+  ): Promise<{
+    messages: Array<{
+      id: number;
+      role: 'user' | 'assistant';
+      content: string;
+      mode: string | null;
+      language: string | null;
+      created_at: string | null;
+    }>;
+  }> {
+    return this.request(
+      `/api/tutor/history?student_id=${studentId}&tutor_id=${tutorId}&limit=${limit}`,
+    );
+  }
+
+  async clearTutorHistory(
+    studentId: number,
+    tutorId: 'maya' | 'sam' | 'hugo' | 'emma' | 'gabi',
+  ): Promise<{ message: string }> {
+    return this.request(
+      `/api/tutor/history?student_id=${studentId}&tutor_id=${tutorId}`,
+      { method: 'DELETE' },
+    );
+  }
 }
 
 export const api = new ApiService();

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import {
   Calculator,
   FlaskConical,
@@ -21,6 +21,8 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
+import { api } from '../api';
 
 type TutorId = 'maya' | 'sam' | 'hugo' | 'emma' | 'gabi';
 type Mode = 'explain' | 'socratic';
@@ -319,6 +321,7 @@ const QUICK_ACTIONS_EN = [
 
 export function TutorAI() {
   const { language } = useLanguage();
+  const { user } = useAuth();
   const isEs = language === 'es';
 
   const [tutorId, setTutorId] = useState<TutorId>('maya');
@@ -330,7 +333,112 @@ export function TutorAI() {
 
   const tutor = useMemo(() => TUTORS.find((t) => t.id === tutorId)!, [tutorId]);
 
+  // Load saved conversation when tutor or student changes; fall back to greeting.
   useEffect(() => {
+    let cancelled = false;
+    const greeting: Message = {
+      id: Date.now(),
+      role: 'tutor',
+      text: isEs ? tutor.greetingEs : tutor.greetingEn,
+    };
+    if (!user || user.role !== 'student') {
+      setMessages([greeting]);
+      return;
+    }
+    api
+      .getTutorHistory(user.id, tutorId)
+      .then((res) => {
+        if (cancelled) return;
+        const restored: Message[] = res.messages.map((m, idx) => ({
+          id: m.id ?? idx,
+          role: m.role === 'user' ? 'student' : 'tutor',
+          text: m.content,
+        }));
+        setMessages(restored.length > 0 ? restored : [greeting]);
+      })
+      .catch(() => {
+        if (!cancelled) setMessages([greeting]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [tutorId, isEs, tutor.greetingEs, tutor.greetingEn, user]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, thinking]);
+
+  const send = useCallback(
+    async (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      setInput('');
+
+      const studentMsg: Message = { id: Date.now(), role: 'student', text: trimmed };
+      setMessages((prev) => [...prev, studentMsg]);
+
+      if (!user || user.role !== 'student') {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            role: 'tutor',
+            text: isEs
+              ? 'Para conversar con los tutores debes ingresar como estudiante.'
+              : 'To chat with the tutors you need to be signed in as a student.',
+          },
+        ]);
+        return;
+      }
+
+      setThinking(true);
+      try {
+        const res = await api.tutorChat({
+          student_id: user.id,
+          tutor_id: tutorId,
+          message: trimmed,
+          mode,
+          language: isEs ? 'es' : 'en',
+        });
+        setMessages((prev) => [
+          ...prev,
+          { id: Date.now() + 1, role: 'tutor', text: res.reply },
+        ]);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : String(e);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            role: 'tutor',
+            text: isEs
+              ? `Tuve un problema al responder (${msg}). Intenta de nuevo en unos segundos.`
+              : `I hit an issue answering (${msg}). Please try again in a moment.`,
+          },
+        ]);
+      } finally {
+        setThinking(false);
+      }
+    },
+    [user, tutorId, mode, isEs],
+  );
+
+  const handleNewChat = useCallback(async () => {
+    if (!user || user.role !== 'student') {
+      setMessages([
+        {
+          id: Date.now(),
+          role: 'tutor',
+          text: isEs ? tutor.greetingEs : tutor.greetingEn,
+        },
+      ]);
+      return;
+    }
+    try {
+      await api.clearTutorHistory(user.id, tutorId);
+    } catch {
+      /* best-effort */
+    }
     setMessages([
       {
         id: Date.now(),
@@ -338,45 +446,7 @@ export function TutorAI() {
         text: isEs ? tutor.greetingEs : tutor.greetingEn,
       },
     ]);
-  }, [tutorId, isEs, tutor.greetingEs, tutor.greetingEn]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, thinking]);
-
-  const send = (text: string) => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    setInput('');
-    const studentMsg: Message = { id: Date.now(), role: 'student', text: trimmed };
-    setMessages((prev) => [...prev, studentMsg]);
-    setThinking(true);
-
-    setTimeout(() => {
-      const reply: Message = {
-        id: Date.now() + 1,
-        role: 'tutor',
-        text:
-          mode === 'socratic'
-            ? isEs
-              ? tutor.socraticEs
-              : tutor.socraticEn
-            : isEs
-            ? `Buena pregunta. ${
-                tutor.subject === 'Math'
-                  ? 'Pensemos paso a paso: primero identificá el dato que ya conocés, después qué te están pidiendo, y por último qué operación los conecta.'
-                  : 'Vamos por partes: primero el contexto, después la idea principal, y al final un ejemplo concreto.'
-              } (Esto es una respuesta de demostración — cuando enchufemos el modelo de IA real, las respuestas serán dinámicas.)`
-            : `Great question. ${
-                tutor.subject === 'Math'
-                  ? "Let's think step by step: first identify what you already know, then what's being asked, and finally what operation connects them."
-                  : "Let's go in order: context first, then the main idea, and finally a concrete example."
-              } (This is a placeholder reply — once the real AI is connected, answers will be dynamic.)`,
-      };
-      setMessages((prev) => [...prev, reply]);
-      setThinking(false);
-    }, 900);
-  };
+  }, [user, tutorId, isEs, tutor.greetingEs, tutor.greetingEn]);
 
   const quickActions = isEs ? QUICK_ACTIONS_ES : QUICK_ACTIONS_EN;
 
@@ -397,7 +467,7 @@ export function TutorAI() {
               : 'Five tutors with personality, two modes, and a practice assistant.'}
           </p>
         </div>
-        <Button variant="outline" size="sm" className="gap-1.5">
+        <Button variant="outline" size="sm" className="gap-1.5" onClick={handleNewChat}>
           <Plus className="h-4 w-4" />
           {isEs ? 'Nueva conversación' : 'New chat'}
         </Button>
