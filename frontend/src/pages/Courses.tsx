@@ -127,7 +127,7 @@ export function Courses() {
       if (user?.role === 'teacher') {
         coursesData = await api.getCourses(user.id);
       } else if (user?.role === 'student') {
-        coursesData = await api.getCourses(undefined, true);
+        coursesData = await api.getCourses(undefined, true, user.id);
       } else {
         coursesData = await api.getCourses();
       }
