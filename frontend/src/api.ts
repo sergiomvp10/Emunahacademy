@@ -111,10 +111,11 @@ class ApiService {
   }
 
   // Courses
-  async getCourses(teacherId?: number, publishedOnly?: boolean): Promise<Course[]> {
+  async getCourses(teacherId?: number, publishedOnly?: boolean, studentId?: number): Promise<Course[]> {
     const params = new URLSearchParams();
     if (teacherId) params.append('teacher_id', teacherId.toString());
     if (publishedOnly) params.append('published_only', 'true');
+    if (studentId) params.append('student_id', studentId.toString());
     const query = params.toString() ? `?${params.toString()}` : '';
     return this.request<Course[]>(`/api/courses${query}`);
   }

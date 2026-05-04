@@ -31,7 +31,10 @@ export function Dashboard() {
 
   const loadData = async () => {
     try {
-      const coursesData = await api.getCourses(undefined, true);
+      const coursesData =
+        user?.role === 'student'
+          ? await api.getCourses(undefined, true, user.id)
+          : await api.getCourses(undefined, true);
       setCourses(coursesData);
 
       if (user?.role === 'director') {

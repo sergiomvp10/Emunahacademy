@@ -260,13 +260,22 @@ async def update_user_grade(user_id: int, grade_level: Optional[str] = None, db:
 # ==================== COURSE ENDPOINTS ====================
 
 @app.get("/api/courses", response_model=List[CourseSchema])
-async def get_courses(teacher_id: Optional[int] = None, published_only: bool = False, db: Session = Depends(get_db)):
+async def get_courses(
+    teacher_id: Optional[int] = None,
+    published_only: bool = False,
+    student_id: Optional[int] = None,
+    db: Session = Depends(get_db),
+):
     query = db.query(Course)
     if teacher_id:
         query = query.filter(Course.teacher_id == teacher_id)
     if published_only:
         query = query.filter(Course.is_published == True)
-    
+    if student_id:
+        student = db.query(User).filter(User.id == student_id).first()
+        if student and student.role == UserRoleEnum.STUDENT and student.grade_level:
+            query = query.filter(Course.grade_level == student.grade_level)
+
     courses = query.all()
     return [CourseSchema(
         id=c.id,
