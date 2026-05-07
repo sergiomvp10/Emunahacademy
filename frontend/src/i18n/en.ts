@@ -508,6 +508,7 @@ export const en = {
       signIn: 'Sign In',
       parentSignIn: 'Parent Sign-In',
       studentSignIn: 'Student Sign-In',
+      staffSignIn: 'Staff Sign-In',
       enrollNow: 'Enroll Now',
     },
     sections: {

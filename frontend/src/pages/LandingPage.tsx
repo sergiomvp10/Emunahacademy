@@ -205,6 +205,11 @@ export function LandingPage() {
                               {t.landing.nav.studentSignIn}
                             </Button>
                           </Link>
+                          <Link to="/login?role=staff">
+                            <Button className="rounded-full px-5 bg-blue-700 hover:bg-blue-800 text-white shadow-md font-semibold tracking-wide">
+                              {t.landing.nav.staffSignIn}
+                            </Button>
+                          </Link>
                           <Button
                             onClick={() => scrollToSection('apply')}
                             className="rounded-full px-5 bg-amber-500 hover:bg-amber-600 text-white shadow-md font-semibold tracking-wide"
@@ -254,6 +259,9 @@ export function LandingPage() {
                       </Link>
                       <Link to="/login?role=student" className="block">
                         <Button className="w-full rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold">{t.landing.nav.studentSignIn}</Button>
+                      </Link>
+                      <Link to="/login?role=staff" className="block">
+                        <Button className="w-full rounded-full bg-blue-700 hover:bg-blue-800 text-white font-semibold">{t.landing.nav.staffSignIn}</Button>
                       </Link>
                       <Button
                         onClick={() => { setMobileMenuOpen(false); scrollToSection('apply'); }}
@@ -919,7 +927,7 @@ export function LandingPage() {
                       <li><button onClick={() => scrollToSection('programs')} className="hover:text-white transition-colors">{t.landing.nav.programs}</button></li>
                       <li><button onClick={() => scrollToSection('faq')} className="hover:text-white transition-colors">{t.landing.nav.faq}</button></li>
                       <li><button onClick={() => scrollToSection('apply')} className="hover:text-white transition-colors">{t.landing.footer.applyNow}</button></li>
-                      <li><Link to="/login" className="hover:text-white transition-colors">{t.landing.nav.signIn}</Link></li>
+                      <li><Link to="/login?role=staff" className="hover:text-white transition-colors">{t.landing.nav.signIn}</Link></li>
                     </ul>
                   </div>
                   <div>
