@@ -505,9 +505,10 @@ export const es = {
       programs: 'Programas',
       howItWorks: 'Como Funciona',
       faq: 'Preguntas',
-      signIn: 'Iniciar Sesion',
+      signIn: 'Iniciar Sesión',
       parentSignIn: 'Ingreso Padres',
       studentSignIn: 'Ingreso Estudiantes',
+      staffSignIn: 'Ingreso Personal',
       enrollNow: 'Inscribete',
     },
     sections: {
