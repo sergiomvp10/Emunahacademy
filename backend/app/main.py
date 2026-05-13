@@ -45,7 +45,7 @@ from app.models import (
     AssignmentCreate, Assignment as AssignmentSchema, AssignmentSubmissionCreate, 
     AssignmentSubmissionGrade, AssignmentSubmission as AssignmentSubmissionSchema, 
     AssignmentStatus, StudentAssignment,
-    BookCategoryCreate, BookCategory as BookCategorySchema, BookCreate, BookUpdate, Book as BookSchema
+    BookCategoryCreate, BookCategoryUpdate, BookCategory as BookCategorySchema, BookCreate, BookUpdate, Book as BookSchema
 )
 from app.db_config import get_db, engine
 from app.db_models import (
@@ -2317,6 +2317,43 @@ async def create_book_category(category: BookCategoryCreate, user_id: int, db: S
         created_by=db_category.created_by,
         created_at=db_category.created_at,
         book_count=0
+    )
+
+@app.put("/api/book-categories/{category_id}", response_model=BookCategorySchema)
+async def update_book_category(category_id: int, payload: BookCategoryUpdate, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user or user.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
+        raise HTTPException(status_code=403, detail="No tienes permiso para editar categorias")
+
+    category = db.query(BookCategory).filter(BookCategory.id == category_id).first()
+    if not category:
+        raise HTTPException(status_code=404, detail="Categoria no encontrada")
+
+    if payload.name is not None:
+        name = payload.name.strip()
+        if not name:
+            raise HTTPException(status_code=400, detail="El nombre no puede estar vacio")
+        category.name = name
+    if payload.description is not None:
+        category.description = payload.description
+    if payload.color is not None:
+        category.color = payload.color
+    if payload.icon is not None:
+        category.icon = payload.icon
+
+    db.commit()
+    db.refresh(category)
+
+    book_count = db.query(Book).filter(Book.category_id == category.id).count()
+    return BookCategorySchema(
+        id=category.id,
+        name=category.name,
+        description=category.description,
+        color=category.color,
+        icon=category.icon,
+        created_by=category.created_by,
+        created_at=category.created_at,
+        book_count=book_count,
     )
 
 @app.delete("/api/book-categories/{category_id}")

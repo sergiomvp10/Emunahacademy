@@ -541,6 +541,17 @@ class ApiService {
     });
   }
 
+  async updateBookCategory(
+    categoryId: number,
+    updates: { name?: string; description?: string; color?: string; icon?: string },
+    userId: number,
+  ): Promise<BookCategory> {
+    return this.request<BookCategory>(`/api/book-categories/${categoryId}?user_id=${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
+  }
+
   async deleteBookCategory(categoryId: number, userId: number): Promise<void> {
     return this.request<void>(`/api/book-categories/${categoryId}?user_id=${userId}`, {
       method: 'DELETE',

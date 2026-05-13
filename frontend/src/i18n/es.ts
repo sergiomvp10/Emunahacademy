@@ -495,9 +495,13 @@ export const es = {
     coverTooLarge: 'La imagen es demasiado grande. Tamano maximo: 5MB',
     uploadingCover: 'Subiendo portada...',
     editBook: 'Editar Libro',
+    editCategory: 'Editar categoría',
+    saveChanges: 'Guardar cambios',
+    saving: 'Guardando...',
     moveToCategory: 'Categoría',
     by: 'Por',
     uncategorized: 'Sin categoría',
+    emptyCategoryHint: 'Aún no hay libros en esta categoría.',
   },
   landing: {
     nav: {

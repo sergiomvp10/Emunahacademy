@@ -398,6 +398,12 @@ class BookCategoryBase(BaseModel):
 class BookCategoryCreate(BookCategoryBase):
     pass
 
+class BookCategoryUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    color: Optional[str] = None
+    icon: Optional[str] = None
+
 class BookCategory(BookCategoryBase):
     id: int
     created_by: int
