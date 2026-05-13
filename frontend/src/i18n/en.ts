@@ -495,9 +495,13 @@ export const en = {
     coverTooLarge: 'Image is too large. Maximum size: 5MB',
     uploadingCover: 'Uploading cover...',
     editBook: 'Edit Book',
+    editCategory: 'Edit category',
+    saveChanges: 'Save changes',
+    saving: 'Saving...',
     moveToCategory: 'Category',
     by: 'By',
     uncategorized: 'Uncategorized',
+    emptyCategoryHint: 'No books in this category yet.',
   },
   landing: {
     nav: {

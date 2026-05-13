@@ -49,6 +49,9 @@ export function Books() {
   const [showCategoryDialog, setShowCategoryDialog] = useState(false);
   const [newCategory, setNewCategory] = useState({ name: '', description: '', color: '#6366f1' });
   const [creatingCategory, setCreatingCategory] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<BookCategory | null>(null);
+  const [editCategoryForm, setEditCategoryForm] = useState({ name: '', description: '', color: '#6366f1' });
+  const [savingCategory, setSavingCategory] = useState(false);
 
   const canManage = user?.role === 'superuser' || user?.role === 'director' || user?.role === 'teacher';
 
@@ -252,6 +255,35 @@ export function Books() {
     }
   };
 
+  const openEditCategory = (cat: BookCategory) => {
+    setEditingCategory(cat);
+    setEditCategoryForm({
+      name: cat.name,
+      description: cat.description || '',
+      color: cat.color || '#6366f1',
+    });
+  };
+
+  const handleUpdateCategory = async () => {
+    if (!user || !editingCategory || !editCategoryForm.name.trim()) return;
+    setSavingCategory(true);
+    try {
+      await api.updateBookCategory(editingCategory.id, {
+        name: editCategoryForm.name.trim(),
+        description: editCategoryForm.description.trim() || undefined,
+        color: editCategoryForm.color,
+      }, user.id);
+      setEditingCategory(null);
+      await loadData();
+    } catch (error) {
+      console.error('Error updating category:', error);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      alert(`${t.books.editCategory}: ${message}`);
+    } finally {
+      setSavingCategory(false);
+    }
+  };
+
   const handleDeleteCategory = async (categoryId: number) => {
     if (!user || !confirm(t.books.confirmDeleteCategory)) return;
     try {
@@ -277,13 +309,12 @@ export function Books() {
     return `${apiBaseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
   };
 
-  const groupedBooks = categories
-    .map(cat => ({
-      category: cat,
-      items: filteredBooks.filter(b => b.category_id === cat.id),
-    }))
-    .filter(g => g.items.length > 0);
+  const groupedBooks = categories.map(cat => ({
+    category: cat,
+    items: filteredBooks.filter(b => b.category_id === cat.id),
+  }));
   const uncategorizedBooks = filteredBooks.filter(b => !b.category_id);
+  const hasAnything = groupedBooks.length > 0 || uncategorizedBooks.length > 0 || filteredBooks.length > 0;
 
   const renderBookCard = (book: Book) => (
     <div key={book.id} className="w-full group">
@@ -585,7 +616,7 @@ export function Books() {
       </div>
 
       {/* Category Rows */}
-      {filteredBooks.length === 0 ? (
+      {!hasAnything && categories.length === 0 ? (
         <div className="text-center py-20">
           <div className="bg-indigo-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
             <BookOpen className="h-10 w-10 text-indigo-400" />
@@ -604,20 +635,44 @@ export function Books() {
           {groupedBooks.map(({ category, items }) => (
             <section key={category.id}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900">{category.name}</h2>
+                <div className="flex items-center gap-3">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full"
+                    style={{ backgroundColor: category.color || '#6366f1' }}
+                  />
+                  <h2 className="text-xl font-bold text-gray-900">{category.name}</h2>
+                  <span className="text-xs text-gray-400">({items.length})</span>
+                </div>
                 {canManage && (
-                  <button
-                    onClick={() => handleDeleteCategory(category.id)}
-                    className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
-                    title={t.common.delete}
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => openEditCategory(category)}
+                      className="text-xs text-gray-400 hover:text-indigo-600 transition-colors flex items-center gap-1"
+                      title={t.books.editCategory}
+                    >
+                      <Pencil className="h-3 w-3" />
+                      {t.books.editCategory}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCategory(category.id)}
+                      className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
+                      title={t.common.delete}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                      {t.common.delete}
+                    </button>
+                  </div>
                 )}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
-                {items.map(book => renderBookCard(book))}
-              </div>
+              {items.length === 0 ? (
+                <div className="border border-dashed border-gray-200 rounded-xl p-6 text-center text-sm text-gray-400">
+                  {t.books.emptyCategoryHint}
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                  {items.map(book => renderBookCard(book))}
+                </div>
+              )}
             </section>
           ))}
 
@@ -633,6 +688,47 @@ export function Books() {
           )}
         </div>
       )}
+
+      {/* Edit Category Dialog */}
+      <Dialog open={!!editingCategory} onOpenChange={(open) => { if (!open) setEditingCategory(null); }}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t.books.editCategory}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 mt-4">
+            <Input
+              placeholder={t.books.categoryName}
+              value={editCategoryForm.name}
+              onChange={(e) => setEditCategoryForm(prev => ({ ...prev, name: e.target.value }))}
+            />
+            <Input
+              placeholder={t.books.categoryDescription}
+              value={editCategoryForm.description}
+              onChange={(e) => setEditCategoryForm(prev => ({ ...prev, description: e.target.value }))}
+            />
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">{t.books.color}</label>
+              <div className="flex gap-2 flex-wrap">
+                {CATEGORY_COLORS.map(color => (
+                  <button
+                    key={color}
+                    onClick={() => setEditCategoryForm(prev => ({ ...prev, color }))}
+                    className={`w-8 h-8 rounded-full transition-all ${editCategoryForm.color === color ? 'ring-2 ring-offset-2 ring-gray-400 scale-110' : 'hover:scale-105'}`}
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+              </div>
+            </div>
+            <Button
+              onClick={handleUpdateCategory}
+              disabled={!editCategoryForm.name.trim() || savingCategory}
+              className="w-full bg-indigo-600 hover:bg-indigo-700"
+            >
+              {savingCategory ? t.books.saving : t.books.saveChanges}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
 
       {/* Edit Book Dialog */}
