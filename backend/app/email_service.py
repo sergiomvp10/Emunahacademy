@@ -14,6 +14,7 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 SMTP_USER = os.getenv("SMTP_USER", "admin@emunahacademy.org")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@emunahacademy.org")
+BRAND_LOGO_URL = os.getenv("BRAND_LOGO_URL", "https://emunahacademy.vercel.app/emunah-logo.png")
 
 # Track sent confirmation emails to prevent duplicates (in-memory for now)
 _sent_confirmations: set[str] = set()
@@ -36,8 +37,9 @@ def _build_parent_confirmation_html(parent_name: str, student_name: str) -> str:
 
   <!-- Header -->
   <tr>
-    <td style="background: linear-gradient(135deg, #14b8a6, #2563eb); padding:32px 40px; text-align:center;">
-      <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:bold;">Emunah Academy</h1>
+    <td style="background: linear-gradient(135deg, #14b8a6, #2563eb); padding:24px 40px; text-align:center;">
+      <img src="{BRAND_LOGO_URL}" alt="Emunah Academy" style="height:72px;width:auto;display:inline-block;border:0;" />
+      <h1 style="margin:12px 0 0 0;color:#ffffff;font-size:22px;font-weight:bold;">Emunah Academy</h1>
     </td>
   </tr>
 
@@ -122,8 +124,9 @@ def _build_admin_notification_html(
 
   <!-- Header -->
   <tr>
-    <td style="background-color:#1f2937;padding:24px 40px;text-align:center;">
-      <h1 style="margin:0;color:#ffffff;font-size:20px;">New Application Submitted</h1>
+    <td style="background-color:#1f2937;padding:20px 40px;text-align:center;">
+      <img src="{BRAND_LOGO_URL}" alt="Emunah Academy" style="height:56px;width:auto;display:inline-block;border:0;" />
+      <h1 style="margin:10px 0 0 0;color:#ffffff;font-size:18px;">New Application Submitted</h1>
     </td>
   </tr>
 

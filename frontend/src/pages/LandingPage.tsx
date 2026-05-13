@@ -182,7 +182,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <img src="/emunah-logo.png" alt="Emunah Academy" className="h-16 w-16 rounded-xl object-cover shadow-md" />
+              <img src="/emunah-logo.png" alt="Emunah Academy" className="h-16 w-auto object-contain" />
               <div>
                 <span className="font-bold text-2xl text-gray-800">Emunah</span>
                 <span className="font-light text-2xl text-gray-800"> Academy</span>
@@ -910,7 +910,7 @@ export function LandingPage() {
                 <div className="grid md:grid-cols-4 gap-8">
                   <div className="md:col-span-2">
                     <div className="flex items-center gap-3 mb-4">
-                      <img src="/emunah-logo.png" alt="Emunah Academy" className="h-10 w-10 rounded-lg object-cover" />
+                      <img src="/emunah-logo.png" alt="Emunah Academy" className="h-12 w-auto object-contain" />
                       <div>
                         <span className="font-bold text-xl">Emunah</span>
                         <span className="font-light text-xl"> Academy</span>

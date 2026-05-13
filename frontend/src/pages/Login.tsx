@@ -157,12 +157,15 @@ export function Login() {
     <div className={`min-h-screen bg-gradient-to-br ${config.bg} flex items-center justify-center p-4`}>
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className={`${config.accent} p-3 rounded-full`}>
-              <Icon className="h-8 w-8 text-white" />
+          <div className="flex justify-center mb-2">
+            <img src="/emunah-logo.png" alt="Emunah Academy" className="h-24 w-auto object-contain" />
+          </div>
+          <div className="flex justify-center mb-2">
+            <div className={`${config.accent} p-2 rounded-full`}>
+              <Icon className="h-5 w-5 text-white" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-blue-900">EmunahAcademy</CardTitle>
+          <CardTitle className="text-2xl font-bold text-blue-900">Emunah Academy</CardTitle>
           <CardDescription className="text-base font-semibold text-gray-700 mt-1">
             {config.title[lang]}
           </CardDescription>
