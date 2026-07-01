@@ -36,6 +36,10 @@ const GRADE_KEYS: Record<string, keyof typeof import('../i18n').es.grades> = {
   '6': 'grade6',
   '7': 'grade7',
   '8': 'grade8',
+  '9': 'grade9',
+  '10': 'grade10',
+  '11': 'grade11',
+  '12': 'grade12',
 };
 
 export function Applications() {

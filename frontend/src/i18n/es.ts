@@ -152,6 +152,10 @@ export const es = {
     grade6: '6to Grado',
     grade7: '7mo Grado',
     grade8: '8vo Grado',
+    grade9: '9no Grado',
+    grade10: '10mo Grado',
+    grade11: '11vo Grado',
+    grade12: '12vo Grado',
     grade: 'Grado',
   },
   calendar: {
@@ -561,6 +565,10 @@ export const es = {
       grade6: '6to Grado',
       grade7: '7mo Grado',
       grade8: '8vo Grado',
+      grade9: '9no Grado',
+      grade10: '10mo Grado',
+      grade11: '11vo Grado',
+      grade12: '12vo Grado',
     },
   },
 };

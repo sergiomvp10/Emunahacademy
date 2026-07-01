@@ -1246,7 +1246,7 @@ DEFAULT_SITE_CONTENT = {
     },
     "about": {
         "title": "About Emunah Academy",
-        "description": "Emunah Academy is a non-profit educational organization dedicated to providing quality education to vulnerable communities worldwide. Our mission is to break the cycle of poverty through education, offering comprehensive programs from Kindergarten through 8th grade.",
+        "description": "Emunah Academy is a non-profit educational organization dedicated to providing quality education to vulnerable communities worldwide. Our mission is to break the cycle of poverty through education, offering comprehensive programs from Kindergarten through 12th grade.",
         "mission": "To empower children from underserved communities with the knowledge, skills, and values they need to succeed in life.",
         "vision": "A world where every child has access to quality education, regardless of their circumstances."
     },
@@ -1261,7 +1261,7 @@ DEFAULT_SITE_CONTENT = {
     },
     "programs": {
         "title": "Our Programs",
-        "subtitle": "Comprehensive education from Kindergarten through 8th Grade",
+        "subtitle": "Comprehensive education from Kindergarten through 12th Grade",
         "grades": [
             {"level": "K", "name": "Kindergarten", "description": "Foundation skills in reading, math, and social development"},
             {"level": "1-2", "name": "Early Elementary", "description": "Building core literacy and numeracy skills"},
@@ -1282,7 +1282,7 @@ DEFAULT_SITE_CONTENT = {
         "title": "Frequently Asked Questions",
         "questions": [
             {"question": "Is Emunah Academy really free?", "answer": "Yes! Emunah Academy is completely free for all students. We are funded by generous donors who believe in our mission."},
-            {"question": "What grades do you offer?", "answer": "We offer comprehensive education from Kindergarten through 8th grade, covering all core subjects."},
+            {"question": "What grades do you offer?", "answer": "We offer comprehensive education from Kindergarten through 12th grade, covering all core subjects."},
             {"question": "What technology do I need?", "answer": "Students need a device with internet access (computer, tablet, or smartphone) to access our online platform."},
             {"question": "How do I apply?", "answer": "Simply fill out our application form on this page. A parent or guardian must complete the application for students under 18."},
             {"question": "What language are classes taught in?", "answer": "Currently, our classes are taught in English with plans to expand to Spanish and other languages."}
@@ -1305,7 +1305,7 @@ DEFAULT_SITE_CONTENT_ES = {
     },
     "about": {
         "title": "Acerca de Emunah Academy",
-        "description": "Emunah Academy es una organizacion educativa sin fines de lucro dedicada a proporcionar educacion de calidad a comunidades vulnerables en todo el mundo. Nuestra mision es romper el ciclo de pobreza a traves de la educacion, ofreciendo programas integrales desde Kindergarten hasta 8vo grado.",
+        "description": "Emunah Academy es una organizacion educativa sin fines de lucro dedicada a proporcionar educacion de calidad a comunidades vulnerables en todo el mundo. Nuestra mision es romper el ciclo de pobreza a traves de la educacion, ofreciendo programas integrales desde Kindergarten hasta 12vo grado.",
         "mission": "Empoderar a ninos de comunidades desatendidas con el conocimiento, las habilidades y los valores que necesitan para tener exito en la vida.",
         "vision": "Un mundo donde cada nino tenga acceso a educacion de calidad, sin importar sus circunstancias."
     },
@@ -1341,7 +1341,7 @@ DEFAULT_SITE_CONTENT_ES = {
         "title": "Preguntas Frecuentes",
         "questions": [
             {"question": "Es Emunah Academy realmente gratuita?", "answer": "Si! Emunah Academy es completamente gratuita para todos los estudiantes. Somos financiados por generosos donantes que creen en nuestra mision."},
-            {"question": "Que grados ofrecen?", "answer": "Ofrecemos educacion integral desde Kindergarten hasta 8vo grado, cubriendo todas las materias principales."},
+            {"question": "Que grados ofrecen?", "answer": "Ofrecemos educacion integral desde Kindergarten hasta 12vo grado, cubriendo todas las materias principales."},
             {"question": "Que tecnologia necesito?", "answer": "Los estudiantes necesitan un dispositivo con acceso a internet (computadora, tablet o telefono) para acceder a nuestra plataforma en linea."},
             {"question": "Como puedo aplicar?", "answer": "Simplemente complete nuestro formulario de solicitud en esta pagina. Un padre o tutor debe completar la solicitud para estudiantes menores de 18 anos."},
             {"question": "En que idioma se imparten las clases?", "answer": "Actualmente, nuestras clases se imparten en ingles con planes de expandirnos al espanol y otros idiomas."}

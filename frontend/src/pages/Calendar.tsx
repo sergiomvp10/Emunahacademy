@@ -27,6 +27,10 @@ const GRADE_LEVELS: { value: GradeLevel | 'all'; label: string }[] = [
   { value: '6', label: '6to Grado' },
   { value: '7', label: '7mo Grado' },
   { value: '8', label: '8vo Grado' },
+  { value: '9', label: '9no Grado' },
+  { value: '10', label: '10mo Grado' },
+  { value: '11', label: '11vo Grado' },
+  { value: '12', label: '12vo Grado' },
 ];
 
 export function Calendar() {

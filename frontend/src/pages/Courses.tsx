@@ -35,6 +35,10 @@ const GRADE_LEVEL_KEYS: { value: GradeLevel; key: keyof typeof import('../i18n')
   { value: '6', key: 'grade6' },
   { value: '7', key: 'grade7' },
   { value: '8', key: 'grade8' },
+  { value: '9', key: 'grade9' },
+  { value: '10', key: 'grade10' },
+  { value: '11', key: 'grade11' },
+  { value: '12', key: 'grade12' },
 ];
 
 export function Courses() {

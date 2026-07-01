@@ -379,6 +379,10 @@ export function LandingPage() {
                             <SelectItem value="6">{t.landing.gradeOptions.grade6}</SelectItem>
                             <SelectItem value="7">{t.landing.gradeOptions.grade7}</SelectItem>
                             <SelectItem value="8">{t.landing.gradeOptions.grade8}</SelectItem>
+                            <SelectItem value="9">{t.landing.gradeOptions.grade9}</SelectItem>
+                            <SelectItem value="10">{t.landing.gradeOptions.grade10}</SelectItem>
+                            <SelectItem value="11">{t.landing.gradeOptions.grade11}</SelectItem>
+                            <SelectItem value="12">{t.landing.gradeOptions.grade12}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -467,7 +471,7 @@ export function LandingPage() {
             </div>
             <div>
               <h3 className="text-3xl md:text-4xl               font-bold text-gray-800 mb-4">
-                              {language === 'es' ? 'Empoderando a su Hijo K-8 con Aprendizaje Personalizado' : 'Empowering Your K-8 Child with Personalized Learning'}
+                              {language === 'es' ? 'Empoderando a su Hijo K-12 con Aprendizaje Personalizado' : 'Empowering Your K-12 Child with Personalized Learning'}
               </h3>
               <h4 className="text-lg text-gray-600 mb-8">
                 {language === 'es' ? 'Descubra las ventajas de nuestro enfoque totalmente personalizado para cada estudiante:' : 'Discover the advantages of our fully customized approach for every student:'}
@@ -752,6 +756,10 @@ export function LandingPage() {
                                             <SelectItem value="6">{t.landing.gradeOptions.grade6}</SelectItem>
                                             <SelectItem value="7">{t.landing.gradeOptions.grade7}</SelectItem>
                                             <SelectItem value="8">{t.landing.gradeOptions.grade8}</SelectItem>
+                                            <SelectItem value="9">{t.landing.gradeOptions.grade9}</SelectItem>
+                                            <SelectItem value="10">{t.landing.gradeOptions.grade10}</SelectItem>
+                                            <SelectItem value="11">{t.landing.gradeOptions.grade11}</SelectItem>
+                                            <SelectItem value="12">{t.landing.gradeOptions.grade12}</SelectItem>
                                           </SelectContent>
                                         </Select>
                                       </div>

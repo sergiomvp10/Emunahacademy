@@ -152,6 +152,10 @@ export const en = {
     grade6: '6th Grade',
     grade7: '7th Grade',
     grade8: '8th Grade',
+    grade9: '9th Grade',
+    grade10: '10th Grade',
+    grade11: '11th Grade',
+    grade12: '12th Grade',
     grade: 'Grade',
   },
   calendar: {
@@ -561,6 +565,10 @@ export const en = {
       grade6: '6th Grade',
       grade7: '7th Grade',
       grade8: '8th Grade',
+      grade9: '9th Grade',
+      grade10: '10th Grade',
+      grade11: '11th Grade',
+      grade12: '12th Grade',
     },
   },
 };

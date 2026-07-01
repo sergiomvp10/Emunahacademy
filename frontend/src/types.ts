@@ -1,6 +1,6 @@
 export type UserRole = 'superuser' | 'director' | 'teacher' | 'student' | 'parent';
 
-export type GradeLevel = 'K' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
+export type GradeLevel = 'K' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
 
 export interface User {
   id: number;
