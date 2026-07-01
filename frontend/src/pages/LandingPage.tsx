@@ -55,7 +55,8 @@ interface SiteContent {
 
 export function LandingPage() {
   const { language, setLanguage, t } = useLanguage();
-  const [content, setContent] = useState<SiteContent | null>(null);
+  const i18nDefaults = t.landing.siteContent as unknown as SiteContent;
+  const [content, setContent] = useState<SiteContent>(i18nDefaults);
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
@@ -75,13 +76,27 @@ export function LandingPage() {
   });
 
   useEffect(() => {
+    // Immediately apply i18n defaults for instant language switch
+    setContent(t.landing.siteContent as unknown as SiteContent);
     loadContent();
   }, [language]);
 
   const loadContent = async () => {
     try {
       const data = await api.getSiteContent(language) as unknown as SiteContent;
-      setContent(data);
+      // Merge API data over i18n defaults (API overrides if admin customized)
+      const defaults = t.landing.siteContent as unknown as SiteContent;
+      setContent({
+        ...defaults,
+        ...data,
+        hero: { ...defaults.hero, ...data.hero },
+        about: { ...defaults.about, ...data.about },
+        how_it_works: data.how_it_works?.steps?.length ? data.how_it_works : defaults.how_it_works,
+        programs: data.programs?.grades?.length ? data.programs : defaults.programs,
+        impact: data.impact?.stats?.length ? data.impact : defaults.impact,
+        faq: data.faq?.questions?.length ? data.faq : defaults.faq,
+        contact: { ...defaults.contact, ...data.contact },
+      });
     } catch (error) {
       console.error('Error loading site content:', error);
     } finally {
@@ -167,7 +182,7 @@ export function LandingPage() {
     );
   }
 
-  if (!content) {
+  if (!content.hero) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <p className="text-gray-500">Error loading content</p>
