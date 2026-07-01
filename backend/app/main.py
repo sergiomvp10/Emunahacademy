@@ -2202,11 +2202,11 @@ async def grade_assignment(grade: AssignmentSubmissionGrade, user_id: int, db: S
 
 @app.post("/api/seed-base44-courses")
 async def seed_base44_courses(teacher_id: int, db: Session = Depends(get_db)):
-    """Import courses from Base44 MathModules seed data.
+    """Import courses from Base44 seed data.
     
-    Creates 25 courses (5 subjects x 5 grade levels) with 250 total lessons.
+    Creates 45 courses (5 subjects x 9 grade levels K-8) with 450 total lessons.
     Requires a teacher_id to assign as the course creator.
-    Skips courses that already exist (matched by title).
+    Skips courses that already exist (matched by title and grade_level).
     """
     teacher = db.query(User).filter(User.id == teacher_id).first()
     if not teacher:
@@ -2215,8 +2215,10 @@ async def seed_base44_courses(teacher_id: int, db: Session = Depends(get_db)):
     if teacher.role not in [UserRoleEnum.TEACHER, UserRoleEnum.DIRECTOR, UserRoleEnum.SUPERUSER]:
         raise HTTPException(status_code=403, detail="Solo profesores/directores/superusuarios pueden importar cursos")
     
-    # Load seed data
-    seed_path = Path(__file__).parent / "base44_seed_data.json"
+    # Load seed data — try v2 first (full K-8), then fall back to v1 (K-4)
+    seed_path = Path(__file__).parent / "base44_seed_data_v2.json"
+    if not seed_path.exists():
+        seed_path = Path(__file__).parent / "base44_seed_data.json"
     if not seed_path.exists():
         raise HTTPException(status_code=500, detail="Archivo de datos Base44 no encontrado")
     
@@ -2226,12 +2228,34 @@ async def seed_base44_courses(teacher_id: int, db: Session = Depends(get_db)):
     courses_created = 0
     lessons_created = 0
     courses_skipped = 0
+    lessons_skipped = 0
     
     for course_data in seed_data["courses"]:
-        # Check if course already exists
-        existing = db.query(Course).filter(Course.title == course_data["title"]).first()
+        # Check if course already exists by title AND grade_level
+        existing = db.query(Course).filter(
+            Course.title == course_data["title"],
+            Course.grade_level == course_data.get("grade_level")
+        ).first()
         if existing:
             courses_skipped += 1
+            # Check for missing lessons in existing course
+            for lesson_data in course_data["lessons"]:
+                existing_lesson = db.query(Lesson).filter(
+                    Lesson.course_id == existing.id,
+                    Lesson.title == lesson_data["title"]
+                ).first()
+                if existing_lesson:
+                    lessons_skipped += 1
+                else:
+                    db_lesson = Lesson(
+                        course_id=existing.id,
+                        title=lesson_data["title"],
+                        lesson_type=LessonTypeEnum.TEXT,
+                        content=lesson_data["content"],
+                        order=lesson_data["order"]
+                    )
+                    db.add(db_lesson)
+                    lessons_created += 1
             continue
         
         # Create course
@@ -2263,10 +2287,11 @@ async def seed_base44_courses(teacher_id: int, db: Session = Depends(get_db)):
     db.commit()
     
     return {
-        "message": f"Importacion completada: {courses_created} cursos creados, {lessons_created} lecciones creadas, {courses_skipped} cursos omitidos (ya existian)",
+        "message": f"Importacion completada: {courses_created} cursos creados, {lessons_created} lecciones creadas, {courses_skipped} cursos omitidos (ya existian), {lessons_skipped} lecciones omitidas",
         "courses_created": courses_created,
         "lessons_created": lessons_created,
-        "courses_skipped": courses_skipped
+        "courses_skipped": courses_skipped,
+        "lessons_skipped": lessons_skipped
     }
 
 # ==================== BOOKS ENDPOINTS ====================
